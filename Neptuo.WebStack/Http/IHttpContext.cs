@@ -1,5 +1,4 @@
-﻿using Neptuo.WebStack.Http.MediaTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +24,7 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Collection of custom values.
         /// </summary>
-        IDictionary<string, string> Values { get; }
+        IDictionary<string, object> Values { get; }
 
         /// <summary>
         /// Resolves url starting with ~/...
