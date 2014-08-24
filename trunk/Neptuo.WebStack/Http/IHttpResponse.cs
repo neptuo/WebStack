@@ -1,5 +1,4 @@
-﻿using Neptuo.WebStack.Http.MediaTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -33,10 +32,5 @@ namespace Neptuo.WebStack.Http
         /// Response text writer.
         /// </summary>
         TextWriter OutputWriter { get; }
-
-        /// <summary>
-        /// Output stream type and other related settings.
-        /// </summary>
-        IMediaTypeContext OutputContext { get; }
     }
 }
