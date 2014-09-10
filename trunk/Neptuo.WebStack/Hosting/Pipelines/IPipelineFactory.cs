@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Pipelines
+namespace Neptuo.WebStack.Hosting.Pipelines
 {
     /// <summary>
     /// Factory for creating instances of pipelines.
