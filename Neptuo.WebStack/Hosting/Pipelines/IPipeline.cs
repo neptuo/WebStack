@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Pipelines
+namespace Neptuo.WebStack.Hosting.Pipelines
 {
     /// <summary>
     /// Defines invokable pipeline for processing complete Http request with response.
