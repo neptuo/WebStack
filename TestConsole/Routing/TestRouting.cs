@@ -1,4 +1,5 @@
 ﻿using Neptuo.WebStack.Hosting;
+using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
 using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
@@ -17,11 +18,18 @@ namespace Neptuo.TestConsole.Routing
         {
             Engine.Environment
                 .UseCodeDomConfiguration(new CodeDomPipelineConfiguration("c:\\temp", Environment.CurrentDirectory))
-                .UseBehaviors(new BehaviorCollectionBase())
-                .UseRouteTable()
+                .UseBehaviors(provider =>
+                {
+                    provider
+                        .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
+                        .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
+                        .AddMapping(typeof(IWithRedirect), typeof(WithRedirectBehavior))
+                        .AddMapping(typeof(IWithStatus), typeof(WithStatusBehavior));
+                })
+                .UseRouteTable();
 
-                .WithRouteTable()
-                    .MapServices(Assembly.GetExecutingAssembly());
+            Engine.Environment.WithRouteTable()
+                .MapServices(Assembly.GetExecutingAssembly());
         }
     }
 }

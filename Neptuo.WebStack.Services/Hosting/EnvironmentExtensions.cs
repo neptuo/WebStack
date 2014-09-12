@@ -1,5 +1,6 @@
 ﻿using Neptuo.WebStack.Hosting.Routing;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
+using Neptuo.WebStack.Services.Hosting.Behaviors.Providers;
 using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,46 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <returns><paramref name="environment"/>.</returns>
         public static EngineEnvironment UseBehaviors(this EngineEnvironment environment, IBehaviorCollection behaviors)
         {
+            Guard.NotNull(environment, "environment");
             return environment.Use<IBehaviorCollection>(behaviors);
         }
+
+        /// <summary>
+        /// Registers behaviors collection, add enpoint behaviors and add <paramref name="providers"/> into.
+        /// </summary>
+        /// <param name="environment">Engine environment.</param>
+        /// <param name="providers">List of behavior providers to add.</param>
+        /// <returns><paramref name="environment"/>.</returns>
+        public static EngineEnvironment UseBehaviors(this EngineEnvironment environment, params IBehaviorProvider[] providers)
+        {
+            Guard.NotNull(environment, "environment");
+            Guard.NotNull(providers, "providers");
+
+            IBehaviorCollection collection = new BehaviorCollectionBase()
+                .AddEndpoints();
+
+            foreach (IBehaviorProvider provider in providers)
+                collection.Add(provider);
+
+            return environment.UseBehaviors(collection);
+        }
+
+        /// <summary>
+        /// Registers behaviors collection, add enpoint behaviors and invokes <paramref name="mapper"/> to map interface behaviors.
+        /// </summary>
+        /// <param name="environment">Engine environment.</param>
+        /// <param name="mapper">Interface behavior mapper.</param>
+        /// <returns><paramref name="environment"/>.</returns>
+        public static EngineEnvironment UseBehaviors(this EngineEnvironment environment, Action<InterfaceBehaviorProvider> mapper)
+        {
+            Guard.NotNull(environment, "environment");
+            Guard.NotNull(mapper, "mapper");
+
+            InterfaceBehaviorProvider provider = new InterfaceBehaviorProvider();
+            mapper(provider);
+            return environment.UseBehaviors(provider);
+        }
+        
 
         /// <summary>
         /// Tries to retrieve behaviors collection.
