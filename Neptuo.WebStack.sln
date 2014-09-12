@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.Asp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{79AAD4CC-773A-4045-9A11-6200410A9153}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Services", "Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj", "{B628A16E-F84F-49AD-A04B-FC8A5428A663}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{79AAD4CC-773A-4045-9A11-6200410A9153}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79AAD4CC-773A-4045-9A11-6200410A9153}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79AAD4CC-773A-4045-9A11-6200410A9153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\Services\GetHelloHandler.cs" />
     <Compile Include="Routing\TestRoutePattern.cs" />
+    <Compile Include="Routing\TestRouting.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -58,6 +60,10 @@
     <ProjectReference Include="..\Neptuo.WebStack.Hosting.AspNet\Neptuo.WebStack.Hosting.AspNet.csproj">
       <Project>{77a95819-04ab-492c-81b4-b59553c94a99}</Project>
       <Name>Neptuo.WebStack.Hosting.AspNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj">
+      <Project>{b628a16e-f84f-49ad-a04b-fc8a5428a663}</Project>
+      <Name>Neptuo.WebStack.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack\Neptuo.WebStack.csproj">
       <Project>{d661162a-cc24-4de8-920f-ae54c9258a7f}</Project>
