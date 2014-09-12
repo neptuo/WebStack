@@ -22,7 +22,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// </summary>
         /// <param name="provider">New behavior provider.</param>
         /// <returns>Self (for fluency).</returns>
-        public BehaviorCollectionBase Add(IBehaviorProvider provider)
+        public IBehaviorCollection Add(IBehaviorProvider provider)
         {
             Guard.NotNull(provider, "provider");
             providers.Insert(0, provider);
