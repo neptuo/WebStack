@@ -102,10 +102,31 @@ namespace Neptuo.WebStack.Hosting.Routing
 
         private void ParsePath(string url)
         {
-            if (!url.StartsWith(PathPrefix) && url.StartsWith(VirtualPathPrefix))
+            if (!url.StartsWith(PathPrefix) && !url.StartsWith(VirtualPathPrefix))
                 throw new Exception();
 
             Path = url;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            if (HasProtocol)
+            {
+                result.Append(Protocol);
+                result.Append(ProtocolSeparator);
+            }
+
+            if (HasDomain)
+            {
+                if (!HasProtocol)
+                    result.Append(NoProtocolPrefix);
+
+                result.Append(Domain);
+            }
+
+            result.Append(Path);
+            return result.ToString();
         }
     }
 }
