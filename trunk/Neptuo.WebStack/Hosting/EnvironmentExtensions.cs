@@ -24,6 +24,16 @@ namespace Neptuo.WebStack.Hosting
         }
 
         /// <summary>
+        /// Registers singleton route table with default implementation.
+        /// </summary>
+        /// <param name="environment">Engine environment.</param>
+        /// <returns><paramref name="environment"/>.</returns>
+        public static EngineEnvironment UseRouteTable(this EngineEnvironment environment)
+        {
+            return UseRouteTable(environment, new RouteTable());
+        }
+
+        /// <summary>
         /// Tries to retrieve route table.
         /// </summary>
         /// <param name="environment">Engine environment.</param>

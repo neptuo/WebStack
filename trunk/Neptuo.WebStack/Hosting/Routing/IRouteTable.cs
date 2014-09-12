@@ -1,4 +1,5 @@
 ﻿using Neptuo.WebStack.Hosting.Pipelines;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,11 @@ namespace Neptuo.WebStack.Hosting.Routing
         /// <rereturns>Self (for fluency).</rereturns>
         IRouteTable Map(RoutePattern routePattern, IPipelineFactory pipelineFactory);
 
-
+        /// <summary>
+        /// Finds pipeline for <paramref name="httpContext"/>.
+        /// </summary>
+        /// <param name="httpContext">Context describing request and response.</param>
+        /// <returns>Pipeline registered for <paramref name="httpContext"/>.</returns>
+        IPipeline GetPipeline(IHttpContext httpContext);
     }
 }
