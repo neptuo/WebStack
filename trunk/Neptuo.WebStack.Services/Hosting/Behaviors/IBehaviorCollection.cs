@@ -16,7 +16,8 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// Adds provider for behaviors.
         /// </summary>
         /// <param name="provider">Behavior provider.</param>
-        void Add(IBehaviorProvider provider);
+        /// <returns>Self (for fluency).</returns>
+        IBehaviorCollection Add(IBehaviorProvider provider);
 
         /// <summary>
         /// Gets registered behaviors for handler of type <paramref name="handlerType"/>.
