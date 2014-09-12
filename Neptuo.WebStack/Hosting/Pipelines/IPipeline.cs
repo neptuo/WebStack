@@ -16,6 +16,6 @@ namespace Neptuo.WebStack.Hosting.Pipelines
         /// Process <paramref name="httpContext"/>.
         /// </summary>
         /// <param name="httpContext">Current Http context.</param>
-        void Invoke(IHttpContext httpContext);
+        Task Invoke(IHttpContext httpContext);
     }
 }
