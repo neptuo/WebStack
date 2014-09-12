@@ -26,10 +26,11 @@ namespace Neptuo.TestConsole.Routing
                         .AddMapping(typeof(IWithRedirect), typeof(WithRedirectBehavior))
                         .AddMapping(typeof(IWithStatus), typeof(WithStatusBehavior));
                 })
-                .UseRouteTable();
-
-            Engine.Environment.WithRouteTable()
-                .MapServices(Assembly.GetExecutingAssembly());
+                .UseRouteTable(routeTable =>
+                {
+                    routeTable
+                        .MapServices(Assembly.GetExecutingAssembly());
+                });
         }
     }
 }
