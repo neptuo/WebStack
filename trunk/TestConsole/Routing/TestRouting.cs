@@ -38,11 +38,29 @@ namespace Neptuo.TestConsole.Routing
             IPipelineFactory pipelineFactory = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
             RootRouteSegment rootSegment = new RootRouteSegment();
-            rootSegment.IncludeUrl("~/cs", pipelineFactory);
             rootSegment.IncludeUrl("~/cs/home", pipelineFactory);
+            rootSegment.IncludeUrl("~/cs", pipelineFactory);
             rootSegment.IncludeUrl("~/cs/contacts", pipelineFactory);
             rootSegment.IncludeUrl("~/cs/contacts/send", pipelineFactory);
             rootSegment.IncludeUrl("~/cs/hosting", pipelineFactory);
+
+            PrintSegment(rootSegment, 0);
+        }
+
+        private static void PrintSegment(RouteSegment routeSegment, int indent)
+        {
+            PrintLine(routeSegment.UrlPart, indent);
+
+            foreach (RouteSegment childRouteSegment in routeSegment.Children)
+                PrintSegment(childRouteSegment, indent + 1);
+        }
+
+        private static void PrintLine(string message, int indent)
+        {
+            for (int i = 0; i < indent; i++)
+                Console.Write("  ");
+
+            Console.WriteLine(message);
         }
     }
 }
