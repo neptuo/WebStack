@@ -13,6 +13,12 @@ namespace Neptuo.TestConsole.Routing
         {
             RoutePattern pattern = new RoutePattern("http://www.neptuo.com/test");
             Console.WriteLine(pattern);
+
+            pattern = new RoutePattern("//www.neptuo.com/test");
+            Console.WriteLine(pattern);
+
+            pattern = new RoutePattern("~/test");
+            Console.WriteLine(pattern);
         }
     }
 }
