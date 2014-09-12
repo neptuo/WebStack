@@ -51,6 +51,9 @@
     <Compile Include="Hosting\Routing\IRouteTable.cs" />
     <Compile Include="Hosting\Routing\RoutePattern.cs" />
     <Compile Include="Hosting\Routing\RouteTable.cs" />
+    <Compile Include="Hosting\Routing\Segments\RootRouteSegment.cs" />
+    <Compile Include="Hosting\Routing\Segments\RouteSegment.cs" />
+    <Compile Include="Hosting\Routing\Segments\StaticRouteSegment.cs" />
     <Compile Include="Http\HttpMediaType.cs" />
     <Compile Include="Http\HttpMethod.cs" />
     <Compile Include="Http\HttpMethodCollection.cs" />
