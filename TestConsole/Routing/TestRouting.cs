@@ -1,4 +1,7 @@
-﻿using Neptuo.WebStack.Hosting;
+﻿using Neptuo.TestConsole.Routing.Services;
+using Neptuo.WebStack.Hosting;
+using Neptuo.WebStack.Hosting.Pipelines;
+using Neptuo.WebStack.Hosting.Routing.Segments;
 using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
@@ -25,12 +28,21 @@ namespace Neptuo.TestConsole.Routing
                         .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
                         .AddMapping(typeof(IWithRedirect), typeof(WithRedirectBehavior))
                         .AddMapping(typeof(IWithStatus), typeof(WithStatusBehavior));
-                })
-                .UseRouteTable(routeTable =>
-                {
-                    routeTable
-                        .MapServices(Assembly.GetExecutingAssembly());
                 });
+                //.UseRouteTable(routeTable =>
+                //{
+                //    routeTable
+                //        .MapServices(Assembly.GetExecutingAssembly());
+                //});
+
+            IPipelineFactory pipelineFactory = new CodeDomPipelineFactory(typeof(GetHelloHandler));
+
+            RootRouteSegment rootSegment = new RootRouteSegment();
+            rootSegment.IncludeUrl("~/cs", pipelineFactory);
+            rootSegment.IncludeUrl("~/cs/home", pipelineFactory);
+            rootSegment.IncludeUrl("~/cs/contacts", pipelineFactory);
+            rootSegment.IncludeUrl("~/cs/contacts/send", pipelineFactory);
+            rootSegment.IncludeUrl("~/cs/hosting", pipelineFactory);
         }
     }
 }

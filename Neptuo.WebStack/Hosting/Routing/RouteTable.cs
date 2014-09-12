@@ -1,4 +1,5 @@
 ﻿using Neptuo.WebStack.Hosting.Pipelines;
+using Neptuo.WebStack.Hosting.Routing.Segments;
 using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
