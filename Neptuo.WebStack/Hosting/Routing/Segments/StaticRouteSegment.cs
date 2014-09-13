@@ -62,6 +62,12 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             url = TryMatchUrlPart(url);
             if (url != null)
             {
+                if (url.Length == 0)
+                {
+                    PipelineFactory = pipelineFactory;
+                    return;
+                }
+
                 foreach (RouteSegment routeSegment in Children.ToList())
                 {
                     int index = 0;
