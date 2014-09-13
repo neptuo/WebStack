@@ -80,6 +80,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
                 // Walk through child segments and try to find some matching chars.
                 foreach (RouteSegment routeSegment in Children.ToList())
                 {
+                    // Find equal chars.
                     int index = 0;
                     while (IsCharAtEquals(routeSegment.UrlPart, url, index))
                         index++;

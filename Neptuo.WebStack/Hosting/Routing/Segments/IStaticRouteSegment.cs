@@ -9,6 +9,6 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
     public interface IStaticRouteSegment
     {
         string UrlPart { get; set; }
-        List<RouteSegment> Children { get; protected set; }
+        List<RouteSegment> Children { get; }
     }
 }
