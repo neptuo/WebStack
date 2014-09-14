@@ -9,11 +9,12 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 {
     public interface IRouteSegment
     {
-        string UrlPart { get; set; }
         List<IRouteSegment> Children { get; }
+        IPipelineFactory PipelineFactory { get; set; }
 
         bool TryMatchUrl(string url, out IPipelineFactory pipelineFactory);
 
         void IncludeUrl(string url, IPipelineFactory pipelineFactory);
+        IRouteSegment IncludeUrl(string url);
     }
 }

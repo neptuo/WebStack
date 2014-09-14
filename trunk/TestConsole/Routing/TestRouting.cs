@@ -49,7 +49,9 @@ namespace Neptuo.TestConsole.Routing
 
         private static void PrintSegment(IRouteSegment routeSegment, int indent)
         {
-            PrintLine(routeSegment.UrlPart, indent);
+            IStaticRouteSegment staticSegment = routeSegment as IStaticRouteSegment;
+            if (staticSegment != null)
+                PrintLine(staticSegment.UrlPart, indent);
 
             foreach (IRouteSegment childRouteSegment in routeSegment.Children)
                 PrintSegment(childRouteSegment, indent + 1);
