@@ -47,11 +47,11 @@ namespace Neptuo.TestConsole.Routing
             PrintSegment(rootSegment, 0);
         }
 
-        private static void PrintSegment(RouteSegment routeSegment, int indent)
+        private static void PrintSegment(IRouteSegment routeSegment, int indent)
         {
             PrintLine(routeSegment.UrlPart, indent);
 
-            foreach (RouteSegment childRouteSegment in routeSegment.Children)
+            foreach (IRouteSegment childRouteSegment in routeSegment.Children)
                 PrintSegment(childRouteSegment, indent + 1);
         }
 

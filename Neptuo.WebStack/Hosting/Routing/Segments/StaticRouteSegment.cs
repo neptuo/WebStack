@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Hosting.Routing.Segments
 {
-    public class StaticRouteSegment : RouteSegment, IStaticRouteSegment
+    public class StaticRouteSegment : IRouteSegment, IStaticRouteSegment
     {
+        public string UrlPart { get; set; }
+        public List<IRouteSegment> Children { get; protected set; }
+
         public IPipelineFactory PipelineFactory { get; private set; }
 
         public StaticRouteSegment(string urlPart)
         {
-            Children = new List<RouteSegment>();
+            Children = new List<IRouteSegment>();
             UrlPart = urlPart;
         }
 
@@ -39,14 +42,14 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             return null;
         }
 
-        public override bool TryMatchUrl(string url, out IPipelineFactory pipelineFactory)
+        public bool TryMatchUrl(string url, out IPipelineFactory pipelineFactory)
         {
             url = TryMatchUrlPart(url);
             if (url != null)
             {
                 if (url.Length != 0)
                 {
-                    foreach (RouteSegment routeSegment in Children)
+                    foreach (IRouteSegment routeSegment in Children)
                     {
                         if (routeSegment.TryMatchUrl(url, out pipelineFactory))
                             return true;
@@ -63,7 +66,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             return false;
         }
 
-        public override void IncludeUrl(string url, IPipelineFactory pipelineFactory)
+        public void IncludeUrl(string url, IPipelineFactory pipelineFactory)
         {
             // Ignore inlcude request when 'this' segment is not matched.
             url = TryMatchUrlPart(url);
@@ -78,7 +81,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 
                 // Only for Static route segments.
                 // Walk through child segments and try to find some matching chars.
-                foreach (RouteSegment routeSegment in Children.ToList())
+                foreach (IRouteSegment routeSegment in Children.ToList())
                 {
                     // Find equal chars.
                     int index = 0;
