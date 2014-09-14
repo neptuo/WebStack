@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Hosting.Routing.Segments
 {
-    public interface IStaticRouteSegment
+    public interface ISplitableSegment
     {
-        string UrlPart { get; set; }
-        List<IRouteSegment> Children { get; }
     }
 }
