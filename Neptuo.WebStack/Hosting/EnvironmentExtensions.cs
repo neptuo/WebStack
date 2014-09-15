@@ -59,7 +59,18 @@ namespace Neptuo.WebStack.Hosting
         /// <returns>Route table instance.</returns>
         public static IRouteTable WithRouteTable(this EngineEnvironment environment)
         {
+            Guard.NotNull(environment, "environment");
             return environment.With<IRouteTable>();
+        }
+
+
+
+        public static EngineEnvironment UseParameterCollection(this EngineEnvironment environment, Action<IRouteParameterCollection> mapper)
+        {
+            Guard.NotNull(environment, "environment");
+            Guard.NotNull(mapper, "mapper");
+
+            throw new NotImplementedException();
         }
     }
 }

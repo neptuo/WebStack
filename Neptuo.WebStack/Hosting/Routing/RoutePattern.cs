@@ -37,6 +37,23 @@ namespace Neptuo.WebStack.Hosting.Routing
             get { return Path.StartsWith(VirtualPathPrefix); }
         }
 
+        public string VirtualPath
+        {
+            get
+            {
+                string path = Path;
+                if(!IsVirtualPath)
+                {
+                    if (path.StartsWith("/"))
+                        path = VirtualPathPrefix + path.Substring(1);
+                    else
+                        path = VirtualPathPrefix + path;
+                }
+
+                return path;
+            }
+        }
+
         public RoutePattern(string url)
         {
             Guard.NotNullOrEmpty(url, "url");

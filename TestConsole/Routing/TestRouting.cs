@@ -37,7 +37,7 @@ namespace Neptuo.TestConsole.Routing
 
             IPipelineFactory pipelineFactory = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
-            RootRouteSegment rootSegment = new RootRouteSegment();
+            PathRouteSegment rootSegment = new PathRouteSegment();
             rootSegment.IncludeUrl("~/cs/contacts/send", pipelineFactory);
             rootSegment.IncludeUrl("~/cs/contacts", pipelineFactory);
             rootSegment.IncludeUrl("~/cs/home", pipelineFactory);
