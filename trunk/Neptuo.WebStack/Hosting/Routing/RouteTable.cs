@@ -14,8 +14,29 @@ namespace Neptuo.WebStack.Hosting.Routing
     /// </summary>
     public class RouteTable : IRouteTable
     {
+        private PathRouteSegment pathTree = new PathRouteSegment();
+
         public IRouteTable Map(RoutePattern routePattern, IPipelineFactory pipelineFactory)
         {
+            Guard.NotNull(routePattern, "routePattern");
+            Guard.NotNull(pipelineFactory, "pipelineFactory");
+
+            if (routePattern.HasProtocol)
+            {
+
+            }
+            else if (routePattern.HasDomain)
+            {
+
+            }
+            else
+            {
+                // Parse routePattern.VirtualPath into segments (if needed).
+                // 
+
+                pathTree.IncludeUrl(routePattern.VirtualPath, pipelineFactory);
+            }
+
             throw new NotImplementedException();
         }
 

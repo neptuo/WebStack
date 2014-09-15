@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Hosting.Routing.Segments
 {
-    public class RootRouteSegment : StaticRouteSegment
+    public class PathRouteSegment : StaticRouteSegment
     {
-        public RootRouteSegment()
+        public PathRouteSegment()
             : base("~/")
         { }
     }

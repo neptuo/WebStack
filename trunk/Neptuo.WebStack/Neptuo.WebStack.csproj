@@ -38,6 +38,9 @@
     <Reference Include="Neptuo">
       <HintPath>..\References\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.Tokens">
+      <HintPath>..\References\Neptuo.Tokens.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,11 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Hosting\EnvironmentExtensions.cs" />
+    <Compile Include="Hosting\Routing\IRouteParameter.cs" />
+    <Compile Include="Hosting\Routing\IRouteParameterCollection.cs" />
     <Compile Include="Hosting\Routing\IRouteTable.cs" />
+    <Compile Include="Hosting\Routing\PatternParser.cs" />
     <Compile Include="Hosting\Routing\RoutePattern.cs" />
     <Compile Include="Hosting\Routing\RouteTable.cs" />
     <Compile Include="Hosting\Routing\Segments\IStaticRouteSegment.cs" />
-    <Compile Include="Hosting\Routing\Segments\RootRouteSegment.cs" />
+    <Compile Include="Hosting\Routing\Segments\PathRouteSegment.cs" />
     <Compile Include="Hosting\Routing\Segments\IRouteSegment.cs" />
     <Compile Include="Hosting\Routing\Segments\StaticRouteSegment.cs" />
     <Compile Include="Http\HttpMediaType.cs" />
