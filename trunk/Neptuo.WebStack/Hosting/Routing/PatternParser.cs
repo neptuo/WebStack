@@ -10,9 +10,12 @@ namespace Neptuo.WebStack.Hosting.Routing
 {
     internal class PatternParser
     {
-        public PatternParser()
+        private readonly IRouteParameterCollection parameterCollection;
+
+        public PatternParser(IRouteParameterCollection parameterCollection)
         {
-            // Inject dependencies.
+            Guard.NotNull(parameterCollection, "parameterCollection");
+            this.parameterCollection = parameterCollection;
         }
 
         private TokenParser CreateTokenParser()
@@ -36,7 +39,10 @@ namespace Neptuo.WebStack.Hosting.Routing
                 if (e.StartPosition > lastIndex)
                     result.Add(new StaticRouteSegment(pattern.Substring(lastIndex, e.StartPosition - lastIndex)));
 
-                result.Add(new ParamRouteSegment(ParameterService.Get(e.Token.Fullname)));
+                IRouteParameter parameter;
+                if (parameterCollection.TryGet(e.Token.Fullname, out parameter))
+                    result.Add(new ParameterRouteSegment(parameter));
+
                 lastIndex = e.EndPosition + 1;
             };
 
@@ -47,7 +53,7 @@ namespace Neptuo.WebStack.Hosting.Routing
             }
 
             if (pattern.Length > lastIndex)
-                routeSegments.Add(new StaticRouteSegment(pattern.Substring(lastIndex)));
+                result.Add(new StaticRouteSegment(pattern.Substring(lastIndex)));
 
             routeSegments = result;
             return true;

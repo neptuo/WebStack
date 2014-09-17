@@ -34,7 +34,7 @@ namespace Neptuo.WebStack.Hosting.Routing
                 // Parse routePattern.VirtualPath into segments (if needed).
                 // 
 
-                pathTree.IncludeUrl(routePattern.VirtualPath, pipelineFactory);
+                pathTree.IncludeSegment(routePattern.VirtualPath, pipelineFactory);
             }
 
             throw new NotImplementedException();
