@@ -14,7 +14,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 
         bool TryMatchUrl(string url, out IPipelineFactory pipelineFactory);
 
-        void IncludeUrl(string url, IPipelineFactory pipelineFactory);
+        void IncludeSegment(IRouteSegment newSegment, IPipelineFactory pipelineFactory);
         IRouteSegment IncludeUrl(string url);
     }
 }

@@ -66,7 +66,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             return false;
         }
 
-        public void IncludeUrl(string url, IPipelineFactory pipelineFactory)
+        public void IncludeSegment(string url, IPipelineFactory pipelineFactory)
         {
             IncludeUrl(url).PipelineFactory = pipelineFactory;
         }

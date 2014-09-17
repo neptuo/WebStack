@@ -60,6 +60,7 @@
     <Compile Include="Hosting\Routing\RoutePattern.cs" />
     <Compile Include="Hosting\Routing\RouteTable.cs" />
     <Compile Include="Hosting\Routing\Segments\IStaticRouteSegment.cs" />
+    <Compile Include="Hosting\Routing\Segments\ParameterRouteSegment.cs" />
     <Compile Include="Hosting\Routing\Segments\PathRouteSegment.cs" />
     <Compile Include="Hosting\Routing\Segments\IRouteSegment.cs" />
     <Compile Include="Hosting\Routing\Segments\StaticRouteSegment.cs" />
