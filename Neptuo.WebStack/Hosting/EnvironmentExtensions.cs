@@ -12,6 +12,8 @@ namespace Neptuo.WebStack.Hosting
     /// </summary>
     public static class EnvironmentExtensions
     {
+        #region Route table
+
         /// <summary>
         /// Registers singleton route table.
         /// </summary>
@@ -63,14 +65,36 @@ namespace Neptuo.WebStack.Hosting
             return environment.With<IRouteTable>();
         }
 
+        #endregion
 
+        #region Parameter collection
 
+        /// <summary>
+        /// Registers single route parameter collection and use <paramref name="mapper"/> to initializes parameters.
+        /// </summary>
+        /// <param name="environment">Engine environment.</param>
+        /// <param name="mapper">Parameter mapper/initializer.</param>
+        /// <returns><paramref name="environment"/>.</returns>
         public static EngineEnvironment UseParameterCollection(this EngineEnvironment environment, Action<IRouteParameterCollection> mapper)
         {
             Guard.NotNull(environment, "environment");
             Guard.NotNull(mapper, "mapper");
-
-            throw new NotImplementedException();
+            RouteParameterCollection parameterCollection = new RouteParameterCollection();
+            mapper(parameterCollection);
+            return environment.Use<IRouteParameterCollection>(parameterCollection);
         }
+
+        /// <summary>
+        /// Tries to retrieve route parameter collection.
+        /// </summary>
+        /// <param name="environment">Engine environment.</param>
+        /// <returns>Route parameter collection.</returns>
+        public static IRouteParameterCollection WithParameterCollection(this EngineEnvironment environment)
+        {
+            Guard.NotNull(environment, "environment");
+            return environment.With<IRouteParameterCollection>();
+        }
+
+        #endregion
     }
 }
