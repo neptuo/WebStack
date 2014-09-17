@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Hosting.Routing
 {
+    /// <summary>
+    /// Collection of registered route parameters.
+    /// These parameter can represent dynamic parts of routes.
+    /// </summary>
     public interface IRouteParameterCollection
     {
         /// <summary>

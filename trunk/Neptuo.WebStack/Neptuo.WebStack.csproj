@@ -53,6 +53,7 @@
     <Compile Include="Hosting\EnvironmentExtensions.cs" />
     <Compile Include="Hosting\Routing\IRouteParameter.cs" />
     <Compile Include="Hosting\Routing\IRouteParameterCollection.cs" />
+    <Compile Include="Hosting\Routing\IRouteParameterContext.cs" />
     <Compile Include="Hosting\Routing\IRouteTable.cs" />
     <Compile Include="Hosting\Routing\PatternParser.cs" />
     <Compile Include="Hosting\Routing\RouteParameterCollection.cs" />
