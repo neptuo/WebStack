@@ -58,7 +58,9 @@ namespace Neptuo.TestConsole.Routing
                 .Map("~/cs/about", pipelineFactory)
                 .Map("~/cs/{product}", pipelineFactory)
                 .Map("~/cs/{product}/detail", pipelineFactory)
-                .Map("~/cs/{product}/delegates", pipelineFactory);
+                .Map("~/cs/{product}/delegates", pipelineFactory)
+                .Map("~/cs/about/company", pipelineFactory)
+                .Map("~/cs/about/people", pipelineFactory);
 
             PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).RootSegment, 0);
         }
