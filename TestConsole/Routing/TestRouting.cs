@@ -1,6 +1,8 @@
-﻿using Neptuo.TestConsole.Routing.Services;
+﻿using Neptuo.Diagnostics;
+using Neptuo.TestConsole.Routing.Services;
 using Neptuo.WebStack.Hosting;
 using Neptuo.WebStack.Hosting.Pipelines;
+using Neptuo.WebStack.Hosting.Routing;
 using Neptuo.WebStack.Hosting.Routing.Segments;
 using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
@@ -15,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.TestConsole.Routing
 {
-    class TestRouting
+    class TestRouting : DebugHelper
     {
         public static void Test()
         {
@@ -28,32 +30,44 @@ namespace Neptuo.TestConsole.Routing
                         .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
                         .AddMapping(typeof(IWithRedirect), typeof(WithRedirectBehavior))
                         .AddMapping(typeof(IWithStatus), typeof(WithStatusBehavior));
+                })
+                .UseParameterCollection(collection =>
+                {
+                    collection.Add("product", new TestRouteParameter());
+                })
+                .UseRouteTable(routeTable =>
+                {
+                    routeTable
+                        .MapServices(Assembly.GetExecutingAssembly());
                 });
-                //.UseRouteTable(routeTable =>
-                //{
-                //    routeTable
-                //        .MapServices(Assembly.GetExecutingAssembly());
-                //});
 
             IPipelineFactory pipelineFactory = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
-            PathRouteSegment rootSegment = new PathRouteSegment();
-            rootSegment.IncludeSegment("~/cs/contacts/send", pipelineFactory);
-            rootSegment.IncludeSegment("~/cs/contacts", pipelineFactory);
-            rootSegment.IncludeSegment("~/cs/home", pipelineFactory);
-            rootSegment.IncludeSegment("~/cs/hosting", pipelineFactory);
-            rootSegment.IncludeSegment("~/cs", pipelineFactory);
+            //PathRouteSegment rootSegment = new PathRouteSegment();
+            //DebugIteration("Build route table", 1, () =>
+            //{
+            //    rootSegment.Include(new StaticRouteSegment("~/cs/contacts/send"));
+            //    rootSegment.Include(new StaticRouteSegment("~/cs/home"));
+            //    rootSegment.Include(new StaticRouteSegment("~/cs/hosting"));
+            //    rootSegment.Include(new StaticRouteSegment("~/cs/contacts"));
+            //    rootSegment.Include(new StaticRouteSegment("~/cs"));
+            //});
 
-            PrintSegment(rootSegment, 0);
+            Engine.Environment.WithRouteTable()
+                .Map("~/cs/home", pipelineFactory)
+                .Map("~/cs/about", pipelineFactory)
+                .Map("~/cs/{product}", pipelineFactory)
+                .Map("~/cs/{product}/detail", pipelineFactory)
+                .Map("~/cs/{product}/delegates", pipelineFactory);
+
+            PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).RootSegment, 0);
         }
 
-        private static void PrintSegment(IRouteSegment routeSegment, int indent)
+        private static void PrintSegment(RouteSegment routeSegment, int indent)
         {
-            IStaticRouteSegment staticSegment = routeSegment as IStaticRouteSegment;
-            if (staticSegment != null)
-                PrintLine(staticSegment.UrlPart, indent);
+            PrintLine(routeSegment.ToString(), indent);
 
-            foreach (IRouteSegment childRouteSegment in routeSegment.Children)
+            foreach (RouteSegment childRouteSegment in routeSegment.Children)
                 PrintSegment(childRouteSegment, indent + 1);
         }
 

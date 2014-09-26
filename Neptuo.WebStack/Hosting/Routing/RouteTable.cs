@@ -15,6 +15,12 @@ namespace Neptuo.WebStack.Hosting.Routing
     public class RouteTable : IRouteTable
     {
         private PathRouteSegment pathTree = new PathRouteSegment();
+        private PatternParser parser;
+
+        public RouteTable(IRouteParameterCollection parameterCollection)
+        {
+            parser = new PatternParser(parameterCollection);
+        }
 
         public IRouteTable Map(RoutePattern routePattern, IPipelineFactory pipelineFactory)
         {
@@ -32,17 +38,33 @@ namespace Neptuo.WebStack.Hosting.Routing
             else
             {
                 // Parse routePattern.VirtualPath into segments (if needed).
-                // 
+                // ;
+                List<RouteSegment> segments;
+                if (parser.TryBuildUp(routePattern.VirtualPath, out segments))
+                {
+                    RouteSegment routeSegment = pathTree;
+                    foreach (RouteSegment partSegment in segments)
+                        routeSegment = routeSegment.Include(partSegment);
+                 
+                    //routeSegment.PipelineFactory = pipelineFactory;
+                }
 
-                pathTree.IncludeSegment(routePattern.VirtualPath, pipelineFactory);
+                return this;
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public IPipeline GetPipeline(IHttpContext httpContext)
         {
             throw new NotImplementedException();
+        }
+
+
+
+        public PathRouteSegment RootSegment
+        {
+            get { return pathTree; }
         }
     }
 }
