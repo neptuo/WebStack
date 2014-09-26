@@ -35,7 +35,7 @@ namespace Neptuo.WebStack.Hosting
         public static EngineEnvironment UseRouteTable(this EngineEnvironment environment)
         {
             Guard.NotNull(environment, "environment");
-            return UseRouteTable(environment, new RouteTable());
+            return UseRouteTable(environment, new RouteTable(environment.WithParameterCollection()));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Neptuo.WebStack.Hosting
             Guard.NotNull(environment, "environment");
             Guard.NotNull(mapper, "mapper");
 
-            RouteTable routeTable = new RouteTable();
+            RouteTable routeTable = new RouteTable(environment.WithParameterCollection());
             mapper(routeTable);
             return UseRouteTable(environment, routeTable);
         }

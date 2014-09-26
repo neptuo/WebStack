@@ -1,6 +1,7 @@
 ﻿using Neptuo.Collections.Specialized;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Collection of supported values.
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         IReadOnlyKeyValueCollection Values { get; }
 
         ///// <summary>

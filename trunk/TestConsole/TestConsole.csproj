@@ -50,6 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\Services\GetHelloHandler.cs" />
+    <Compile Include="Routing\TestRouteParameter.cs" />
     <Compile Include="Routing\TestRoutePattern.cs" />
     <Compile Include="Routing\TestRouting.cs" />
   </ItemGroup>

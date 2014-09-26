@@ -25,13 +25,13 @@ namespace Neptuo.WebStack.Hosting.Routing
             return parser;
         }
 
-        public bool TryBuildUp(string pattern, out List<IRouteSegment> routeSegments)
+        public bool TryBuildUp(string pattern, out List<RouteSegment> routeSegments)
         {
             //if (!CaseSensitive)
             //    pattern = pattern.ToLowerInvariant();
 
             int lastIndex = 0;
-            List<IRouteSegment> result = new List<IRouteSegment>();
+            List<RouteSegment> result = new List<RouteSegment>();
             TokenParser tokenParser = CreateTokenParser();
 
             tokenParser.OnParsedToken += (sender, e) =>
@@ -41,7 +41,7 @@ namespace Neptuo.WebStack.Hosting.Routing
 
                 IRouteParameter parameter;
                 if (parameterCollection.TryGet(e.Token.Fullname, out parameter))
-                    result.Add(new ParameterRouteSegment(parameter));
+                    result.Add(new TokenRouteSegment(e.Token.Fullname, parameter));
 
                 lastIndex = e.EndPosition + 1;
             };

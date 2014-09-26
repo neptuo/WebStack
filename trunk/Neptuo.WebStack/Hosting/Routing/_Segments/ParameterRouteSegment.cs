@@ -10,11 +10,11 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
     /// <summary>
     /// Implementation of <see cref="IRouteParameter"/>
     /// </summary>
-    public class ParameterRouteSegment : IRouteSegment
+    public class xParameterRouteSegment : IRouteSegment
     {
         private readonly IRouteParameter parameter;
 
-        public ParameterRouteSegment(IRouteParameter parameter)
+        public xParameterRouteSegment(IRouteParameter parameter)
         {
             Guard.NotNull(parameter, "parameter");
             this.parameter = parameter;

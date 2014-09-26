@@ -1,5 +1,4 @@
-﻿using Neptuo.WebStack.Hosting.Pipelines;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,31 +6,99 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Hosting.Routing.Segments
 {
-    public class StaticRouteSegment : IRouteSegment, IStaticRouteSegment
+    public class StaticRouteSegment : RouteSegment
     {
-        public string UrlPart { get; set; }
-        public List<IRouteSegment> Children { get; protected set; }
-
-        public IPipelineFactory PipelineFactory { get; set; }
+        public string UrlPart { get; private set; }
 
         public StaticRouteSegment(string urlPart)
         {
-            Children = new List<IRouteSegment>();
+            Guard.NotNullOrEmpty(urlPart, "urlPart");
             UrlPart = urlPart;
         }
 
-        public StaticRouteSegment(string urlPart, IPipelineFactory pipelineFactory)
-            : this(urlPart)
+        public override RouteSegment Include(RouteSegment newSegment)
         {
-            PipelineFactory = pipelineFactory;
+            // If static, run "real inclusion" logic.
+            StaticRouteSegment staticSegment = newSegment as StaticRouteSegment;
+            if (staticSegment != null)
+                return IncludeStaticSegment(staticSegment);
+
+            // Just append.
+            foreach (RouteSegment routeSegment in Children)
+            {
+                RouteSegment resultSegment = routeSegment.Include(newSegment);
+                if (resultSegment != null)
+                    return resultSegment;
+            }
+
+            Children.Add(newSegment);
+            return newSegment;
         }
 
-        /// <summary>
-        /// Returns string after matching with <see cref="UrlPart"/>.
-        /// Returns <c>null</c> when <paramref name="url"/> doesn't start with <see cref="UrlPart"/>.
-        /// </summary>
-        /// <param name="url">Url to compare and shrink shared chars.</param>
-        /// <returns><paramref name="url"/> without shared first-n chars with <see cref="UrlPart"/>; <c>false</c> when <paramref name="url"/> doesn't start with <see cref="UrlPart"/>.</returns>
+        private RouteSegment IncludeStaticSegment(StaticRouteSegment newSegment)
+        {
+            bool isOk = false;
+
+            // Find equal chars.
+            int index = 0;
+            while (IsCharAtEquals(newSegment.UrlPart, UrlPart, index))
+                index++;
+
+            // When whole segment url is matched, we are finished.
+            if (index == newSegment.UrlPart.Length && index == UrlPart.Length)
+                return this;
+
+            // When this segment is matched whole, only append as child.
+            if (index == UrlPart.Length)
+            {
+                newSegment.UrlPart = newSegment.UrlPart.Substring(index);
+                isOk = true;
+            } 
+            else 
+            // When at least one char is matched, then divide partialy-matched segment into to two with common parent.
+            if (index > 0)
+            {
+                // Update structure so new segment has shared chars and partialy-matched segment is nested under.
+                StaticRouteSegment partSegment = new StaticRouteSegment(UrlPart.Substring(index));
+                partSegment.PipelineFactory = PipelineFactory;
+
+                foreach (RouteSegment item in Children)
+                    partSegment.Children.Add(item);
+
+                Children.Clear();
+                Children.Add(partSegment);
+
+                // Remove shared chars from partialy-matched segment.
+                UrlPart = UrlPart.Substring(0, index);
+                if (UrlPart != newSegment.UrlPart)
+                {
+                    newSegment.UrlPart = newSegment.UrlPart.Substring(index);
+                    Children.Add(newSegment);
+                    return newSegment;
+                }
+                else
+                {
+                    return this;
+                }
+            }
+
+            // Walk through child segments and try to find some matching chars.
+            foreach (RouteSegment routeSegment in Children.ToList())
+            {
+                RouteSegment resultSegment = routeSegment.Include(newSegment);
+                if (resultSegment != null)
+                    return resultSegment;
+            }
+
+            if (isOk)
+            {
+                Children.Add(newSegment);
+                return newSegment;
+            }
+
+            return null;
+        }
+
         private string TryMatchUrlPart(string url)
         {
             if (url.StartsWith(UrlPart))
@@ -39,89 +106,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
                 url = url.Substring(UrlPart.Length);
                 return url;
             }
-            return null;
-        }
-
-        public bool TryMatchUrl(string url, out IPipelineFactory pipelineFactory)
-        {
-            url = TryMatchUrlPart(url);
-            if (url != null)
-            {
-                if (url.Length != 0)
-                {
-                    foreach (IRouteSegment routeSegment in Children)
-                    {
-                        if (routeSegment.TryMatchUrl(url, out pipelineFactory))
-                            return true;
-                    }
-                }
-                else if (PipelineFactory != null)
-                {
-                    pipelineFactory = PipelineFactory;
-                    return true;
-                }
-            }
-
-            pipelineFactory = null;
-            return false;
-        }
-
-        public void IncludeSegment(string url, IPipelineFactory pipelineFactory)
-        {
-            IncludeUrl(url).PipelineFactory = pipelineFactory;
-        }
-
-        public IRouteSegment IncludeUrl(string url)
-        {
-            // Ignore inlcude request when 'this' segment is not matched.
-            url = TryMatchUrlPart(url);
-            if (url != null)
-            {
-                // When no 'new' url to append to this segment, only update pipeline.
-                if (url.Length == 0)
-                    return this;
-
-                // Walk through child segments and try to find some matching chars.
-                foreach (IRouteSegment routeSegment in Children.ToList())
-                {
-                    // Only for Static route segments.
-                    IStaticRouteSegment staticSegment = routeSegment as IStaticRouteSegment;
-                    if (staticSegment == null)
-                        continue;
-
-                    // Find equal chars.
-                    int index = 0;
-                    while (IsCharAtEquals(staticSegment.UrlPart, url, index))
-                        index++;
-
-                    // When whole segment url is matched, delegate inclusion to segment.
-                    if (index == staticSegment.UrlPart.Length)
-                        return routeSegment.IncludeUrl(url);
-
-                    // When at least one char is matched, then divide partialy-matched segment into to two with common parent.
-                    if (index > 0)
-                    {
-                        // Update structure so new segment has shared chars and partialy-matched segment is nested under.
-                        Children.Remove(routeSegment);
-                        StaticRouteSegment newRouteSegment = new StaticRouteSegment(staticSegment.UrlPart.Substring(0, index));
-                        Children.Add(newRouteSegment);
-                        newRouteSegment.Children.Add(routeSegment);
-
-                        // Remove shared chars from partialy-matched segment.
-                        staticSegment.UrlPart = staticSegment.UrlPart.Substring(index);
-
-                        // Delegate inclusion to new segment.
-                        return newRouteSegment.IncludeUrl(url);
-                    }
-                }
-
-                // When any of children has same at least one char, include as new child-segment.
-                IRouteSegment childRouteSegment = new StaticRouteSegment(url);
-                Children.Add(childRouteSegment);
-                return childRouteSegment;
-            }
-
-            throw new InvalidOperationException("Unnable to append URL that doesn't start with current segment prefix.");
+            return url;
         }
 
         /// <summary>
@@ -140,6 +125,9 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             return source[index] == target[index];
         }
 
-
+        public override string ToString()
+        {
+            return UrlPart;
+        }
     }
 }
