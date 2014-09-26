@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Collections.Specialized;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,25 +13,38 @@ namespace Neptuo.WebStack.Http
     public interface IHttpContext
     {
         /// <summary>
-        /// Http request.
+        /// Collection of supported values.
         /// </summary>
-        IHttpRequest Request { get; }
+        IReadOnlyKeyValueCollection Values { get; }
 
-        /// <summary>
-        /// Http response.
-        /// </summary>
-        IHttpResponse Response { get; }
+        ///// <summary>
+        ///// Http request.
+        ///// </summary>
+        //IHttpRequest Request { get; }
 
-        /// <summary>
-        /// Collection of custom values.
-        /// </summary>
-        IDictionary<string, object> Values { get; }
+        ///// <summary>
+        ///// Http response.
+        ///// </summary>
+        //IHttpResponse Response { get; }
 
-        /// <summary>
-        /// Resolves url starting with ~/...
-        /// </summary>
-        /// <param name="appRelativeUrl">Application relative url.</param>
-        /// <returns>Absolute url.</returns>
-        string ResolveUrl(string appRelativeUrl);
+        ///// <summary>
+        ///// Resolves url starting with ~/...
+        ///// </summary>
+        ///// <param name="appRelativeUrl">Application relative url.</param>
+        ///// <returns>Absolute url.</returns>
+        //string ResolveUrl(string appRelativeUrl);
+    }
+
+    public static class HttpContextExtensions
+    {
+        public static IHttpRequest Request(this IHttpContext httpContext)
+        {
+            return httpContext.Values.Get<IHttpRequest>("Request");
+        }
+
+        public static IHttpResponse Response(this IHttpContext httpContext)
+        {
+            return httpContext.Values.Get<IHttpResponse>("Response");
+        }
     }
 }
