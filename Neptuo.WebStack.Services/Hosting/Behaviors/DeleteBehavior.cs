@@ -20,7 +20,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="pipeline">Processing pipeline.</param>
         public void Execute(IDelete handler, IHttpContext context, IBehaviorContext pipeline)
         {
-            if (context.Request().Method == HttpMethod.Post)
+            if (context.Request().IsMethodDelete())
                 handler.Execute();
             else
                 pipeline.Next();

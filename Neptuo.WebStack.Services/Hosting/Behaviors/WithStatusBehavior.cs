@@ -16,7 +16,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         protected override void Execute(IWithStatus handler, IHttpContext context)
         {
             if (handler.Status != null)
-                context.Response().Status = handler.Status;
+                context.Response().Status(handler.Status);
         }
     }
 }
