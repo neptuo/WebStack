@@ -48,5 +48,10 @@ namespace Neptuo.WebStack.Http
         {
             return httpContext.Values.Get<IHttpResponse>("Response");
         }
+
+        public static string ResolveUrl(this IHttpContext httpContext, string relativeUrl)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Services.Hosting.Routing
+namespace Neptuo.WebStack.Services.Hosting.Pipelines
 {
     /// <summary>
     /// Attribute for mapping handlers to routes.

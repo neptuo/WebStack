@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Hosting.Pipelines
+namespace Neptuo.WebStack.Hosting.Routing
 {
     /// <summary>
-    /// Defines invokable pipeline for processing complete Http request with response.
+    /// Defines invokable handler for processing complete Http request with response.
     /// </summary>
-    public interface IPipeline
+    public interface IRouteHandler
     {
         /// <summary>
         /// Process <paramref name="httpContext"/>.
         /// </summary>
         /// <param name="httpContext">Current Http context.</param>
-        Task Invoke(IHttpContext httpContext);
+        Task HandlerAsync(IHttpContext httpContext);
     }
 }

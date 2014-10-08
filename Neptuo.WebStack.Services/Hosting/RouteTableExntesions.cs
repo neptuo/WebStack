@@ -1,6 +1,6 @@
 ﻿using Neptuo.WebStack.Hosting.Routing;
 using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
-using Neptuo.WebStack.Services.Hosting.Routing;
+using Neptuo.WebStack.Services.Hosting.Pipelines;
 using System;
 using System.Collections.Generic;
 using System.Linq;

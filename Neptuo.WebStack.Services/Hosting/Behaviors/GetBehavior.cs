@@ -20,7 +20,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="pipeline">Processing pipeline.</param>
         public void Execute(IGet handler, IHttpContext context, IBehaviorContext pipeline)
         {
-            if (context.Request.Method == HttpMethod.Get)
+            if (context.Request().Method == HttpMethod.Get)
                 handler.Execute();
             else
                 pipeline.Next();

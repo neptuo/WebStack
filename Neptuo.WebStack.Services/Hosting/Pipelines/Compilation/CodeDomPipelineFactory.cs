@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Neptuo.WebStack.Hosting.Pipelines;
+using Neptuo.WebStack.Hosting.Routing;
 
 namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
 {
     /// <summary>
     /// Generates pipeline using <see cref="System.CodeDom"/>.
     /// </summary>
-    public class CodeDomPipelineFactory : IPipelineFactory
+    public class CodeDomPipelineFactory : IRouteHandler
     {
         /// <summary>
         /// Handler type.
@@ -23,7 +23,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
         /// <summary>
         /// Function that creates instance of pipeline.
         /// </summary>
-        private Func<IPipeline> generatedFactory;
+        private Func<IRouteHandler> generatedFactory;
 
         /// <summary>
         /// Behavior collection.
@@ -59,14 +59,11 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             this.configuration = configuration;
         }
 
-        /// <summary>
-        /// Creates instance of compiled pipeline.
-        /// </summary>
-        /// <returns>Instance of pipeline for handler type.</returns>
-        public IPipeline Create()
+        public async Task HandlerAsync(IHttpContext httpContext)
         {
             EnsurePipelineFactory();
-            return generatedFactory();
+            IRouteHandler pipeline = generatedFactory();
+            await pipeline.HandlerAsync(httpContext);
         }
 
         /// <summary>
@@ -86,7 +83,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             CodeDomPipelineGenerator generator = new CodeDomPipelineGenerator(handlerType, behaviorCollection, configuration);
             Type pipelineType = generator.GeneratePipeline();
 
-            generatedFactory = () => (IPipeline)Activator.CreateInstance(pipelineType);
+            generatedFactory = () => (IRouteHandler)Activator.CreateInstance(pipelineType);
         }
     }
 }
