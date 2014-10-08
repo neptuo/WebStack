@@ -103,7 +103,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             if (handlerType.GetConstructor(new Type[0]) != null)
                 type.BaseTypes.Add(typeof(DefaultPipelineBase<>).MakeGenericType(handlerType));
             else
-                throw new NotSupportedException("Currently suport only parameterless constructors.");
+                throw new NotSupportedException("Currently supported only parameterless behavior constructors.");
 
             return type;
         }
@@ -163,7 +163,6 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
                 compiler.AddReferencedFolder(binDirectory);
 
             CompilerResults result = compiler.CompileAssemblyFromUnit(unit, Path.Combine(configuration.TempDirectory, FormatAssemblyFileName()));
-
             if (result.Errors.Count > 0)
             {
                 CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
