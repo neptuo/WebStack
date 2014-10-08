@@ -1,5 +1,4 @@
-﻿using Neptuo.WebStack.Hosting.Pipelines;
-using Neptuo.WebStack.Hosting.Routing.Segments;
+﻿using Neptuo.WebStack.Hosting.Routing.Segments;
 using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
@@ -22,10 +21,10 @@ namespace Neptuo.WebStack.Hosting.Routing
             parser = new PatternParser(parameterCollection);
         }
 
-        public IRouteTable Map(RoutePattern routePattern, IPipelineFactory pipelineFactory)
+        public IRouteTable Map(RoutePattern routePattern, IRouteHandler routeHandler)
         {
             Guard.NotNull(routePattern, "routePattern");
-            Guard.NotNull(pipelineFactory, "pipelineFactory");
+            Guard.NotNull(routeHandler, "routeHandler");
 
             if (routePattern.HasProtocol)
             {
@@ -55,7 +54,7 @@ namespace Neptuo.WebStack.Hosting.Routing
             throw new NotSupportedException();
         }
 
-        public IPipeline GetPipeline(IHttpContext httpContext)
+        public IRouteHandler GetPipeline(IHttpContext httpContext)
         {
             throw new NotImplementedException();
         }

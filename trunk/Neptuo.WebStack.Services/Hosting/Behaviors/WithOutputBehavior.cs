@@ -19,7 +19,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
             string output = handler.Output as string;
             if (output != null)
             {
-                context.Response.OutputWriter.Write(output);
+                context.Response().OutputWriter.Write(output);
                 return;
             }
 

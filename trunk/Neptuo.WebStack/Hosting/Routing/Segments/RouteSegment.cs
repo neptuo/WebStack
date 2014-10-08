@@ -1,5 +1,4 @@
-﻿using Neptuo.WebStack.Hosting.Pipelines;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +9,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
     public abstract class RouteSegment
     {
         public HashSet<RouteSegment> Children { get; set; }
-        public IPipelineFactory PipelineFactory { get; set; }
+        public IRouteHandler RouteHandler { get; set; }
 
         public RouteSegment()
         {

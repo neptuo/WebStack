@@ -60,7 +60,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             {
                 // Update structure so new segment has shared chars and partialy-matched segment is nested under.
                 StaticRouteSegment partSegment = new StaticRouteSegment(UrlPart.Substring(index));
-                partSegment.PipelineFactory = PipelineFactory;
+                partSegment.RouteHandler = RouteHandler;
 
                 foreach (RouteSegment item in Children)
                     partSegment.Children.Add(item);

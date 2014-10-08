@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Hosting.Pipelines;
+﻿using Neptuo.WebStack.Hosting.Routing;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
 using System;
@@ -14,7 +14,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
     /// Integrates execution of behaviors during handler execution.
     /// </summary>
     /// <typeparam name="T">Type of handler.</typeparam>
-    public abstract class PipelineBase<T> : IPipeline, IBehaviorContext
+    public abstract class PipelineBase<T> : IRouteHandler, IBehaviorContext
     {
         /// <summary>
         /// Enumerator for behaviors for type <typeparamref name="T" />
@@ -49,7 +49,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
         /// Creates instance of handler and using <see cref="IBehavior"/> executes action.
         /// </summary>
         /// <param name="context">Current Http request context.</param>
-        public Task Invoke(IHttpContext context)
+        public Task HandlerAsync(IHttpContext context)
         {
             IHandlerFactory<T> handlerFactory = GetHandlerFactory(context);
             this.handler = handlerFactory.Create(context);

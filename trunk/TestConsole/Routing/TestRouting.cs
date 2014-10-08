@@ -1,7 +1,6 @@
 ﻿using Neptuo.Diagnostics;
 using Neptuo.TestConsole.Routing.Services;
 using Neptuo.WebStack.Hosting;
-using Neptuo.WebStack.Hosting.Pipelines;
 using Neptuo.WebStack.Hosting.Routing;
 using Neptuo.WebStack.Hosting.Routing.Segments;
 using Neptuo.WebStack.Services.Behaviors;
@@ -41,7 +40,7 @@ namespace Neptuo.TestConsole.Routing
                         .MapServices(Assembly.GetExecutingAssembly());
                 });
 
-            IPipelineFactory pipelineFactory = new CodeDomPipelineFactory(typeof(GetHelloHandler));
+            IRouteHandler routeHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
             //PathRouteSegment rootSegment = new PathRouteSegment();
             //DebugIteration("Build route table", 1, () =>
@@ -54,13 +53,13 @@ namespace Neptuo.TestConsole.Routing
             //});
 
             Engine.Environment.WithRouteTable()
-                .Map("~/cs/home", pipelineFactory)
-                .Map("~/cs/about", pipelineFactory)
-                .Map("~/cs/{product}", pipelineFactory)
-                .Map("~/cs/{product}/detail", pipelineFactory)
-                .Map("~/cs/{product}/delegates", pipelineFactory)
-                .Map("~/cs/about/company", pipelineFactory)
-                .Map("~/cs/about/people", pipelineFactory);
+                .Map("~/cs/home", routeHandler)
+                .Map("~/cs/about", routeHandler)
+                .Map("~/cs/{product}", routeHandler)
+                .Map("~/cs/{product}/detail", routeHandler)
+                .Map("~/cs/{product}/delegates", routeHandler)
+                .Map("~/cs/about/company", routeHandler)
+                .Map("~/cs/about/people", routeHandler);
 
             PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).RootSegment, 0);
         }
