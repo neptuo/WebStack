@@ -18,39 +18,39 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         IReadOnlyKeyValueCollection Values { get; }
-
-        ///// <summary>
-        ///// Http request.
-        ///// </summary>
-        //IHttpRequest Request { get; }
-
-        ///// <summary>
-        ///// Http response.
-        ///// </summary>
-        //IHttpResponse Response { get; }
-
-        ///// <summary>
-        ///// Resolves url starting with ~/...
-        ///// </summary>
-        ///// <param name="appRelativeUrl">Application relative url.</param>
-        ///// <returns>Absolute url.</returns>
-        //string ResolveUrl(string appRelativeUrl);
     }
 
+    /// <summary>
+    /// Common extensions for <see cref="IHttpContext"/>.
+    /// </summary>
     public static class HttpContextExtensions
     {
+        /// <summary>
+        /// Http request.
+        /// </summary>
         public static IHttpRequest Request(this IHttpContext httpContext)
         {
+            Guard.NotNull(httpContext, "httpContext");
             return httpContext.Values.Get<IHttpRequest>("Request");
         }
 
+        /// <summary>
+        /// Http response.
+        /// </summary>
         public static IHttpResponse Response(this IHttpContext httpContext)
         {
+            Guard.NotNull(httpContext, "httpContext");
             return httpContext.Values.Get<IHttpResponse>("Response");
         }
 
-        public static string ResolveUrl(this IHttpContext httpContext, string relativeUrl)
+        /// <summary>
+        /// Resolves url starting with ~/...
+        /// </summary>
+        /// <param name="appRelativeUrl">Application relative url.</param>
+        /// <returns>Absolute url.</returns>
+        public static string ResolveUrl(this IHttpContext httpContext, string appRelativeUrl)
         {
+            Guard.NotNull(httpContext, "httpContext");
             throw new NotImplementedException();
         }
     }
