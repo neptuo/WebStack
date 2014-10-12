@@ -6,55 +6,73 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Hosting.Routing.Segments
 {
+    /// <summary>
+    /// Represents segment of static route part which can be splited if needed.
+    /// </summary>
     public class StaticRouteSegment : RouteSegment
     {
+        /// <summary>
+        /// Static part of route.
+        /// </summary>
         public string UrlPart { get; private set; }
 
+        /// <summary>
+        /// Creates new instance with value of part in <paramref name="urlPath"/>.
+        /// </summary>
+        /// <param name="urlPart">Static part of route.</param>
         public StaticRouteSegment(string urlPart)
         {
             Guard.NotNullOrEmpty(urlPart, "urlPart");
             UrlPart = urlPart;
         }
 
-        public override RouteSegment Include(RouteSegment newSegment)
+        public override RouteSegment TryInclude(RouteSegment newSegment)
         {
             // If static, run "real inclusion" logic.
             StaticRouteSegment staticSegment = newSegment as StaticRouteSegment;
             if (staticSegment != null)
                 return IncludeStaticSegment(staticSegment);
 
-            // Just append.
+            // Other types are not supported for inclusion.
+            return null;
+        }
+
+        public override RouteSegment Append(RouteSegment newSegment)
+        {
+            // Try to include in child segments.
             foreach (RouteSegment routeSegment in Children)
             {
-                RouteSegment resultSegment = routeSegment.Include(newSegment);
+                RouteSegment resultSegment = routeSegment.TryInclude(newSegment);
                 if (resultSegment != null)
                     return resultSegment;
             }
 
+            // If inclusion is not possible, just append as new child.
             Children.Add(newSegment);
             return newSegment;
         }
 
         private RouteSegment IncludeStaticSegment(StaticRouteSegment newSegment)
         {
-            bool isOk = false;
-
-            // Find equal chars.
+            // Find first-n equal chars.
             int index = 0;
             while (IsCharAtEquals(newSegment.UrlPart, UrlPart, index))
                 index++;
 
-            // When whole segment url is matched, we are finished.
+            // When segment urls are the same, return self.
             if (index == newSegment.UrlPart.Length && index == UrlPart.Length)
                 return this;
 
             // When this segment is matched whole, only append as child.
             if (index == UrlPart.Length)
             {
+                // Update new url by removing shared characters.
                 newSegment.UrlPart = newSegment.UrlPart.Substring(index);
-                isOk = true;
-            } 
-            else 
+
+                // I'm matched, so just append to children (with try include on existing).
+                return Append(newSegment);
+            }
+
             // When at least one char is matched, then divide partialy-matched segment into to two with common parent.
             if (index > 0)
             {
@@ -62,9 +80,11 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
                 StaticRouteSegment partSegment = new StaticRouteSegment(UrlPart.Substring(index));
                 partSegment.RouteHandler = RouteHandler;
 
+                // All my children are copied to the newly created segment.
                 foreach (RouteSegment item in Children)
                     partSegment.Children.Add(item);
 
+                // Clean up and append the newly created segment.
                 Children.Clear();
                 Children.Add(partSegment);
 
@@ -82,31 +102,8 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
                 }
             }
 
-            // Walk through child segments and try to find some matching chars.
-            foreach (RouteSegment routeSegment in Children.ToList())
-            {
-                RouteSegment resultSegment = routeSegment.Include(newSegment);
-                if (resultSegment != null)
-                    return resultSegment;
-            }
-
-            if (isOk)
-            {
-                Children.Add(newSegment);
-                return newSegment;
-            }
-
+            // Inclusion is not possible.
             return null;
-        }
-
-        private string TryMatchUrlPart(string url)
-        {
-            if (url.StartsWith(UrlPart))
-            {
-                url = url.Substring(UrlPart.Length);
-                return url;
-            }
-            return url;
         }
 
         /// <summary>

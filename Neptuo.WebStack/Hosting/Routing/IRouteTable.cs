@@ -25,6 +25,6 @@ namespace Neptuo.WebStack.Hosting.Routing
         /// </summary>
         /// <param name="httpContext">Context describing request and response.</param>
         /// <returns>Route handler registered for <paramref name="httpContext"/>.</returns>
-        IRouteHandler GetPipeline(IHttpContext httpContext);
+        IRouteHandler GetRouteHandler(IHttpContext httpContext);
     }
 }
