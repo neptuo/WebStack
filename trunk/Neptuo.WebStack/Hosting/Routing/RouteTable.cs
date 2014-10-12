@@ -41,11 +41,17 @@ namespace Neptuo.WebStack.Hosting.Routing
                 List<RouteSegment> segments;
                 if (parser.TryBuildUp(routePattern.VirtualPath, out segments))
                 {
-                    RouteSegment routeSegment = pathTree;
-                    foreach (RouteSegment partSegment in segments)
-                        routeSegment = routeSegment.Include(partSegment);
-                 
-                    //routeSegment.PipelineFactory = pipelineFactory;
+                    RouteSegment routeSegment = pathTree.TryInclude(segments[0]);
+                    for (int i = 1; i < segments.Count; i++)
+                    {
+                        RouteSegment partSegment = segments[i];
+                        routeSegment = routeSegment.Append(partSegment);
+                    }
+
+                    //foreach (RouteSegment partSegment in segments)
+                    //    routeSegment = routeSegment.Old_Include(partSegment, true);
+                    
+                    routeSegment.RouteHandler = routeHandler;
                 }
 
                 return this;
@@ -54,7 +60,7 @@ namespace Neptuo.WebStack.Hosting.Routing
             throw new NotSupportedException();
         }
 
-        public IRouteHandler GetPipeline(IHttpContext httpContext)
+        public IRouteHandler GetRouteHandler(IHttpContext httpContext)
         {
             throw new NotImplementedException();
         }

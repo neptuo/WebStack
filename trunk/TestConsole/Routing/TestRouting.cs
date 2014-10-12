@@ -32,7 +32,10 @@ namespace Neptuo.TestConsole.Routing
                 })
                 .UseParameterCollection(collection =>
                 {
-                    collection.Add("product", new TestRouteParameter());
+                    collection
+                        .Add("lang", new TestRouteParameter())
+                        .Add("product", new TestRouteParameter())
+                        .Add("destination", new TestRouteParameter());
                 })
                 .UseRouteTable(routeTable =>
                 {
@@ -55,9 +58,14 @@ namespace Neptuo.TestConsole.Routing
             Engine.Environment.WithRouteTable()
                 .Map("~/cs/home", routeHandler)
                 .Map("~/cs/about", routeHandler)
-                .Map("~/cs/{product}", routeHandler)
-                .Map("~/cs/{product}/detail", routeHandler)
-                .Map("~/cs/{product}/delegates", routeHandler)
+                .Map("~/cs/{destination}", routeHandler)
+                .Map("~/cs/{destination}/products", routeHandler)
+                .Map("~/cs/{destination}/photo", routeHandler)
+                .Map("~/cs/{destination}/{product}", routeHandler)
+                .Map("~/cs/{destination}/{product}/order", routeHandler)
+                .Map("~/cs/{destination}/{product}/photo", routeHandler);
+
+            Engine.Environment.WithRouteTable()
                 .Map("~/cs/about/company", routeHandler)
                 .Map("~/cs/about/people", routeHandler);
 
@@ -68,7 +76,7 @@ namespace Neptuo.TestConsole.Routing
         {
             PrintLine(routeSegment.ToString(), indent);
 
-            foreach (RouteSegment childRouteSegment in routeSegment.Children)
+            foreach (RouteSegment childRouteSegment in routeSegment.EnumerateChildren())
                 PrintSegment(childRouteSegment, indent + 1);
         }
 

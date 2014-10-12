@@ -22,6 +22,7 @@ namespace Neptuo.WebStack.Hosting.Routing
         {
             TokenParser parser = new TokenParser();
             parser.Configuration.AllowTextContent = true;
+            parser.Configuration.AllowMultipleTokens = true;
             return parser;
         }
 
