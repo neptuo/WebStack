@@ -31,6 +31,8 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             Children = new HashSet<RouteSegment>();
         }
 
+        #region Building route tree
+
         /// <summary>
         /// Must first check for matching current segment.
         /// </summary>
@@ -53,5 +55,18 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
         {
             return Children;
         }
+
+        #endregion
+
+        #region Resolving url
+
+        /// <summary>
+        /// Returns handler register for <paramref name="url"/>, where <paramref name="url"/> starts with this segment.
+        /// </summary>
+        /// <param name="url">Url to resolve registered handler for.</param>
+        /// <returns>Handler for <paramref name="url"/>; <c>null</c> of not found/registered.</returns>
+        public abstract IRouteHandler ResolveUrl(string url);
+
+        #endregion
     }
 }

@@ -37,7 +37,6 @@ namespace Neptuo.WebStack.Hosting.Routing
             else
             {
                 // Parse routePattern.VirtualPath into segments (if needed).
-                // ;
                 List<RouteSegment> segments;
                 if (parser.TryBuildUp(routePattern.VirtualPath, out segments))
                 {
@@ -48,9 +47,6 @@ namespace Neptuo.WebStack.Hosting.Routing
                         routeSegment = routeSegment.Append(partSegment);
                     }
 
-                    //foreach (RouteSegment partSegment in segments)
-                    //    routeSegment = routeSegment.Old_Include(partSegment, true);
-                    
                     routeSegment.RouteHandler = routeHandler;
                 }
 
@@ -62,12 +58,17 @@ namespace Neptuo.WebStack.Hosting.Routing
 
         public IRouteHandler GetRouteHandler(IHttpContext httpContext)
         {
-            throw new NotImplementedException();
+            string virtualPath = "~" + httpContext.Request().Url().AbsolutePath;
+            IRouteHandler routeHandler = pathTree.ResolveUrl(virtualPath);
+            return routeHandler;
         }
 
 
-
-        public PathRouteSegment RootSegment
+        
+        /// <summary>
+        /// TODO: Very temporal.
+        /// </summary>
+        public PathRouteSegment PathTree
         {
             get { return pathTree; }
         }

@@ -16,6 +16,6 @@ namespace Neptuo.WebStack.Hosting.Routing
         /// Process <paramref name="httpContext"/>.
         /// </summary>
         /// <param name="httpContext">Current Http context.</param>
-        Task HandlerAsync(IHttpContext httpContext);
+        Task HandleAsync(IHttpContext httpContext);
     }
 }

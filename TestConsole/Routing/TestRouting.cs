@@ -69,7 +69,10 @@ namespace Neptuo.TestConsole.Routing
                 .Map("~/cs/about/company", routeHandler)
                 .Map("~/cs/about/people", routeHandler);
 
-            PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).RootSegment, 0);
+            routeHandler = ((RouteTable)Engine.Environment.WithRouteTable())
+                .GetRouteHandler("~/cs/about/people");
+
+            PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).PathTree, 0);
         }
 
         private static void PrintSegment(RouteSegment routeSegment, int indent)

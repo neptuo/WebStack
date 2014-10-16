@@ -18,13 +18,8 @@ namespace Neptuo.WebStack.Routing
         string OriginalUrl { get; }
 
         /// <summary>
-        /// After parameter matches URL, this property should contain remain part of URL that should by matched by another segment.
+        /// After parameter matches URL, this property should contain remain part of the <paramref name="OriginalUrl"/> that should by matched by another segment.
         /// </summary>
         string RemainingUrl { get; set; }
-
-        /// <summary>
-        /// Current http context.
-        /// </summary>
-        IHttpContext HttpContext { get; }
     }
 }
