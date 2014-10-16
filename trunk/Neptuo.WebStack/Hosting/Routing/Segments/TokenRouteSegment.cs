@@ -23,6 +23,8 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             this.parameter = parameter;
         }
 
+        #region Building route tree
+
         public override RouteSegment TryInclude(RouteSegment newSegment)
         {
             TokenRouteSegment tokenSegment = newSegment as TokenRouteSegment;
@@ -48,33 +50,16 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             return newSegment;
         }
 
+        #endregion
 
+        #region Resolving url
 
+        public override IRouteHandler ResolveUrl(string url)
+        {
+            throw Guard.Exception.NotImplemented();
+        }
 
-        //public override RouteSegment Old_Include(RouteSegment newSegment, bool isAppendable)
-        //{
-        //    TokenRouteSegment tokenSegment = newSegment as TokenRouteSegment;
-        //    if (tokenSegment != null)
-        //    {
-        //        if (tokenSegment.tokenName == tokenName)
-        //            return this;
-        //    }
-
-        //    foreach (RouteSegment routeSegment in Children)
-        //    {
-        //        RouteSegment resultSegment = routeSegment.Old_Include(newSegment, false);
-        //        if (resultSegment != null)
-        //            return resultSegment;
-        //    }
-
-        //    if (isAppendable)
-        //    {
-        //        Children.Add(newSegment);
-        //        return newSegment;
-        //    }
-
-        //    return null;
-        //}
+        #endregion
 
         public override string ToString()
         {

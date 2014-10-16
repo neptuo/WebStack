@@ -26,6 +26,8 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             UrlPart = urlPart;
         }
 
+        #region Building route tree
+
         public override RouteSegment TryInclude(RouteSegment newSegment)
         {
             // If static, run "real inclusion" logic.
@@ -121,6 +123,32 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 
             return source[index] == target[index];
         }
+
+        #endregion
+
+        #region Resolving url
+
+        public override IRouteHandler ResolveUrl(string url)
+        {
+            Guard.NotNull(url, "url");
+            if (url.StartsWith(UrlPart))
+            {
+                string remainingUrl = url.Substring(UrlPart.Length);
+                if (String.IsNullOrEmpty(remainingUrl))
+                    return RouteHandler;
+
+                foreach (RouteSegment child in Children)
+                {
+                    IRouteHandler routeHandler = child.ResolveUrl(remainingUrl);
+                    if (routeHandler != null)
+                        return routeHandler;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
 
         public override string ToString()
         {
