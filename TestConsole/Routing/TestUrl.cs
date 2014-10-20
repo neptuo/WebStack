@@ -1,4 +1,5 @@
 ﻿using Neptuo.WebStack.Hosting.Routing;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Neptuo.TestConsole.Routing
 {
-    class TestRoutePattern
+    class TestUrl
     {
         public static void Test()
         {
-            RoutePattern pattern = new RoutePattern("http://www.neptuo.com/test");
+            Url pattern = new Url("http://www.neptuo.com/test");
             Console.WriteLine(pattern);
 
-            pattern = new RoutePattern("//www.neptuo.com/test");
+            pattern = new Url("x//www.neptuo.com/test");
             Console.WriteLine(pattern);
 
-            pattern = new RoutePattern("~/test");
+            pattern = new Url("~/test");
             Console.WriteLine(pattern);
         }
     }

@@ -1,30 +1,33 @@
-﻿using Neptuo.WebStack.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Hosting.Routing
+namespace Neptuo.WebStack.Http
 {
     /// <summary>
-    /// Contains single route URL pattern.
-    /// Support protocols, domains, app-relative URLs etc.
+    /// 
     /// </summary>
-    public class RoutePattern
+    public class Url
     {
         public const string ProtocolSeparator = "://";
         public const string NoProtocolPrefix = "//";
         public const string VirtualPathPrefix = "~/";
         public const string PathPrefix = "/";
 
-        public string Protocol { get; set; }
+        public string Schema { get; set; }
+
         public string Domain { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Path { get; set; }
 
-        public bool HasProtocol
+        public bool HasSchema
         {
-            get { return Protocol != null; }
+            get { return Schema != null; }
         }
 
         public bool HasDomain
@@ -54,7 +57,7 @@ namespace Neptuo.WebStack.Hosting.Routing
             }
         }
 
-        public RoutePattern(string url)
+        public Url(string url)
         {
             Guard.NotNullOrEmpty(url, "url");
 
@@ -76,17 +79,17 @@ namespace Neptuo.WebStack.Hosting.Routing
             }
         }
 
-        public RoutePattern(string protocol, string domain, string path)
+        public Url(string protocol, string domain, string path)
         {
             Guard.NotNullOrEmpty(protocol, "protocol");
             Guard.NotNullOrEmpty(domain, "domain");
             Guard.NotNullOrEmpty(path, "path");
-            Protocol = protocol;
+            Schema = protocol;
             Domain = domain;
             Path = path;
         }
 
-        public RoutePattern(string domain, string path)
+        public Url(string domain, string path)
         {
             Guard.NotNullOrEmpty(domain, "domain");
             Guard.NotNullOrEmpty(path, "path");
@@ -94,15 +97,17 @@ namespace Neptuo.WebStack.Hosting.Routing
             Path = path;
         }
 
-        public static implicit operator RoutePattern(string url)
+        public static implicit operator Url(string url)
         {
-            return new RoutePattern(url);
+            return new Url(url);
         }
 
         private string ParseProtocol(string url)
         {
             int indexOfProtocolSeparator = url.IndexOf(ProtocolSeparator);
-            Protocol = url.Substring(0, indexOfProtocolSeparator);
+            if(indexOfProtocolSeparator > 0)
+
+            Schema = url.Substring(0, indexOfProtocolSeparator);
 
             url = url.Substring(indexOfProtocolSeparator + ProtocolSeparator.Length);
             return url;
@@ -128,15 +133,15 @@ namespace Neptuo.WebStack.Hosting.Routing
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            if (HasProtocol)
+            if (HasSchema)
             {
-                result.Append(Protocol);
+                result.Append(Schema);
                 result.Append(ProtocolSeparator);
             }
 
             if (HasDomain)
             {
-                if (!HasProtocol)
+                if (!HasSchema)
                     result.Append(NoProtocolPrefix);
 
                 result.Append(Domain);

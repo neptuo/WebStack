@@ -11,8 +11,8 @@ namespace Neptuo.TestConsole
     {
         static void Main(string[] args)
         {
-            //TestRoutePattern.Test();
-            TestRouting.Test();
+            TestUrl.Test();
+            //TestRouting.Test();
 
             Console.ReadKey(true);
         }

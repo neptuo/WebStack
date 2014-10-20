@@ -1,4 +1,5 @@
 ﻿using Neptuo.WebStack.Hosting.Routing;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
     [AttributeUsage(AttributeTargets.Class)]
     public class RouteAttribute : Attribute
     {
-        public RoutePattern Url { get; private set; }
+        public Url Url { get; private set; }
 
         /// <summary>
         /// Creates new instance mapped to <paramref name="url"/>.
