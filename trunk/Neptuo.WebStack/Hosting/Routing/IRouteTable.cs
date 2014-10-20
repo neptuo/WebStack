@@ -18,7 +18,7 @@ namespace Neptuo.WebStack.Hosting.Routing
         /// <param name="routePattern">Pattern to regiter <paramref name="routeHandler"/> on.</param>
         /// <param name="routeHandler">Handler for handling requests.</param>
         /// <rereturns>Self (for fluency).</rereturns>
-        IRouteTable Map(RoutePattern routePattern, IRouteHandler routeHandler);
+        IRouteTable Map(Url routePattern, IRouteHandler routeHandler);
 
         /// <summary>
         /// Finds route handler for <paramref name="httpContext"/>.

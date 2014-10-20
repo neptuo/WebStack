@@ -1,5 +1,6 @@
 ﻿using Neptuo.Diagnostics;
 using Neptuo.TestConsole.Routing.Services;
+using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Hosting;
 using Neptuo.WebStack.Hosting.Routing;
 using Neptuo.WebStack.Hosting.Routing.Segments;
@@ -69,8 +70,8 @@ namespace Neptuo.TestConsole.Routing
                 .Map("~/cs/about/company", routeHandler)
                 .Map("~/cs/about/people", routeHandler);
 
-            routeHandler = ((RouteTable)Engine.Environment.WithRouteTable())
-                .GetRouteHandler("~/cs/about/people");
+            //routeHandler = ((RouteTable)Engine.Environment.WithRouteTable())
+            //    .GetRouteHandler("~/cs/about/people");
 
             PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).PathTree, 0);
         }

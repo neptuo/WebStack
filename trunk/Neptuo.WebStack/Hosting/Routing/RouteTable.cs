@@ -21,12 +21,12 @@ namespace Neptuo.WebStack.Hosting.Routing
             parser = new PatternParser(parameterCollection);
         }
 
-        public IRouteTable Map(RoutePattern routePattern, IRouteHandler routeHandler)
+        public IRouteTable Map(Url routePattern, IRouteHandler routeHandler)
         {
             Guard.NotNull(routePattern, "routePattern");
             Guard.NotNull(routeHandler, "routeHandler");
 
-            if (routePattern.HasProtocol)
+            if (routePattern.HasSchema)
             {
 
             }

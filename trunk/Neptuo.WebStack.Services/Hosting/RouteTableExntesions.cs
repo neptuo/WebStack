@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Neptuo.WebStack.Http;
 
 namespace Neptuo.WebStack.Services.Hosting
 {
@@ -62,7 +63,7 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <param name="url">Route for <paramref name="handlerType"/>.</param>
         /// <param name="handlerType">Service handler type to register (decorated with <see cref="RouteAttribute"/>).</param>
         /// <returns><paramref name="routeTable"/>.</returns>
-        public static IRouteTable MapService(this IRouteTable routeTable, RoutePattern url, Type handlerType)
+        public static IRouteTable MapService(this IRouteTable routeTable, Url url, Type handlerType)
         {
             return routeTable.Map(url, new CodeDomPipelineFactory(handlerType));
         }
