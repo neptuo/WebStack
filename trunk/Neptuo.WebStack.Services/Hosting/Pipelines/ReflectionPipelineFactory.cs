@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Hosting.Routing;
+﻿using Neptuo.WebStack.Hosting;
 using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
@@ -11,13 +11,14 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
     /// <summary>
     /// Creates instances of <see cref="ReflectionPipeline"/>.
     /// </summary>
-    public class ReflectionPipelineFactory<T> : IRouteHandler
+    public class ReflectionPipelineFactory<T> : IRequestHandler
         where T : new()
     {
-        public async Task HandleAsync(IHttpContext httpContext)
+        public async Task<bool> HandleAsync(IHttpContext httpContext)
         {
-            IRouteHandler pipeline = new ReflectionPipeline<T>(Engine.Environment.WithBehaviors());
+            IRequestHandler pipeline = new ReflectionPipeline<T>(Engine.Environment.WithBehaviors());
             await pipeline.HandleAsync(httpContext);
+            return true;
         }
     }
 }

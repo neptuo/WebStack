@@ -14,6 +14,6 @@ namespace Neptuo.WebStack.Services
         /// <summary>
         /// Invoked on Http GET request.
         /// </summary>
-        void Execute();
+        Task ExecuteAsync();
     }
 }

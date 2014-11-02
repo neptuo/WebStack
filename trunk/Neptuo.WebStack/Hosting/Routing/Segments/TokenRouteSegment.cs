@@ -54,7 +54,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 
         #region Resolving url
 
-        public override IRouteHandler ResolveUrl(string url)
+        public override IRequestHandler ResolveUrl(string url)
         {
             throw Guard.Exception.NotImplemented();
         }

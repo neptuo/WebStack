@@ -13,17 +13,17 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     public class DeleteBehavior : IBehavior<IDelete>
     {
         /// <summary>
-        /// Executes <see cref="IDelete.Execute"/> method on <paramref name="handler"/> if current request is DELETE request.
+        /// Executes <see cref="IDelete.ExecuteAsync"/> method on <paramref name="handler"/> if current request is DELETE request.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public void Execute(IDelete handler, IHttpContext context, IBehaviorContext pipeline)
+        public Task ExecuteAsync(IDelete handler, IHttpContext context, IBehaviorContext pipeline)
         {
             if (context.Request().IsMethodDelete())
-                handler.Execute();
+                return handler.ExecuteAsync();
             else
-                pipeline.Next();
+                return pipeline.NextAsync();
         }
     }
 }

@@ -46,6 +46,6 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// <c>true</c> if the URL defined using application relative path.
         /// </summary>
-        bool IsVirtualPath { get; }
+        bool HasVirtualPath { get; }
     }
 }

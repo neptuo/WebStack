@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Http
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Url
+    public class Url : IReadOnlyUrl
     {
         public const string ProtocolSeparator = "://";
         public const string NoProtocolPrefix = "//";
@@ -20,9 +17,6 @@ namespace Neptuo.WebStack.Http
 
         public string Domain { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public string Path { get; set; }
 
         public bool HasSchema
@@ -35,7 +29,7 @@ namespace Neptuo.WebStack.Http
             get { return Domain != null; }
         }
 
-        public bool IsVirtualPath
+        public bool HasVirtualPath
         {
             get { return Path.StartsWith(VirtualPathPrefix); }
         }
@@ -45,7 +39,7 @@ namespace Neptuo.WebStack.Http
             get
             {
                 string path = Path;
-                if(!IsVirtualPath)
+                if(!HasVirtualPath)
                 {
                     if (path.StartsWith("/"))
                         path = VirtualPathPrefix + path.Substring(1);
@@ -56,6 +50,9 @@ namespace Neptuo.WebStack.Http
                 return path;
             }
         }
+
+        internal Url()
+        { }
 
         public Url(string url)
         {
@@ -79,12 +76,12 @@ namespace Neptuo.WebStack.Http
             }
         }
 
-        public Url(string protocol, string domain, string path)
+        public Url(string schema, string domain, string path)
         {
-            Guard.NotNullOrEmpty(protocol, "protocol");
+            Guard.NotNullOrEmpty(schema, "schema");
             Guard.NotNullOrEmpty(domain, "domain");
             Guard.NotNullOrEmpty(path, "path");
-            Schema = protocol;
+            Schema = schema;
             Domain = domain;
             Path = path;
         }
