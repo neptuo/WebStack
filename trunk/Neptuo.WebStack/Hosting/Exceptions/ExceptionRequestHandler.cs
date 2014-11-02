@@ -32,12 +32,7 @@ namespace Neptuo.WebStack.Hosting.Exceptions
             return this;
         }
 
-        public Task<bool> HandleAsync(IHttpContext httpContext)
-        {
-            return HandleOverrideAsync(innerHandler, httpContext);
-        }
-
-        private async Task<bool> HandleOverrideAsync(IRequestHandler requestHandler, IHttpContext httpContext)
+        public async Task<bool> HandleAsync(IHttpContext httpContext)
         {
             try
             {
