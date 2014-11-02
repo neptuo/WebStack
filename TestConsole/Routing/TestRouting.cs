@@ -44,7 +44,7 @@ namespace Neptuo.TestConsole.Routing
                         .MapServices(Assembly.GetExecutingAssembly());
                 });
 
-            IRouteHandler routeHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
+            IRequestHandler routeHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
             //PathRouteSegment rootSegment = new PathRouteSegment();
             //DebugIteration("Build route table", 1, () =>
@@ -73,7 +73,7 @@ namespace Neptuo.TestConsole.Routing
             //routeHandler = ((RouteTable)Engine.Environment.WithRouteTable())
             //    .GetRouteHandler("~/cs/about/people");
 
-            PrintSegment(((RouteTable)Engine.Environment.WithRouteTable()).PathTree, 0);
+            PrintSegment(((RouteRequestHandler)Engine.Environment.WithRouteTable()).PathTree, 0);
         }
 
         private static void PrintSegment(RouteSegment routeSegment, int indent)

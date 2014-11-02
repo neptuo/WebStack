@@ -13,17 +13,17 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     public class PostBehavior : IBehavior<IPost>
     {
         /// <summary>
-        /// Executes <see cref="IPost.Execute"/> method on <paramref name="handler"/> if current request is POST request.
+        /// Executes <see cref="IPost.ExecuteAsync"/> method on <paramref name="handler"/> if current request is POST request.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public void Execute(IPost handler, IHttpContext context, IBehaviorContext pipeline)
+        public Task ExecuteAsync(IPost handler, IHttpContext context, IBehaviorContext pipeline)
         {
             if (context.Request().IsMethodPost())
-                handler.Execute();
+                return handler.ExecuteAsync();
             else
-                pipeline.Next();
+                return pipeline.NextAsync();
         }
     }
 }

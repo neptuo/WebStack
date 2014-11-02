@@ -14,15 +14,15 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     public abstract class WithBehavior<T> : IBehavior<T>
     {
         /// <summary>
-        /// Invokes abstract <see cref="Execute"/> after promoting to next behavior in pipeline.
+        /// Invokes abstract <see cref="ExecuteAsync"/> after promoting to next behavior in pipeline.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public void Execute(T handler, IHttpContext context, IBehaviorContext pipeline)
+        public async Task ExecuteAsync(T handler, IHttpContext context, IBehaviorContext pipeline)
         {
-            pipeline.Next();
-            Execute(handler, context);
+            await pipeline.NextAsync();
+            await ExecuteAsync(handler, context);
         }
 
         /// <summary>
@@ -30,6 +30,6 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
-        protected abstract void Execute(T handler, IHttpContext context);
+        protected abstract Task ExecuteAsync(T handler, IHttpContext context);
     }
 }

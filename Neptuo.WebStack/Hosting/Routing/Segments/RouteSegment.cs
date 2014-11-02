@@ -21,7 +21,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
         /// <summary>
         /// If set, contains route handler for this segment.
         /// </summary>
-        public IRouteHandler RouteHandler { get; set; }
+        public IRequestHandler RouteHandler { get; set; }
 
         /// <summary>
         /// Creates new empty instance.
@@ -65,7 +65,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
         /// </summary>
         /// <param name="url">Url to resolve registered handler for.</param>
         /// <returns>Handler for <paramref name="url"/>; <c>null</c> of not found/registered.</returns>
-        public abstract IRouteHandler ResolveUrl(string url);
+        public abstract IRequestHandler ResolveUrl(string url);
 
         #endregion
     }

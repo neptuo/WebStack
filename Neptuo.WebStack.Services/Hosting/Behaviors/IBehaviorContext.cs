@@ -14,6 +14,6 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <summary>
         /// Promotes execution to next behavior in pipeline.
         /// </summary>
-        void Next();
+        Task NextAsync();
     }
 }

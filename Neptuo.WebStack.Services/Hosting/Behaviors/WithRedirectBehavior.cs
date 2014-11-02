@@ -13,10 +13,12 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     /// </summary>
     public class WithRedirectBehavior : WithBehavior<IWithRedirect>
     {
-        protected override void Execute(IWithRedirect handler, IHttpContext context)
+        protected override Task ExecuteAsync(IWithRedirect handler, IHttpContext context)
         {
             if (!String.IsNullOrEmpty(handler.Location))
                 context.Response().Headers("Location", context.ResolveUrl(handler.Location));
+
+            return Task.FromResult(true);
         }
     }
 }

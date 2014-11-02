@@ -11,17 +11,17 @@ namespace Neptuo.WebStack.Hosting.Routing
     /// <summary>
     /// 'Tree' route table implementation.
     /// </summary>
-    public class RouteTable : IRouteTable
+    public class RouteRequestHandler : IRouteTable, IRequestHandler
     {
         private PathRouteSegment pathTree = new PathRouteSegment();
         private PatternParser parser;
 
-        public RouteTable(IRouteParameterCollection parameterCollection)
+        public RouteRequestHandler(IRouteParameterCollection parameterCollection)
         {
             parser = new PatternParser(parameterCollection);
         }
 
-        public IRouteTable Map(Url routePattern, IRouteHandler routeHandler)
+        public IRouteTable Map(Url routePattern, IRequestHandler routeHandler)
         {
             Guard.NotNull(routePattern, "routePattern");
             Guard.NotNull(routeHandler, "routeHandler");
@@ -56,15 +56,16 @@ namespace Neptuo.WebStack.Hosting.Routing
             throw new NotSupportedException();
         }
 
-        public IRouteHandler GetRouteHandler(IHttpContext httpContext)
+        public Task<bool> HandleAsync(IHttpContext httpContext)
         {
             string virtualPath = "~" + httpContext.Request().Url().AbsolutePath;
-            IRouteHandler routeHandler = pathTree.ResolveUrl(virtualPath);
-            return routeHandler;
+            IRequestHandler routeHandler = pathTree.ResolveUrl(virtualPath);
+            if (routeHandler != null)
+                return routeHandler.HandleAsync(httpContext);
+
+            return Task.FromResult(false);
         }
 
-
-        
         /// <summary>
         /// TODO: Very temporal.
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using Neptuo.WebStack.Services.Hosting.Behaviors;
+using Neptuo.WebStack.Hosting;
 using Neptuo.WebStack.Http;
 using System;
 using System.CodeDom;
@@ -6,14 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Neptuo.WebStack.Hosting.Routing;
 
 namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
 {
     /// <summary>
     /// Generates pipeline using <see cref="System.CodeDom"/>.
     /// </summary>
-    public class CodeDomPipelineFactory : IRouteHandler
+    public class CodeDomPipelineFactory : IRequestHandler
     {
         /// <summary>
         /// Handler type.
@@ -23,7 +23,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
         /// <summary>
         /// Function that creates instance of pipeline.
         /// </summary>
-        private Func<IRouteHandler> generatedFactory;
+        private Func<IRequestHandler> generatedFactory;
 
         /// <summary>
         /// Behavior collection.
@@ -59,11 +59,12 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             this.configuration = configuration;
         }
 
-        public async Task HandleAsync(IHttpContext httpContext)
+        public async Task<bool> HandleAsync(IHttpContext httpContext)
         {
             EnsurePipelineFactory();
-            IRouteHandler pipeline = generatedFactory();
+            IRequestHandler pipeline = generatedFactory();
             await pipeline.HandleAsync(httpContext);
+            return true;
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             CodeDomPipelineGenerator generator = new CodeDomPipelineGenerator(handlerType, behaviorCollection, configuration);
             Type pipelineType = generator.GeneratePipeline();
 
-            generatedFactory = () => (IRouteHandler)Activator.CreateInstance(pipelineType);
+            generatedFactory = () => (IRequestHandler)Activator.CreateInstance(pipelineType);
         }
     }
 }

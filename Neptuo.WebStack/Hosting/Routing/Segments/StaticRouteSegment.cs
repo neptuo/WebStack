@@ -128,7 +128,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 
         #region Resolving url
 
-        public override IRouteHandler ResolveUrl(string url)
+        public override IRequestHandler ResolveUrl(string url)
         {
             Guard.NotNull(url, "url");
             if (url.StartsWith(UrlPart))
@@ -139,7 +139,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
 
                 foreach (RouteSegment child in Children)
                 {
-                    IRouteHandler routeHandler = child.ResolveUrl(remainingUrl);
+                    IRequestHandler routeHandler = child.ResolveUrl(remainingUrl);
                     if (routeHandler != null)
                         return routeHandler;
                 }
