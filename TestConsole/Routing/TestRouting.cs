@@ -37,12 +37,12 @@ namespace Neptuo.TestConsole.Routing
                         .Add("lang", new TestRouteParameter())
                         .Add("product", new TestRouteParameter())
                         .Add("destination", new TestRouteParameter());
-                })
-                .UseRouteTable(routeTable =>
-                {
-                    routeTable
-                        .MapServices(Assembly.GetExecutingAssembly());
                 });
+                //.UseRouteTable(routeTable =>
+                //{
+                //    routeTable
+                //        .MapServices(Assembly.GetExecutingAssembly());
+                //});
 
             IRequestHandler requestHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
@@ -56,7 +56,8 @@ namespace Neptuo.TestConsole.Routing
             //    rootSegment.Include(new StaticRouteSegment("~/cs"));
             //});
 
-            Engine.Environment.WithRouteTable()
+            RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
+            routeTable
                 .Map("~/cs/home", requestHandler)
                 .Map("~/cs/about", requestHandler)
                 .Map("~/cs/{destination}", requestHandler)
@@ -66,9 +67,11 @@ namespace Neptuo.TestConsole.Routing
                 .Map("~/cs/{destination}/{product}/order", requestHandler)
                 .Map("~/cs/{destination}/{product}/photo", requestHandler);
 
-            Engine.Environment.WithRouteTable()
+            routeTable
                 .Map("~/cs/about/company", requestHandler)
                 .Map("~/cs/about/people", requestHandler);
+
+            Engine.Environment.UseRootRequestHandler(routeTable);
 
             //requestHandler = ((RouteTable)Engine.Environment.WithRouteTable())
             //    .GetrequestHandler("~/cs/about/people");
