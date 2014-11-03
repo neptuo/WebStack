@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Http
@@ -124,6 +125,15 @@ namespace Neptuo.WebStack.Http
         {
             Guard.NotNull(request, "request");
             return request.Values.Get<IEnumerable<IHttpFile>>("Files");
+        }
+
+        /// <summary>
+        /// Cancellation token for calling HTTP request.
+        /// </summary>
+        public CancellationToken CancellationToken(this IHttpRequest request)
+        {
+            Guard.NotNull(request, "request");
+            return request.Values.Get<CancellationToken>("CacellactionToken");
         }
     }
 }
