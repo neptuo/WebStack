@@ -57,19 +57,20 @@ namespace Neptuo.TestConsole.Routing
             //});
 
             RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
+            IUrlBuilder builder = routeTable.UrlBuilder();
             routeTable
-                .Map("~/cs/home", requestHandler)
-                .Map("~/cs/about", requestHandler)
-                .Map("~/cs/{destination}", requestHandler)
-                .Map("~/cs/{destination}/products", requestHandler)
-                .Map("~/cs/{destination}/photo", requestHandler)
-                .Map("~/cs/{destination}/{product}", requestHandler)
-                .Map("~/cs/{destination}/{product}/order", requestHandler)
-                .Map("~/cs/{destination}/{product}/photo", requestHandler);
+                .Map(builder.VirtualPath("~/cs/home"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/about"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/products"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/photo"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/{product}"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/{product}/order"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/{product}/photo"), requestHandler);
 
             routeTable
-                .Map("~/cs/about/company", requestHandler)
-                .Map("~/cs/about/people", requestHandler);
+                .Map(builder.VirtualPath("~/cs/about/company"), requestHandler)
+                .Map(builder.VirtualPath("~/cs/about/people"), requestHandler);
 
             Engine.Environment.UseRootRequestHandler(routeTable);
 

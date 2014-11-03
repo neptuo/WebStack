@@ -13,11 +13,16 @@ namespace Neptuo.WebStack.Hosting.Routing
     public interface IRouteTable
     {
         /// <summary>
+        /// Gets instance of URL builder for mapping URLs.
+        /// </summary>
+        IUrlBuilder UrlBuilder();
+
+        /// <summary>
         /// Maps <paramref name="pipelineFactory"/> to <paramref name="routePattern"/>.
         /// </summary>
         /// <param name="routePattern">Pattern to regiter <paramref name="requestHandler"/> on.</param>
         /// <param name="requestHandler">Handler for handling requests.</param>
         /// <rereturns>Self (for fluency).</rereturns>
-        IRouteTable Map(Url routePattern, IRequestHandler requestHandler);
+        IRouteTable Map(IReadOnlyUrl routePattern, IRequestHandler requestHandler);
     }
 }
