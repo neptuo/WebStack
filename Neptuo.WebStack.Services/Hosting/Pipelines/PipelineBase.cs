@@ -49,7 +49,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
         /// Creates instance of handler and using <see cref="IBehavior"/> executes action.
         /// </summary>
         /// <param name="context">Current Http request context.</param>
-        public async Task<bool> HandleAsync(IHttpContext context)
+        public async Task<bool> TryHandleAsync(IHttpContext context)
         {
             IHandlerFactory<T> handlerFactory = GetHandlerFactory(context);
             this.handler = handlerFactory.Create(context);

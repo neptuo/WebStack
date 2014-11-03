@@ -20,6 +20,6 @@ namespace Neptuo.WebStack.Hosting
         /// If returns <c>true</c>, this handler is able to process request described in <paramref name="httpContext"/>;
         /// if returns <c>false</c>, request processing should be delegated to the next handler.
         /// </returns>
-        Task<bool> HandleAsync(IHttpContext httpContext);
+        Task<bool> TryHandleAsync(IHttpContext httpContext);
     }
 }
