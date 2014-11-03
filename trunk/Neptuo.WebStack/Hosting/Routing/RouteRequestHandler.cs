@@ -56,12 +56,12 @@ namespace Neptuo.WebStack.Hosting.Routing
             throw new NotSupportedException();
         }
 
-        public Task<bool> HandleAsync(IHttpContext httpContext)
+        public Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
             string virtualPath = "~" + httpContext.Request().Url().AbsolutePath;
             IRequestHandler requestHandler = pathTree.ResolveUrl(virtualPath);
             if (requestHandler != null)
-                return requestHandler.HandleAsync(httpContext);
+                return requestHandler.TryHandleAsync(httpContext);
 
             return Task.FromResult(false);
         }
