@@ -21,7 +21,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
         /// <summary>
         /// If set, contains route handler for this segment.
         /// </summary>
-        public IRequestHandler RouteHandler { get; set; }
+        public IRequestHandler RequestHandler { get; set; }
 
         /// <summary>
         /// Creates new empty instance.

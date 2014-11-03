@@ -44,7 +44,7 @@ namespace Neptuo.TestConsole.Routing
                         .MapServices(Assembly.GetExecutingAssembly());
                 });
 
-            IRequestHandler routeHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
+            IRequestHandler requestHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
 
             //PathRouteSegment rootSegment = new PathRouteSegment();
             //DebugIteration("Build route table", 1, () =>
@@ -57,21 +57,21 @@ namespace Neptuo.TestConsole.Routing
             //});
 
             Engine.Environment.WithRouteTable()
-                .Map("~/cs/home", routeHandler)
-                .Map("~/cs/about", routeHandler)
-                .Map("~/cs/{destination}", routeHandler)
-                .Map("~/cs/{destination}/products", routeHandler)
-                .Map("~/cs/{destination}/photo", routeHandler)
-                .Map("~/cs/{destination}/{product}", routeHandler)
-                .Map("~/cs/{destination}/{product}/order", routeHandler)
-                .Map("~/cs/{destination}/{product}/photo", routeHandler);
+                .Map("~/cs/home", requestHandler)
+                .Map("~/cs/about", requestHandler)
+                .Map("~/cs/{destination}", requestHandler)
+                .Map("~/cs/{destination}/products", requestHandler)
+                .Map("~/cs/{destination}/photo", requestHandler)
+                .Map("~/cs/{destination}/{product}", requestHandler)
+                .Map("~/cs/{destination}/{product}/order", requestHandler)
+                .Map("~/cs/{destination}/{product}/photo", requestHandler);
 
             Engine.Environment.WithRouteTable()
-                .Map("~/cs/about/company", routeHandler)
-                .Map("~/cs/about/people", routeHandler);
+                .Map("~/cs/about/company", requestHandler)
+                .Map("~/cs/about/people", requestHandler);
 
-            //routeHandler = ((RouteTable)Engine.Environment.WithRouteTable())
-            //    .GetRouteHandler("~/cs/about/people");
+            //requestHandler = ((RouteTable)Engine.Environment.WithRouteTable())
+            //    .GetrequestHandler("~/cs/about/people");
 
             PrintSegment(((RouteRequestHandler)Engine.Environment.WithRouteTable()).PathTree, 0);
         }
