@@ -130,7 +130,7 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Cancellation token for calling HTTP request.
         /// </summary>
-        public CancellationToken CancellationToken(this IHttpRequest request)
+        public static CancellationToken CancellationToken(this IHttpRequest request)
         {
             Guard.NotNull(request, "request");
             return request.Values.Get<CancellationToken>("CacellactionToken");

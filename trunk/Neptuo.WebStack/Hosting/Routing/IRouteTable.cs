@@ -15,9 +15,9 @@ namespace Neptuo.WebStack.Hosting.Routing
         /// <summary>
         /// Maps <paramref name="pipelineFactory"/> to <paramref name="routePattern"/>.
         /// </summary>
-        /// <param name="routePattern">Pattern to regiter <paramref name="routeHandler"/> on.</param>
-        /// <param name="routeHandler">Handler for handling requests.</param>
+        /// <param name="routePattern">Pattern to regiter <paramref name="requestHandler"/> on.</param>
+        /// <param name="requestHandler">Handler for handling requests.</param>
         /// <rereturns>Self (for fluency).</rereturns>
-        IRouteTable Map(Url routePattern, IRequestHandler routeHandler);
+        IRouteTable Map(Url routePattern, IRequestHandler requestHandler);
     }
 }

@@ -80,7 +80,7 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             {
                 // Update structure so new segment has shared chars and partialy-matched segment is nested under.
                 StaticRouteSegment partSegment = new StaticRouteSegment(UrlPart.Substring(index));
-                partSegment.RouteHandler = RouteHandler;
+                partSegment.RequestHandler = RequestHandler;
 
                 // All my children are copied to the newly created segment.
                 foreach (RouteSegment item in Children)
@@ -135,13 +135,13 @@ namespace Neptuo.WebStack.Hosting.Routing.Segments
             {
                 string remainingUrl = url.Substring(UrlPart.Length);
                 if (String.IsNullOrEmpty(remainingUrl))
-                    return RouteHandler;
+                    return RequestHandler;
 
                 foreach (RouteSegment child in Children)
                 {
-                    IRequestHandler routeHandler = child.ResolveUrl(remainingUrl);
-                    if (routeHandler != null)
-                        return routeHandler;
+                    IRequestHandler requestHandler = child.ResolveUrl(remainingUrl);
+                    if (requestHandler != null)
+                        return requestHandler;
                 }
             }
 

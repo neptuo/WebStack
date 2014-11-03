@@ -21,10 +21,10 @@ namespace Neptuo.WebStack.Hosting.Routing
             parser = new PatternParser(parameterCollection);
         }
 
-        public IRouteTable Map(Url routePattern, IRequestHandler routeHandler)
+        public IRouteTable Map(Url routePattern, IRequestHandler requestHandler)
         {
             Guard.NotNull(routePattern, "routePattern");
-            Guard.NotNull(routeHandler, "routeHandler");
+            Guard.NotNull(requestHandler, "requestHandler");
 
             if (routePattern.HasSchema)
             {
@@ -47,7 +47,7 @@ namespace Neptuo.WebStack.Hosting.Routing
                         routeSegment = routeSegment.Append(partSegment);
                     }
 
-                    routeSegment.RouteHandler = routeHandler;
+                    routeSegment.RequestHandler = requestHandler;
                 }
 
                 return this;
@@ -59,9 +59,9 @@ namespace Neptuo.WebStack.Hosting.Routing
         public Task<bool> HandleAsync(IHttpContext httpContext)
         {
             string virtualPath = "~" + httpContext.Request().Url().AbsolutePath;
-            IRequestHandler routeHandler = pathTree.ResolveUrl(virtualPath);
-            if (routeHandler != null)
-                return routeHandler.HandleAsync(httpContext);
+            IRequestHandler requestHandler = pathTree.ResolveUrl(virtualPath);
+            if (requestHandler != null)
+                return requestHandler.HandleAsync(httpContext);
 
             return Task.FromResult(false);
         }
