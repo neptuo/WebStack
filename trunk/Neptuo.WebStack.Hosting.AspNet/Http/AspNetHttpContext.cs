@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,75 +9,133 @@ using System.Web;
 
 namespace Neptuo.WebStack.Http
 {
-    /// <summary>
-    /// Wraps <see cref="HttpContext"/>.
-    /// </summary>
-    public class AspNetHttpContext : IHttpContext
+    public class AspNetHttpContext : IHttpContext, IHttpRequest, IHttpResponse
     {
-        /// <summary>
-        /// Original http context.
-        /// </summary>
         private readonly HttpContext httpContext;
+        private readonly ProviderKeyValueCollection values;
 
-
-        /// <summary>
-        /// Cached wrapper for <see cref="HttpRequest"/>.
-        /// </summary>
-        private IHttpRequest request;
-
-        /// <summary>
-        /// Cached wrapper for <see cref="HttpResponse"/>.
-        /// </summary>
-        private IHttpResponse response;
-
-        /// <summary>
-        /// Inner collection for <see cref="IHttpContext.Values"/>.
-        /// </summary>
-        private IDictionary<string, object> values;
-
-        public IHttpRequest Request
+        public IKeyValueCollection Values
         {
-            get
-            {
-                if (request == null)
-                    request = new AspNetHttpRequest(httpContext.Request);
-
-                return request;
-            }
-        }
-
-        public IHttpResponse Response
-        {
-            get
-            {
-                if (response == null)
-                    response = new AspNetHttpResponse(httpContext.Response, Request);
-
-                return response;
-            }
-        }
-
-        public IDictionary<string, object> Values
-        {
-            get
-            {
-                if (values == null)
-                    values = new Dictionary<string, object>();
-
-                return values;
-            }
+            get { return values; }
         }
 
         public AspNetHttpContext(HttpContext httpContext)
         {
             Guard.NotNull(httpContext, "httpContext");
+            this.values = new ProviderKeyValueCollection();
+            this.values.AddProvider(TryGetValue);
             this.httpContext = httpContext;
         }
 
-        public string ResolveUrl(string appRelativeUrl)
+        private bool TryGetValue(string key, out object value)
         {
-            Guard.NotNullOrEmpty(appRelativeUrl, "appRelativeUrl");
-            return VirtualPathUtility.ToAbsolute(appRelativeUrl);
+            if (TryGetContextValue(key, out value))
+                return true;
+
+            if (TryGetRequestValue(key, out value))
+                return true;
+
+            if (TryGetResponseValue(key, out value))
+                return true;
+
+            value = null;
+            return false;
+        }
+
+        private bool TryGetContextValue(string key, out object value)
+        {
+            if(key == ContextKey.Request)
+            {
+                value = this;
+                return true;
+            }
+
+            if (key == ContextKey.Response)
+            {
+                value = this;
+                return true;
+            }
+
+            value = null;
+            return false;
+        }
+
+        private bool TryGetRequestValue(string key, out object value)
+        {
+            if (key == RequestKey.CancellationToken)
+            {
+                value = httpContext.Response.ClientDisconnectedToken;
+                return true;
+            }
+
+            if (key == RequestKey.Files)
+            {
+                value = GetPostedFiles(httpContext.Request.Files);
+                return true;
+            }
+
+            if (key == RequestKey.Form)
+            {
+                value = new KeyValueCollection(httpContext.Request.QueryString);
+                return true;
+            }
+
+            if (key == RequestKey.Headers)
+            {
+                value = new KeyValueCollection(httpContext.Request.Headers);
+                return true;
+            }
+
+            if (key == RequestKey.InputStream)
+            {
+                value = httpContext.Request.InputStream;
+                return true;
+            }
+
+            if (key == RequestKey.Method)
+            {
+                value = HttpMethod.KnownMethods[httpContext.Request.HttpMethod];
+                return true;
+            }
+
+            if (key == RequestKey.QueryString)
+            {
+                value = new KeyValueCollection(httpContext.Request.QueryString);
+                return true;
+            }
+
+            if (key == RequestKey.Url)
+                throw Guard.Exception.NotImplemented();
+
+            value = null;
+            return false;
+        }
+
+        private bool TryGetResponseValue(string key, out object value)
+        {
+            if (key == ResponseKey.Headers)
+            {
+                value = new KeyValueCollection(httpContext.Response.Headers);
+                return true;
+            }
+
+            if (key == ResponseKey.OutputStream)
+            {
+                value = httpContext.Response.OutputStream;
+                return true;
+            }
+
+            value = null;
+            return false;
+        }
+
+        private IEnumerable<IHttpFile> GetPostedFiles(HttpFileCollection files)
+        {
+            List<IHttpFile> result = new List<IHttpFile>();
+            foreach (HttpPostedFile file in files)
+                result.Add(new AspNetHttpFile(file));
+
+            return result;
         }
     }
 }

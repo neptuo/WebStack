@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Hosting;
+﻿using Neptuo.WebStack;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
 using System;

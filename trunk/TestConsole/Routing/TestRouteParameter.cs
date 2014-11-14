@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Hosting.Routing;
+﻿using Neptuo.WebStack.Routing;
 using Neptuo.WebStack.Routing;
 using System;
 using System.Collections.Generic;
