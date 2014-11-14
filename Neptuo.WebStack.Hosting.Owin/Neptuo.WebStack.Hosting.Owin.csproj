@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79AAD4CC-773A-4045-9A11-6200410A9153}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{0696E3F0-E358-4383-A47F-8BD47F4F71AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neptuo.TestConsole</RootNamespace>
-    <AssemblyName>Neptuo.TestConsole</AssemblyName>
+    <RootNamespace>Neptuo.WebStack</RootNamespace>
+    <AssemblyName>Neptuo.WebStack.Hosting.Owin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -44,41 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routing\Services\GetHelloHandler.cs" />
-    <Compile Include="Routing\TestRouteParameter.cs" />
-    <Compile Include="Routing\TestUrl.cs" />
-    <Compile Include="Routing\TestRouting.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj">
-      <Project>{5f051bb8-e713-45f9-9685-4bef15daa0d8}</Project>
-      <Name>Neptuo.WebStack.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.WebStack.Hosting.AspNet\Neptuo.WebStack.Hosting.AspNet.csproj">
-      <Project>{77a95819-04ab-492c-81b4-b59553c94a99}</Project>
-      <Name>Neptuo.WebStack.Hosting.AspNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj">
       <Project>{ebd4a12a-e485-4e20-abeb-756a42b27949}</Project>
       <Name>Neptuo.WebStack.Http</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj">
-      <Project>{b60172b4-9d8b-41d9-b14c-f82a30a94a4c}</Project>
-      <Name>Neptuo.WebStack.Routing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj">
-      <Project>{b628a16e-f84f-49ad-a04b-fc8a5428a663}</Project>
-      <Name>Neptuo.WebStack.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack\Neptuo.WebStack.csproj">
       <Project>{d661162a-cc24-4de8-920f-ae54c9258a7f}</Project>
       <Name>Neptuo.WebStack</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Http\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

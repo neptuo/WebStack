@@ -90,6 +90,14 @@
     <Compile Include="ServiceException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj">
+      <Project>{ebd4a12a-e485-4e20-abeb-756a42b27949}</Project>
+      <Name>Neptuo.WebStack.Http</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj">
+      <Project>{b60172b4-9d8b-41d9-b14c-f82a30a94a4c}</Project>
+      <Name>Neptuo.WebStack.Routing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack\Neptuo.WebStack.csproj">
       <Project>{d661162a-cc24-4de8-920f-ae54c9258a7f}</Project>
       <Name>Neptuo.WebStack</Name>

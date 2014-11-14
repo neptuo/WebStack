@@ -47,38 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hosting\EnvironmentExtensions.cs" />
-    <Compile Include="Hosting\Exceptions\ExceptionRequestHandler.cs" />
-    <Compile Include="Hosting\Exceptions\IExceptionRequestHandler.cs" />
-    <Compile Include="Hosting\Routing\IRouteParameter.cs" />
-    <Compile Include="Hosting\Routing\IRouteParameterCollection.cs" />
-    <Compile Include="Hosting\Routing\IRouteParameterContext.cs" />
-    <Compile Include="Hosting\Routing\IRouteTable.cs" />
-    <Compile Include="Hosting\Routing\PatternParser.cs" />
-    <Compile Include="Hosting\Routing\RouteParameterCollection.cs" />
-    <Compile Include="Hosting\Routing\RouteRequestHandler.cs" />
-    <Compile Include="Hosting\Routing\Segments\StaticRouteSegment.cs" />
-    <Compile Include="Hosting\Routing\Segments\TokenRouteSegment.cs" />
-    <Compile Include="Hosting\Routing\Segments\RouteSegment.cs" />
-    <Compile Include="Hosting\Routing\Segments\PathRouteSegment.cs" />
-    <Compile Include="Http\HttpMediaType.cs" />
-    <Compile Include="Http\HttpMethod.cs" />
-    <Compile Include="Http\HttpMethodCollection.cs" />
-    <Compile Include="Http\HttpStatus.cs" />
-    <Compile Include="Http\HttpStatusCollection.cs" />
-    <Compile Include="Http\IHttpContext.cs" />
-    <Compile Include="Http\IHttpFile.cs" />
-    <Compile Include="Http\IHttpRequest.cs" />
-    <Compile Include="Http\IHttpResponse.cs" />
-    <Compile Include="Hosting\IRequestHandler.cs" />
-    <Compile Include="Http\IReadOnlyUrl.cs" />
-    <Compile Include="Http\UrlBuilder.cs" />
-    <Compile Include="Http\UrlParser.cs" />
+    <Compile Include="EnvironmentExtensions.cs" />
+    <Compile Include="IRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="Http\Url.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Http\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj">
+      <Project>{ebd4a12a-e485-4e20-abeb-756a42b27949}</Project>
+      <Name>Neptuo.WebStack.Http</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

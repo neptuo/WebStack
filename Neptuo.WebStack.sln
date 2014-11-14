@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack", "Neptuo.WebStack\Neptuo.WebStack.csproj", "{D661162A-CC24-4DE8-920F-AE54C9258A7F}"
 EndProject
@@ -10,6 +10,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{79AAD4CC-773A-4045-9A11-6200410A9153}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Services", "Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj", "{B628A16E-F84F-49AD-A04B-FC8A5428A663}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Routing", "Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj", "{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Exceptions", "Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj", "{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Http", "Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj", "{EBD4A12A-E485-4E20-ABEB-756A42B27949}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{282B5595-E7BE-4612-96C8-D1ACE6F9E4B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{167FA88E-DBBA-44C8-8699-3C5902EB46EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{CC76C880-4F10-4B33-B794-649515C64D6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.Owin", "Neptuo.WebStack.Hosting.Owin\Neptuo.WebStack.Hosting.Owin.csproj", "{0696E3F0-E358-4383-A47F-8BD47F4F71AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{FC458A2B-DA40-4215-A028-B40A5CBABB14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +49,38 @@ Global
 		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B628A16E-F84F-49AD-A04B-FC8A5428A663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD4A12A-E485-4E20-ABEB-756A42B27949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD4A12A-E485-4E20-ABEB-756A42B27949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD4A12A-E485-4E20-ABEB-756A42B27949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD4A12A-E485-4E20-ABEB-756A42B27949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0696E3F0-E358-4383-A47F-8BD47F4F71AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0696E3F0-E358-4383-A47F-8BD47F4F71AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0696E3F0-E358-4383-A47F-8BD47F4F71AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0696E3F0-E358-4383-A47F-8BD47F4F71AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D661162A-CC24-4DE8-920F-AE54C9258A7F} = {282B5595-E7BE-4612-96C8-D1ACE6F9E4B6}
+		{77A95819-04AB-492C-81B4-B59553C94A99} = {CC76C880-4F10-4B33-B794-649515C64D6B}
+		{B628A16E-F84F-49AD-A04B-FC8A5428A663} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{B60172B4-9D8B-41D9-B14C-F82A30A94A4C} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{5F051BB8-E713-45F9-9685-4BEF15DAA0D8} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{EBD4A12A-E485-4E20-ABEB-756A42B27949} = {282B5595-E7BE-4612-96C8-D1ACE6F9E4B6}
+		{0696E3F0-E358-4383-A47F-8BD47F4F71AA} = {CC76C880-4F10-4B33-B794-649515C64D6B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
