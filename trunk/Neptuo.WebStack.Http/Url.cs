@@ -15,101 +15,87 @@ namespace Neptuo.WebStack.Http
 
         public string Schema { get; set; }
 
-        public string Domain { get; set; }
+        public string Host { get; set; }
 
         public string Path { get; set; }
+
+        public string VirtualPath { get; set; }
 
         public bool HasSchema
         {
             get { return Schema != null; }
         }
 
-        public bool HasDomain
+        public bool HasHost
         {
-            get { return Domain != null; }
+            get { return Host != null; }
+        }
+
+        public bool HasPath
+        {
+            get { return Path != null; }
         }
 
         public bool HasVirtualPath
         {
-            get { return Path.StartsWith(VirtualPathPrefix); }
+            get { return VirtualPath != null; }
         }
 
-        public string VirtualPath
-        {
-            get
-            {
-                string path = Path;
-                if(!HasVirtualPath)
-                {
-                    if (path.StartsWith("/"))
-                        path = VirtualPathPrefix + path.Substring(1);
-                    else
-                        path = VirtualPathPrefix + path;
-                }
-
-                return path;
-            }
-        }
-
-        public static Url FromAbsolute(string schema, string domain, string path)
+        public static Url FromAbsolute(string schema, string host, string path)
         {
             Guard.NotNullOrEmpty(schema, "schema");
-            Guard.NotNullOrEmpty(domain, "domain");
+            Guard.NotNullOrEmpty(host, "host");
             Guard.NotNullOrEmpty(path, "path");
-            return new Url(schema, domain, path);
+            return new Url(schema, host, path, null);
         }
 
-        public static Url FromDomain(string domain, string path)
+        public static Url FromHost(string host, string path)
         {
-            Guard.NotNullOrEmpty(domain, "domain");
+            Guard.NotNullOrEmpty(host, "host");
             Guard.NotNullOrEmpty(path, "path");
-            return new Url(null, domain, path);
+            return new Url(null, host, path, null);
         }
 
         public static Url FromPath(string path)
         {
-            return new Url(null, null, path);
+            return new Url(null, null, path, null);
         }
 
         public static Url FromVirtualPath(string virtualPath)
         {
-            return new Url(null, null, virtualPath);
+            return new Url(null, null, null, virtualPath);
         }
 
-        protected Url(string schema, string domain, string path)
+        protected Url(string schema, string host, string path, string virtualPath)
         {
             Schema = schema;
-            Domain = domain;
+            Host = host;
             Path = path;
+            VirtualPath = virtualPath;
         }
 
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
-            if (HasVirtualPath)
+            if (HasSchema)
             {
-                result.Append(VirtualPathPrefix);
-                result.Append(Path.Substring(1));
+                result.Append(Schema);
+                result.Append(SchemaSeparator);
             }
-            else
+
+            if (HasHost)
             {
-                if (HasSchema)
-                {
-                    result.Append(Schema);
-                    result.Append(SchemaSeparator);
-                }
+                if (!HasSchema)
+                    result.Append(NoSchemaPrefix);
 
-                if (HasDomain)
-                {
-                    if (!HasSchema)
-                        result.Append(NoSchemaPrefix);
+                result.Append(Host);
+            }
 
-                    result.Append(Domain);
-                }
-
+            if (HasPath)
                 result.Append(Path);
-            }
+            else
+                result.Append(VirtualPath);
 
             return result.ToString();
         }

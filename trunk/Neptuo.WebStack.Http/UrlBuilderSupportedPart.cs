@@ -14,7 +14,7 @@ namespace Neptuo.WebStack.Http
     {
         Schema,
 
-        Domain,
+        Host,
 
         Path,
 

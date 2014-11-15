@@ -9,13 +9,13 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Part of <see cref="IUrlBuilder"/> for building domain name of the URL.
     /// </summary>
-    public interface IUrlDomainBuilder
+    public interface IUrlHostBuilder
     {
         /// <summary>
         /// Sets domain name part of URL in the current builder.
         /// </summary>
-        /// <param name="domain">Domain name.</param>
-        /// <returns>Path builder with domain name set to <paramref name="domain"/>.</returns>
-        IUrlPathBuilder Domain(string domain);
+        /// <param name="host">Domain name + post.</param>
+        /// <returns>Path builder with domain name + port set to <paramref name="host"/>.</returns>
+        IUrlPathBuilder Host(string host);
     }
 }

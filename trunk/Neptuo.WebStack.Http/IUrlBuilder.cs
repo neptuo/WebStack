@@ -9,7 +9,7 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Builder for <see cref="IReadOnlyUrl"/>.
     /// </summary>
-    public interface IUrlBuilder : IUrlDomainBuilder, IUrlPathBuilder
+    public interface IUrlBuilder : IUrlHostBuilder, IUrlPathBuilder
     {
         /// <summary>
         /// Parses <paramref name="url"/> info <see cref="IReadOnlyUrl"/>.
@@ -23,7 +23,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         /// <param name="schema">Schema name.</param>
         /// <returns>Domain name builder with schema set to <paramref name="schema"/>.</returns>
-        IUrlDomainBuilder Schema(string schema);
+        IUrlHostBuilder Schema(string schema);
 
         /// <summary>
         /// Creates virtual URL (starts with '~/').

@@ -13,7 +13,7 @@ namespace Neptuo.WebStack.Routing
     /// </summary>
     public class RouteRequestHandler : IRouteTable, IRequestHandler
     {
-        private static UrlBuilderSupportedPart supportedPart = UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Domain | UrlBuilderSupportedPart.VirtualPath;
+        private static UrlBuilderSupportedPart supportedPart = UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Host | UrlBuilderSupportedPart.VirtualPath;
 
         private readonly PathRouteSegment pathTree;
         private readonly PatternParser parser;
@@ -38,7 +38,7 @@ namespace Neptuo.WebStack.Routing
             {
 
             }
-            else if (routePattern.HasDomain)
+            else if (routePattern.HasHost)
             {
 
             }

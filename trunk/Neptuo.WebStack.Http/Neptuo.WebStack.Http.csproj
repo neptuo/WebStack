@@ -56,7 +56,7 @@
     <Compile Include="IHttpResponse.cs" />
     <Compile Include="IReadOnlyUrl.cs" />
     <Compile Include="IUrlBuilder.cs" />
-    <Compile Include="IUrlDomainBuilder.cs" />
+    <Compile Include="IUrlHostBuilder.cs" />
     <Compile Include="IUrlPathBuilder.cs" />
     <Compile Include="Keys\ContextKey.cs" />
     <Compile Include="Keys\RequestKey.cs" />

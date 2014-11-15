@@ -16,5 +16,6 @@ namespace Neptuo.WebStack.Http.Keys
         public const string Form = "Form";
         public const string Files = "Files";
         public const string CancellationToken = "CancellationToken";
+        public const string ApplicationPath = "ApplicationPath";
     }
 }
