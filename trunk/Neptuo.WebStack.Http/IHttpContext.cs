@@ -59,6 +59,22 @@ namespace Neptuo.WebStack.Http
         }
 
         /// <summary>
+        /// Gets collection for storring custom HTTP context values.
+        /// </summary>
+        public static IKeyValueCollection Params(this IHttpContext httpContext)
+        {
+            Guard.NotNull(httpContext, "httpContext");
+            IKeyValueCollection collection;
+            if(!httpContext.Values.TryGet<IKeyValueCollection>("Params", out collection))
+            {
+                collection = new KeyValueCollection();
+                httpContext.Values.Set("Params", collection);
+            }
+
+            return collection;
+        }
+
+        /// <summary>
         /// Resolves url starting with ~/...
         /// </summary>
         /// <param name="appRelativeUrl">Application relative url.</param>
