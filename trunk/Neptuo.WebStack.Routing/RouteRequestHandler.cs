@@ -13,17 +13,20 @@ namespace Neptuo.WebStack.Routing
     /// </summary>
     public class RouteRequestHandler : IRouteTable, IRequestHandler
     {
-        private PathRouteSegment pathTree = new PathRouteSegment();
-        private PatternParser parser;
+        private static UrlBuilderSupportedPart supportedPart = UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Domain | UrlBuilderSupportedPart.VirtualPath;
+
+        private readonly PathRouteSegment pathTree;
+        private readonly PatternParser parser;
 
         public RouteRequestHandler(IRouteParameterCollection parameterCollection)
         {
+            pathTree = new PathRouteSegment();
             parser = new PatternParser(parameterCollection);
         }
 
         public IUrlBuilder UrlBuilder()
         {
-            throw Guard.Exception.NotImplemented();
+            return new UrlBuilder(supportedPart);
         }
 
         public IRouteTable Map(IReadOnlyUrl routePattern, IRequestHandler requestHandler)

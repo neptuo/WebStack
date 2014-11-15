@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnvironmentExtensions.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />
