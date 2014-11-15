@@ -107,6 +107,13 @@ namespace Neptuo.WebStack.Http
             if (key == RequestKey.Url)
                 throw Guard.Exception.NotImplemented();
 
+            //TODO: Remove this key.
+            if(key == "RawUrl")
+            {
+                value = httpContext.Request.RawUrl;
+                return true;
+            }
+
             value = null;
             return false;
         }

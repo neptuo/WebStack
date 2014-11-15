@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.Owi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{FC458A2B-DA40-4215-A028-B40A5CBABB14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.StaticFiles", "Neptuo.WebStack.StaticFiles\Neptuo.WebStack.StaticFiles.csproj", "{A18AD38E-7564-4B9E-B964-5E6289192AED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC458A2B-DA40-4215-A028-B40A5CBABB14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A18AD38E-7564-4B9E-B964-5E6289192AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A18AD38E-7564-4B9E-B964-5E6289192AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A18AD38E-7564-4B9E-B964-5E6289192AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A18AD38E-7564-4B9E-B964-5E6289192AED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{5F051BB8-E713-45F9-9685-4BEF15DAA0D8} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 		{EBD4A12A-E485-4E20-ABEB-756A42B27949} = {282B5595-E7BE-4612-96C8-D1ACE6F9E4B6}
 		{0696E3F0-E358-4383-A47F-8BD47F4F71AA} = {CC76C880-4F10-4B33-B794-649515C64D6B}
+		{A18AD38E-7564-4B9E-B964-5E6289192AED} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

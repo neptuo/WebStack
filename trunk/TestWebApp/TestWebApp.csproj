@@ -68,6 +68,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Default.html" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -97,6 +98,10 @@
     <ProjectReference Include="..\Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj">
       <Project>{b628a16e-f84f-49ad-a04b-fc8a5428a663}</Project>
       <Name>Neptuo.WebStack.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.StaticFiles\Neptuo.WebStack.StaticFiles.csproj">
+      <Project>{a18ad38e-7564-4b9e-b964-5e6289192aed}</Project>
+      <Name>Neptuo.WebStack.StaticFiles</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack\Neptuo.WebStack.csproj">
       <Project>{d661162a-cc24-4de8-920f-ae54c9258a7f}</Project>
