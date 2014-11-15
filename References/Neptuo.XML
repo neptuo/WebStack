@@ -132,6 +132,13 @@
             <returns><c>true</c> if collection contains value with <paramref name="key"/> as key; <c>false</c> otherwise.</returns>
             <exception cref="T:System.ArgumentNullException">When <paramref name="key"/> is <c>null</c>.</exception>
         </member>
+        <member name="P:Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection.Keys">
+            <summary>
+            Gets enumeration of known key in collection.
+            This probably doesn't return all keys that can be found in collection, 
+            this fact is caused by possible implementations with 'provider pattern'.
+            </summary>
+        </member>
         <member name="M:Neptuo.Collections.Specialized.IKeyValueCollection.Set(System.String,System.Object)">
             <summary>
             Associates <paramref name="value"/> with <paramref name="key"/> in collection.

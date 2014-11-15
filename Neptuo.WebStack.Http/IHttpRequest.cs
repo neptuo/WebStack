@@ -80,6 +80,15 @@ namespace Neptuo.WebStack.Http
         }
 
         /// <summary>
+        /// The base path on which is application hosted.
+        /// </summary>
+        public static string ApplicationPath(this IHttpRequest request)
+        {
+            Guard.NotNull(request, "request");
+            return request.Values.Get<string>(RequestKey.ApplicationPath);
+        }
+
+        /// <summary>
         /// Requested url.
         /// </summary>
         public static IReadOnlyUrl Url(this IHttpRequest request)

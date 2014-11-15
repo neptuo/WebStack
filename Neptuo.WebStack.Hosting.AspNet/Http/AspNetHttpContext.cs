@@ -106,6 +106,12 @@ namespace Neptuo.WebStack.Http
                 return true;
             }
 
+            if (key == RequestKey.ApplicationPath)
+            {
+                value = httpContext.Request.ApplicationPath;
+                return true;
+            }
+
             value = null;
             return false;
         }

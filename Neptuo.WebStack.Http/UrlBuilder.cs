@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Http
 {
-    public class UrlBuilder : IUrlBuilder, IUrlDomainBuilder, IUrlPathBuilder
+    public class UrlBuilder : IUrlBuilder, IUrlHostBuilder, IUrlPathBuilder
     {
         /// <summary>
         /// Matches protocol name.
@@ -17,7 +17,7 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Matches domain name.
         /// </summary>
-        private static readonly Regex domainParser = new Regex(@"^(?<domain>\w+)[^/]+");
+        private static readonly Regex hostParser = new Regex(@"^(?<host>\w+)[^/]+");
 
         /// <summary>
         /// Matches path.
@@ -30,14 +30,19 @@ namespace Neptuo.WebStack.Http
         private readonly UrlBuilderSupportedPart supportedPart;
 
         /// <summary>
+        /// Path for virtual path rewrite.
+        /// </summary>
+        private readonly string applicationPath;
+
+        /// <summary>
         /// Current schema name.
         /// </summary>
         private string schema;
 
         /// <summary>
-        /// Current domain name.
+        /// Current domain name + port.
         /// </summary>
-        private string domain;
+        private string host;
 
         /// <summary>
         /// Current path.
@@ -47,29 +52,31 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Creates new empty instance.
         /// </summary>
-        public UrlBuilder()
-            : this(UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Domain | UrlBuilderSupportedPart.Path | UrlBuilderSupportedPart.VirtualPath)
+        public UrlBuilder(string applicationPath = null)
+            : this(UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Host | UrlBuilderSupportedPart.Path | UrlBuilderSupportedPart.VirtualPath, applicationPath)
         { }
 
         /// <summary>
         /// Creates new empty instance with support for root URL starting with <paramref name="supportPart"/>.
         /// </summary>
         /// <param name="supportedPart">List supported URL parts for this builder.</param>
-        public UrlBuilder(UrlBuilderSupportedPart supportedPart)
+        /// <param name="applicationPath">Path for virtual path rewrite.</param>
+        public UrlBuilder(UrlBuilderSupportedPart supportedPart, string applicationPath = null)
         {
             this.supportedPart = supportedPart;
+            this.applicationPath = applicationPath;
         }
 
         /// <summary>
         /// Used is fluently returning methods.
         /// </summary>
         /// <param name="schema">Current schema name.</param>
-        /// <param name="domain">Current domain name.</param>
+        /// <param name="host">Current domain name + port.</param>
         /// <param name="path">Current path.</param>
-        protected UrlBuilder(string schema, string domain, string path)
+        protected UrlBuilder(string schema, string host, string path)
         {
             this.schema = schema;
-            this.domain = domain;
+            this.host = host;
             this.path = path;
         }
 
@@ -78,42 +85,54 @@ namespace Neptuo.WebStack.Http
             Guard.NotNullOrEmpty(url, "url");
 
             string virtualPath;
-            if(TryVirtualPath(url, out virtualPath))
-                return Url.FromVirtualPath(virtualPath);
-
-            string path;
-            if (TryPath(url, out path))
-                return Url.FromPath(path);
+            if (TryVirtualPath(url, out virtualPath))
+            {
+                Url result = Url.FromVirtualPath(virtualPath);
+                TrySetPath(result);
+                return result;
+            }
 
             string schema;
-            string domain;
-
-            if (TrySchema(url, out schema))
-            {
-                url = url.Substring(schema.Length + Url.SchemaSeparator.Length);
-                if (TryDomain(url, out domain))
-                {
-                    url = url.Substring(domain.Length);
-                    if (TryPath(url, out path))
-                        return Url.FromAbsolute(schema, domain, path);
-
-                    throw new UrlPartMalFormattedException("path", url);
-                }
-            }
+            string host;
+            string path;
 
             if (url.StartsWith(Url.NoSchemaPrefix))
             {
                 url = url.Substring(2);
-                if (TryDomain(url, out domain))
+                if (TryHost(url, out host))
                 {
-                    url = url.Substring(domain.Length);
+                    url = url.Substring(host.Length);
                     if (TryPath(url, out path))
-                        return Url.FromDomain(domain, path);
+                    {
+                        Url result = Url.FromHost(host, path);
+                        TrySetVirtualPath(result);
+                        return result;
+                    }
 
                     throw new UrlPartMalFormattedException("path", url);
                 }
 
-                throw new UrlPartMalFormattedException("domain", url);
+                throw new UrlPartMalFormattedException("host", url);
+            }
+
+            if (TryPath(url, out path))
+                return Url.FromPath(path);
+
+            if (TrySchema(url, out schema))
+            {
+                url = url.Substring(schema.Length + Url.SchemaSeparator.Length);
+                if (TryHost(url, out host))
+                {
+                    url = url.Substring(host.Length);
+                    if (TryPath(url, out path))
+                    {
+                        Url result = Url.FromAbsolute(schema, host, path);
+                        TrySetVirtualPath(result);
+                        return result;
+                    }
+
+                    throw new UrlPartMalFormattedException("path", url);
+                }
             }
 
             throw new UrlPartMalFormattedException("schema", url);
@@ -132,7 +151,7 @@ namespace Neptuo.WebStack.Http
             return true;
         }
 
-        public IUrlDomainBuilder Schema(string schema)
+        public IUrlHostBuilder Schema(string schema)
         {
             Guard.NotNullOrEmpty(schema, "schema");
 
@@ -143,28 +162,28 @@ namespace Neptuo.WebStack.Http
             return new UrlBuilder(schema, null, null);
         }
 
-        protected bool TryDomain(string url, out string domain)
+        protected bool TryHost(string url, out string host)
         {
-            Match match = domainParser.Match(url);
+            Match match = hostParser.Match(url);
             if (!match.Success || match.Index != 0)
             {
-                domain = null;
+                host = null;
                 return false;
             }
 
-            domain = url.Substring(0, match.Length);
+            host = url.Substring(0, match.Length);
             return true;
         }
 
-        public IUrlPathBuilder Domain(string domain)
+        public IUrlPathBuilder Host(string host)
         {
-            Guard.NotNullOrEmpty(domain, "domain");
+            Guard.NotNullOrEmpty(host, "host");
 
             string output;
-            if(!TryDomain(domain, out output) || output != domain)
-                throw new UrlPartMalFormattedException("domain", domain);
+            if(!TryHost(host, out output) || output != host)
+                throw new UrlPartMalFormattedException("host", host);
 
-            return new UrlBuilder(schema, domain, null);
+            return new UrlBuilder(schema, host, null);
         }
 
         protected bool TryPath(string url, out string path)
@@ -189,12 +208,14 @@ namespace Neptuo.WebStack.Http
                 throw new UrlPartMalFormattedException("path", path);
 
             if (schema != null)
-                return Url.FromAbsolute(schema, domain, path);
+                return Url.FromAbsolute(schema, host, path);
 
-            if (domain != null)
-                return Url.FromDomain(domain, path);
+            if (host != null)
+                return Url.FromHost(host, path);
 
-            return Url.FromPath(path);
+            Url url = Url.FromPath(path);
+            TrySetVirtualPath(url);
+            return url;
         }
 
         protected bool TryVirtualPath(string url, out string virtualPath)
@@ -226,8 +247,31 @@ namespace Neptuo.WebStack.Http
             string output;
             if(!TryVirtualPath(virtualPath, out output) || output != virtualPath)
                 throw new UrlPartMalFormattedException("virtualPath", virtualPath);
-            
-            return Url.FromVirtualPath(virtualPath);
+
+            Url url = Url.FromVirtualPath(virtualPath);
+            TrySetPath(url);
+            return url;
+        }
+
+        private void TrySetVirtualPath(Url url)
+        {
+            if (applicationPath != null && url.Path.StartsWith(applicationPath))
+            {
+                string part = url.Path.Substring(applicationPath.Length);
+                if(!String.IsNullOrEmpty(part) && part[0] == '/')
+                    part = part.Substring(1);
+
+                url.VirtualPath = Url.VirtualPathPrefix + part;
+            }
+        }
+
+        private void TrySetPath(Url url)
+        {
+            if (applicationPath != null)
+            {
+                url.Path = url.VirtualPath.Replace("~", applicationPath);
+            }
+
         }
     }
 }

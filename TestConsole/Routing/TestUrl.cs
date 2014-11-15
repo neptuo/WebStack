@@ -12,9 +12,9 @@ namespace Neptuo.TestConsole.Routing
     {
         public static void Test()
         {
-            IUrlBuilder urlBuilder = new UrlBuilder();
+            IUrlBuilder urlBuilder = new UrlBuilder("/test");
 
-            IReadOnlyUrl url = urlBuilder.FromUrl("http://www.neptuo.com/test");
+            IReadOnlyUrl url = urlBuilder.FromUrl("http://www.neptuo.com/test/abc");
             Console.WriteLine(url);
 
             url = urlBuilder.FromUrl("http://www.neptuo.com/");
@@ -23,7 +23,7 @@ namespace Neptuo.TestConsole.Routing
             url = urlBuilder.FromUrl("//www.neptuo.com/test");
             Console.WriteLine(url);
 
-            url = urlBuilder.FromUrl("~/test");
+            url = urlBuilder.FromUrl("~/abc");
             Console.WriteLine(url);
         }
     }

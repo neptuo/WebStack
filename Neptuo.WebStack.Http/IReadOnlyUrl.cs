@@ -23,14 +23,14 @@ namespace Neptuo.WebStack.Http
         bool HasSchema { get; }
 
         /// <summary>
-        /// Domain name part of the URL.
+        /// Domain name + port part of the URL.
         /// </summary>
-        string Domain { get; }
+        string Host { get; }
 
         /// <summary>
         /// <c>true</c> if the URL contains information about domain name.
         /// </summary>
-        bool HasDomain { get; }
+        bool HasHost { get; }
         
         /// <summary>
         /// Absolute path of the URL.
@@ -38,13 +38,17 @@ namespace Neptuo.WebStack.Http
         string Path { get; }
 
         /// <summary>
+        /// <c>true</c> if the URL has defined absolute (/abc) path.
+        /// </summary>
+        bool HasPath { get; }
+
+        /// <summary>
         /// Application relative path of the URL 
-        /// (if the URL was specified as application relative).
         /// </summary>
         string VirtualPath { get; }
 
         /// <summary>
-        /// <c>true</c> if the URL defined using application relative path.
+        /// <c>true</c> if the URL has defined application relative (~/abc) path.
         /// </summary>
         bool HasVirtualPath { get; }
     }
