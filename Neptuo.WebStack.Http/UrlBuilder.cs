@@ -60,6 +60,20 @@ namespace Neptuo.WebStack.Http
         IReadOnlyUrl Path(string path);
     }
 
+    /// <summary>
+    /// List of supported root parts for <see cref="UrlBuilder"/>.
+    /// </summary>
+    [Flags]
+    public enum UrlBuilderSupportedPart
+    {
+        Schema,
+
+        Domain,
+
+        Path,
+
+        VirtualPath
+    }
 
     public class UrlBuilder : IUrlBuilder, IUrlDomainBuilder, IUrlPathBuilder
     {
@@ -77,6 +91,11 @@ namespace Neptuo.WebStack.Http
         /// Matches path.
         /// </summary>
         private static readonly Regex pathParser = new Regex(@"^(?<path>/\w*)[^?]*");
+
+        /// <summary>
+        /// List of supported root parts.
+        /// </summary>
+        private readonly UrlBuilderSupportedPart supportedPart;
 
         /// <summary>
         /// Current schema name.
@@ -97,7 +116,17 @@ namespace Neptuo.WebStack.Http
         /// Creates new empty instance.
         /// </summary>
         public UrlBuilder()
+            : this(UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Domain | UrlBuilderSupportedPart.Path | UrlBuilderSupportedPart.VirtualPath)
         { }
+
+        /// <summary>
+        /// Creates new empty instance with support for root URL starting with <paramref name="supportPart"/>.
+        /// </summary>
+        /// <param name="supportedPart">List supported URL parts for this builder.</param>
+        public UrlBuilder(UrlBuilderSupportedPart supportedPart)
+        {
+            this.supportedPart = supportedPart;
+        }
 
         /// <summary>
         /// Used is fluently returning methods.

@@ -2,6 +2,7 @@
 using Neptuo.WebStack.Routing;
 using Neptuo.WebStack.Services.Hosting.Pipelines;
 using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
+using Neptuo.WebStack.Services.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <param name="routeTable">Route table.</param>
         /// <param name="assemblies">List of assemblies to search.</param>
         /// <returns><paramref name="routeTable"/>.</returns>
-        public static IRouteTable MapServices(this IRouteTable routeTable, IUrlBuilder urlBuilder, params Assembly[] assemblies)
+        public static IRouteTable MapServices(this IRouteTable routeTable, params Assembly[] assemblies)
         {
             Guard.NotNull(routeTable, "routeTable");
             Guard.NotNull(assemblies, "assemblies");
@@ -33,7 +34,7 @@ namespace Neptuo.WebStack.Services.Hosting
                 {
                     RouteAttribute attribute = type.GetCustomAttribute<RouteAttribute>();
                     if (attribute != null)
-                        routeTable.Map(urlBuilder.FromUrl(attribute.Url), new CodeDomPipelineFactory(type));
+                        routeTable.Map(routeTable.UrlBuilder().FromUrl(attribute.Url), new CodeDomPipelineFactory(type));
                 }
             }
 
@@ -47,11 +48,11 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <param name="routeTable">Route table.</param>
         /// <param name="handlerType">Service handler type to register (decorated with <see cref="RouteAttribute"/>).</param>
         /// <returns><paramref name="routeTable"/>.</returns>
-        public static IRouteTable MapService(this IRouteTable routeTable, IUrlBuilder urlBuilder, Type handlerType)
+        public static IRouteTable MapService(this IRouteTable routeTable, Type handlerType)
         {
             RouteAttribute attribute = handlerType.GetCustomAttribute<RouteAttribute>();
             if (attribute != null)
-                return routeTable.MapService(urlBuilder.FromUrl(attribute.Url), handlerType);
+                return routeTable.MapService(routeTable.UrlBuilder().FromUrl(attribute.Url), handlerType);
 
             return routeTable;
         }
