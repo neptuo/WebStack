@@ -252,6 +252,28 @@
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <typeparamref name="T"/>, returns it.
+            Otherwise throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{``0})">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <typeparamref name="T"/>, returns it.
+            Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,``0)">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <typeparamref name="T"/>, returns it.
             Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
             </summary>
             <param name="collection">Collection of key-value pairs.</param>

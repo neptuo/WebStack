@@ -10,15 +10,20 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack.Http
 {
     /// <summary>
-    /// Describes whole Http context.
+    /// Describes whole HTTP context.
     /// </summary>
-    public interface IHttpContext
+    public interface IHttpContext : IDisposable
     {
         /// <summary>
         /// Collection of supported values.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         IKeyValueCollection Values { get; }
+
+        /// <summary>
+        /// Event fired when disposing HTTP context.
+        /// </summary>
+        event Action OnDisposing;
     }
 
     /// <summary>
@@ -27,7 +32,7 @@ namespace Neptuo.WebStack.Http
     public static class HttpContextExtensions
     {
         /// <summary>
-        /// Http request.
+        /// HTTP request.
         /// </summary>
         public static IHttpRequest Request(this IHttpContext httpContext)
         {
@@ -36,7 +41,7 @@ namespace Neptuo.WebStack.Http
         }
 
         /// <summary>
-        /// Http response.
+        /// HTTP response.
         /// </summary>
         public static IHttpResponse Response(this IHttpContext httpContext)
         {

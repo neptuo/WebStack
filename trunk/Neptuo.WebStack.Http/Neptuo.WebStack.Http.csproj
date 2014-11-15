@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpHeaderExtensions.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="HttpStatusCollection.cs" />
     <Compile Include="IHttpContext.cs" />
     <Compile Include="IHttpFile.cs" />
+    <Compile Include="IHttpParamCollection.cs" />
     <Compile Include="IHttpRequest.cs" />
     <Compile Include="IHttpResponse.cs" />
     <Compile Include="IReadOnlyUrl.cs" />

@@ -22,6 +22,11 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         IKeyValueCollection Values { get; }
+
+        /// <summary>
+        /// Event fired when disposing HTTP request.
+        /// </summary>
+        event Action OnDisposing;
     }
 
     /// <summary>
@@ -93,6 +98,28 @@ namespace Neptuo.WebStack.Http
         }
 
         /// <summary>
+        /// Http request headers.
+        /// </summary>
+        public static T Header<T>(this IHttpRequest request, string headerName, T? defaltValue)
+            where T : struct
+        {
+            Guard.NotNull(request, "request");
+            Guard.NotNullOrEmpty(headerName, "headerName");
+            return request.Headers().Get<T>(headerName, defaltValue);
+        }
+
+        /// <summary>
+        /// Http request headers.
+        /// </summary>
+        public static T Header<T>(this IHttpRequest request, string headerName, T defaltValue)
+            where T : class
+        {
+            Guard.NotNull(request, "request");
+            Guard.NotNullOrEmpty(headerName, "headerName");
+            return request.Headers().Get<T>(headerName, defaltValue);
+        }
+
+        /// <summary>
         /// Input stream.
         /// </summary>
         public static Stream InputStream(this IHttpRequest request)
@@ -104,19 +131,19 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Input query string.
         /// </summary>
-        public static IReadOnlyKeyValueCollection QueryString(this IHttpRequest request)
+        public static IHttpParamCollection QueryString(this IHttpRequest request)
         {
             Guard.NotNull(request, "request");
-            return request.Values.Get<IReadOnlyKeyValueCollection>(RequestKey.QueryString);
+            return request.Values.Get<IHttpParamCollection>(RequestKey.QueryString);
         }
 
         /// <summary>
         /// Data posted as form data.
         /// </summary>
-        public static IReadOnlyKeyValueCollection Form(this IHttpRequest request)
+        public static IHttpParamCollection Form(this IHttpRequest request)
         {
             Guard.NotNull(request, "request");
-            return request.Values.Get<IReadOnlyKeyValueCollection>(RequestKey.Form);
+            return request.Values.Get<IHttpParamCollection>(RequestKey.Form);
         }
 
         /// <summary>

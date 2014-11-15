@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.ComponentModel;
 using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web;
 
 namespace Neptuo.WebStack.Http
 {
-    public class AspNetHttpContext : IHttpContext, IHttpRequest, IHttpResponse
+    public class AspNetHttpContext : DisposableBase, IHttpContext, IHttpRequest, IHttpResponse
     {
         private readonly HttpContext httpContext;
         private readonly ProviderKeyValueCollection values;
@@ -19,27 +20,16 @@ namespace Neptuo.WebStack.Http
             get { return values; }
         }
 
+        public event Action OnDisposing;
+
         public AspNetHttpContext(HttpContext httpContext)
         {
             Guard.NotNull(httpContext, "httpContext");
             this.values = new ProviderKeyValueCollection();
-            this.values.AddProvider(TryGetValue);
+            this.values.AddProvider(TryGetContextValue);
+            this.values.AddProvider(TryGetRequestValue);
+            this.values.AddProvider(TryGetResponseValue);
             this.httpContext = httpContext;
-        }
-
-        private bool TryGetValue(string key, out object value)
-        {
-            if (TryGetContextValue(key, out value))
-                return true;
-
-            if (TryGetRequestValue(key, out value))
-                return true;
-
-            if (TryGetResponseValue(key, out value))
-                return true;
-
-            value = null;
-            return false;
         }
 
         private bool TryGetContextValue(string key, out object value)
@@ -145,6 +135,23 @@ namespace Neptuo.WebStack.Http
                 result.Add(new AspNetHttpFile(file));
 
             return result;
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+            RaiseOnDisposing();
+        }
+
+        /// <summary>
+        /// Raises <see cref="OnDisposing"/> and sets it to <c>null</c>.
+        /// </summary>
+        private void RaiseOnDisposing()
+        {
+            if (OnDisposing != null)
+                OnDisposing();
+
+            OnDisposing = null;
         }
     }
 }
