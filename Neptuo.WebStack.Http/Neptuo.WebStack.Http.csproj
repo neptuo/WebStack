@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpFileExtensions.cs" />
     <Compile Include="HttpHeaderExtensions.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
@@ -54,6 +55,9 @@
     <Compile Include="IHttpRequest.cs" />
     <Compile Include="IHttpResponse.cs" />
     <Compile Include="IReadOnlyUrl.cs" />
+    <Compile Include="IUrlBuilder.cs" />
+    <Compile Include="IUrlDomainBuilder.cs" />
+    <Compile Include="IUrlPathBuilder.cs" />
     <Compile Include="Keys\ContextKey.cs" />
     <Compile Include="Keys\RequestKey.cs" />
     <Compile Include="Keys\ResponseKey.cs" />
@@ -62,6 +66,7 @@
     <Compile Include="Url.cs" />
     <Compile Include="UrlBuilder.cs" />
     <Compile Include="UrlBuilderException.cs" />
+    <Compile Include="UrlBuilderSupportedPart.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

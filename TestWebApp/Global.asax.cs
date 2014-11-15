@@ -29,7 +29,6 @@ namespace TestWebApp
         public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
             await httpContext.Response().OutputWriter().WriteLineAsync("Hello, World!");
-            httpContext.Response().OutputWriter().Flush();
             return true;
         }
     }

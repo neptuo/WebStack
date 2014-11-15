@@ -17,12 +17,18 @@ namespace Neptuo.WebStack.Hosting
 
         private void OnBeginRequest(object sender, EventArgs e)
         {
-            HttpContext httpContext = ((HttpApplication)sender).Context;
-            IHttpContext context = new AspNetHttpContext(httpContext);
+            bool handlerExecuted = false;
+            HttpApplication httpApplication = (HttpApplication)sender;
+            HttpContext httpContext = httpApplication.Context;
+            using (IHttpContext context = new AspNetHttpContext(httpContext))
+            {
+                IRequestHandler requestHandler = Engine.Environment.WithRootRequestHandler();
+                if (requestHandler.TryHandleAsync(context).Result)
+                    handlerExecuted = true;
+            }
 
-            IRequestHandler requestHandler = Engine.Environment.WithRootRequestHandler();
-            if (requestHandler.TryHandleAsync(context).Result)
-                httpContext.Response.End();
+            if (handlerExecuted)
+                httpApplication.CompleteRequest();
         }
 
         public void Dispose()
