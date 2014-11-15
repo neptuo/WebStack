@@ -52,7 +52,8 @@
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="RouteParameterCollection.cs" />
     <Compile Include="RouteRequestHandler.cs" />
-    <Compile Include="Segments\PathRouteSegment.cs" />
+    <Compile Include="Segments\HostRouteSegment.cs" />
+    <Compile Include="Segments\VirtualPathRouteSegment.cs" />
     <Compile Include="Segments\RouteSegment.cs" />
     <Compile Include="Segments\StaticRouteSegment.cs" />
     <Compile Include="Segments\TokenRouteSegment.cs" />

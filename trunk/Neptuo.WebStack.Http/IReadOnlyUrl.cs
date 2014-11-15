@@ -51,5 +51,12 @@ namespace Neptuo.WebStack.Http
         /// <c>true</c> if the URL has defined application relative (~/abc) path.
         /// </summary>
         bool HasVirtualPath { get; }
+        
+        /// <summary>
+        /// Format can contain 'S', 'H' and 'P'.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns>Formatted string value of this URL.</returns>
+        string ToString(string format);
     }
 }
