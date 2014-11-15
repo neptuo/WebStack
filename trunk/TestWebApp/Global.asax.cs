@@ -17,9 +17,12 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            Engine.Environment.UseRootRequestHandler(new FileSystemRequestHandler(
-                LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
-                new UrlPathProvider()
+            Engine.Environment.UseRootRequestHandler(new DelegatingRequestHandler(
+                new FileSystemRequestHandler(
+                    LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
+                    new UrlPathProvider()
+                ),
+                this
             ));
         }
 
