@@ -1,6 +1,8 @@
 ﻿using Neptuo;
+using Neptuo.FileSystems;
 using Neptuo.WebStack;
 using Neptuo.WebStack.Http;
+using Neptuo.WebStack.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +17,10 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            Engine.Environment.UseRootRequestHandler(this);
+            Engine.Environment.UseRootRequestHandler(new FileSystemRequestHandler(
+                LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
+                new UrlPathProvider()
+            ));
         }
 
         public async Task<bool> TryHandleAsync(IHttpContext httpContext)
