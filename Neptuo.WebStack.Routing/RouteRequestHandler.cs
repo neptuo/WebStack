@@ -63,7 +63,7 @@ namespace Neptuo.WebStack.Routing
 
         public Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
-            string virtualPath = "~" + httpContext.Request().Url().AbsolutePath;
+            string virtualPath = "~" + httpContext.Request().Url().Path;
             IRequestHandler requestHandler = pathTree.ResolveUrl(virtualPath);
             if (requestHandler != null)
                 return requestHandler.TryHandleAsync(httpContext);

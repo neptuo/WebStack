@@ -56,6 +56,12 @@ namespace Neptuo.WebStack.Http
                 return true;
             }
 
+            if (key == ContextKey.UrlBuilder)
+            {
+                value = new UrlBuilder();
+                return true;
+            }
+
             value = null;
             return false;
         }
@@ -105,12 +111,8 @@ namespace Neptuo.WebStack.Http
             }
 
             if (key == RequestKey.Url)
-                throw Guard.Exception.NotImplemented();
-
-            //TODO: Remove this key.
-            if(key == "RawUrl")
             {
-                value = httpContext.Request.RawUrl;
+                value = this.UrlBuilder().FromUrl(httpContext.Request.Url.AbsoluteUri);
                 return true;
             }
 
