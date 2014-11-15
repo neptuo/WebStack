@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace Neptuo.WebStack.Http
         public static IHttpRequest Request(this IHttpContext httpContext)
         {
             Guard.NotNull(httpContext, "httpContext");
-            return httpContext.Values.Get<IHttpRequest>("Request");
+            return httpContext.Values.Get<IHttpRequest>(ContextKey.Request);
         }
 
         /// <summary>
@@ -40,7 +41,16 @@ namespace Neptuo.WebStack.Http
         public static IHttpResponse Response(this IHttpContext httpContext)
         {
             Guard.NotNull(httpContext, "httpContext");
-            return httpContext.Values.Get<IHttpResponse>("Response");
+            return httpContext.Values.Get<IHttpResponse>(ContextKey.Response);
+        }
+
+        /// <summary>
+        /// Gets builder for URL addresses.
+        /// </summary>
+        public static IUrlBuilder UrlBuilder(this IHttpContext httpContext)
+        {
+            Guard.NotNull(httpContext, "httpContext");
+            return httpContext.Values.Get<IUrlBuilder>(ContextKey.UrlBuilder);
         }
 
         /// <summary>

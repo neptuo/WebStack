@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnvironmentExtensions.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="UrlBuilder.cs" />
-    <Compile Include="UrlParser.cs" />
+    <Compile Include="UrlBuilderException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

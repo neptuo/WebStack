@@ -77,10 +77,10 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Requested url.
         /// </summary>
-        public static Uri Url(this IHttpRequest request)
+        public static IReadOnlyUrl Url(this IHttpRequest request)
         {
             Guard.NotNull(request, "request");
-            return request.Values.Get<Uri>(RequestKey.Url);
+            return request.Values.Get<IReadOnlyUrl>(RequestKey.Url);
         }
 
         /// <summary>

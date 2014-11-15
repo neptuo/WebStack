@@ -12,7 +12,7 @@ namespace Neptuo.WebStack.StaticFiles
     {
         public string GetPath(IHttpContext httpContext)
         {
-            string rawUrl = httpContext.Request().Values.Get<string>("RawUrl");
+            string rawUrl = httpContext.Request().Url().Path;
             //string path = rawUrl.Substring(rawUrl.IndexOf('/', 9));
             return rawUrl.Substring(1);
         }

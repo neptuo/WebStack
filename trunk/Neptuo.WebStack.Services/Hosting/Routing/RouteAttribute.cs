@@ -14,7 +14,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
     [AttributeUsage(AttributeTargets.Class)]
     public class RouteAttribute : Attribute
     {
-        public Url Url { get; private set; }
+        public string Url { get; private set; }
 
         /// <summary>
         /// Creates new instance mapped to <paramref name="url"/>.

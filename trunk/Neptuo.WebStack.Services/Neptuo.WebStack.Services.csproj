@@ -79,7 +79,7 @@
     <Compile Include="Hosting\Pipelines\PipelineFactoryException.cs" />
     <Compile Include="Hosting\Pipelines\ReflectionPipeline.cs" />
     <Compile Include="Hosting\Pipelines\ReflectionPipelineFactory.cs" />
-    <Compile Include="Hosting\RouteTableExntesions.cs" />
+    <Compile Include="Hosting\RouteTableExtensions.cs" />
     <Compile Include="Hosting\Routing\RouteAttribute.cs" />
     <Compile Include="IDelete.cs" />
     <Compile Include="IGet.cs" />

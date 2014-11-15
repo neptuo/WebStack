@@ -10,5 +10,6 @@ namespace Neptuo.WebStack.Http.Keys
     {
         public const string Request = "Request";
         public const string Response = "Response";
+        public const string UrlBuilder = "UrlBuilder";
     }
 }

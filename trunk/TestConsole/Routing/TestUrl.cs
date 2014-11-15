@@ -12,14 +12,19 @@ namespace Neptuo.TestConsole.Routing
     {
         public static void Test()
         {
-            Url pattern = new Url("http://www.neptuo.com/test");
-            Console.WriteLine(pattern);
+            IUrlBuilder urlBuilder = new UrlBuilder();
 
-            pattern = new Url("x//www.neptuo.com/test");
-            Console.WriteLine(pattern);
+            IReadOnlyUrl url = urlBuilder.FromUrl("http://www.neptuo.com/test");
+            Console.WriteLine(url);
 
-            pattern = new Url("~/test");
-            Console.WriteLine(pattern);
+            url = urlBuilder.FromUrl("http://www.neptuo.com/");
+            Console.WriteLine(url);
+
+            url = urlBuilder.FromUrl("//www.neptuo.com/test");
+            Console.WriteLine(url);
+
+            url = urlBuilder.FromUrl("~/test");
+            Console.WriteLine(url);
         }
     }
 }

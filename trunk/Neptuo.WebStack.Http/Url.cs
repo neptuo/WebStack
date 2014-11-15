@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Http
 {
-    public class Url : IReadOnlyUrl
+    internal class Url : IReadOnlyUrl
     {
-        public const string ProtocolSeparator = "://";
-        public const string NoProtocolPrefix = "//";
+        public const string SchemaSeparator = "://";
+        public const string NoSchemaPrefix = "//";
         public const string VirtualPathPrefix = "~/";
         public const string PathPrefix = "/";
 
@@ -51,100 +51,66 @@ namespace Neptuo.WebStack.Http
             }
         }
 
-        internal Url()
-        { }
-
-        public Url(string url)
-        {
-            Guard.NotNullOrEmpty(url, "url");
-
-            if(url.StartsWith(VirtualPathPrefix))
-            {
-                ParsePath(url);
-            }
-            else if (url.StartsWith(NoProtocolPrefix))
-            {
-                url = url.Substring(NoProtocolPrefix.Length);
-                url = ParseDomain(url);
-                ParsePath(url);
-            }
-            else
-            {
-                url = ParseProtocol(url);
-                url = ParseDomain(url);
-                ParsePath(url);
-            }
-        }
-
-        public Url(string schema, string domain, string path)
+        public static Url FromAbsolute(string schema, string domain, string path)
         {
             Guard.NotNullOrEmpty(schema, "schema");
             Guard.NotNullOrEmpty(domain, "domain");
             Guard.NotNullOrEmpty(path, "path");
+            return new Url(schema, domain, path);
+        }
+
+        public static Url FromDomain(string domain, string path)
+        {
+            Guard.NotNullOrEmpty(domain, "domain");
+            Guard.NotNullOrEmpty(path, "path");
+            return new Url(null, domain, path);
+        }
+
+        public static Url FromPath(string path)
+        {
+            return new Url(null, null, path);
+        }
+
+        public static Url FromVirtualPath(string virtualPath)
+        {
+            return new Url(null, null, virtualPath);
+        }
+
+        protected Url(string schema, string domain, string path)
+        {
             Schema = schema;
             Domain = domain;
             Path = path;
         }
 
-        public Url(string domain, string path)
-        {
-            Guard.NotNullOrEmpty(domain, "domain");
-            Guard.NotNullOrEmpty(path, "path");
-            Domain = domain;
-            Path = path;
-        }
-
-        public static implicit operator Url(string url)
-        {
-            return new Url(url);
-        }
-
-        private string ParseProtocol(string url)
-        {
-            int indexOfProtocolSeparator = url.IndexOf(ProtocolSeparator);
-            if(indexOfProtocolSeparator > 0)
-
-            Schema = url.Substring(0, indexOfProtocolSeparator);
-
-            url = url.Substring(indexOfProtocolSeparator + ProtocolSeparator.Length);
-            return url;
-        }
-
-        private string ParseDomain(string url)
-        {
-            int indexOfSlash = url.IndexOf(PathPrefix);
-            Domain = url.Substring(0, indexOfSlash);
-
-            url = url.Substring(indexOfSlash);
-            return url;
-        }
-
-        private void ParsePath(string url)
-        {
-            if (!url.StartsWith(PathPrefix) && !url.StartsWith(VirtualPathPrefix))
-                throw new Exception();
-
-            Path = url;
-        }
-
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            if (HasSchema)
+
+            if (HasVirtualPath)
             {
-                result.Append(Schema);
-                result.Append(ProtocolSeparator);
+                result.Append(VirtualPathPrefix);
+                result.Append(Path.Substring(1));
+            }
+            else
+            {
+                if (HasSchema)
+                {
+                    result.Append(Schema);
+                    result.Append(SchemaSeparator);
+                }
+
+                if (HasDomain)
+                {
+                    if (!HasSchema)
+                        result.Append(NoSchemaPrefix);
+
+                    result.Append(Domain);
+                }
+
+                result.Append(Path);
             }
 
-            if (HasDomain)
-            {
-                if (!HasSchema)
-                    result.Append(NoProtocolPrefix);
-
-                result.Append(Domain);
-            }
-
-            result.Append(Path);
             return result.ToString();
         }
     }
