@@ -32,6 +32,7 @@ namespace Neptuo.WebStack.StaticFiles
                 {
                     using (Stream fileContent = file.GetContentAsStream())
                     {
+                        httpContext.Response().HeaderContentType(new HttpMediaType("image/jpeg"));
                         fileContent.CopyTo(httpContext.Response().OutputStream());
                     }
 

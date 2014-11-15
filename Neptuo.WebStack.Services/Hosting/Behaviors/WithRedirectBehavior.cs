@@ -16,7 +16,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         protected override Task ExecuteAsync(IWithRedirect handler, IHttpContext context)
         {
             if (!String.IsNullOrEmpty(handler.Location))
-                context.Response().Headers("Location", context.ResolveUrl(handler.Location));
+                context.Response().Header("Location", context.ResolveUrl(handler.Location));
 
             return Task.FromResult(true);
         }

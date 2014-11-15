@@ -21,6 +21,11 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         IKeyValueCollection Values { get; }
+
+        /// <summary>
+        /// Event fired when disposing HTTP response.
+        /// </summary>
+        event Action OnDisposing;
     }
 
     public static class HttpResponseExtensions
@@ -64,7 +69,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         /// <param name="headerName">Header name.</param>
         /// <param name="headerValue">Header value.</param>
-        public static IHttpResponse Headers(this IHttpResponse response, string headerName, string headerValue)
+        public static IHttpResponse Header(this IHttpResponse response, string headerName, object headerValue)
         {
             Guard.NotNull(response, "response");
             Guard.NotNullOrEmpty(headerName, "headerName");
@@ -93,6 +98,7 @@ namespace Neptuo.WebStack.Http
             {
                 writer = new StreamWriter(response.OutputStream());
                 response.Values.Set(ResponseKey.OutputWriter, writer);
+                response.OnDisposing += writer.Dispose;
             }
 
             return writer;
