@@ -99,5 +99,42 @@ namespace Neptuo.WebStack.Http
 
             return result.ToString();
         }
+
+        public string ToString(string format)
+        {
+            Guard.NotNull(format, "format");
+
+            StringBuilder result = new StringBuilder();
+            bool hasSchema = false;
+            bool hasHost = false;
+            bool hasPath = false;
+            foreach (char item in format)
+            {
+                if (item == 'S' && HasSchema && !hasSchema && !hasHost && !hasPath)
+                {
+                    result.Append(Schema);
+                    result.Append(SchemaSeparator);
+                    hasSchema = true;
+                }
+                else if (item == 'H' && HasHost && !hasHost && !hasPath)
+                {
+                    if (!hasSchema)
+                        result.Append(NoSchemaPrefix);
+
+                    result.Append(Host);
+                    hasHost = true;
+                }
+                else if (item == 'P' && HasPath && !hasPath)
+                {
+                    result.Append(Path);
+                }
+                else
+                {
+                    throw Guard.Exception.NotSupported("'{0}' is not supported by URL formatter.", item);
+                }
+            }
+
+            return result.ToString();
+        }
     }
 }

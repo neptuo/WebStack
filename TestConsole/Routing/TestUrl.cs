@@ -12,7 +12,7 @@ namespace Neptuo.TestConsole.Routing
     {
         public static void Test()
         {
-            IUrlBuilder urlBuilder = new UrlBuilder("/test");
+            IUrlBuilder urlBuilder = new UrlBuilder("/");
 
             IReadOnlyUrl url = urlBuilder.FromUrl("http://www.neptuo.com/test/abc");
             Console.WriteLine(url);

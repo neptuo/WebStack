@@ -253,6 +253,10 @@ namespace Neptuo.WebStack.Http
             return url;
         }
 
+        /// <summary>
+        /// Tries to set <see cref="Url.VirtualPath"/> from <see cref="applicationPath"/> and <see cref="Url.Path"/>.
+        /// </summary>
+        /// <param name="url">The URL to update virtual path on.</param>
         private void TrySetVirtualPath(Url url)
         {
             if (applicationPath != null && url.Path.StartsWith(applicationPath))
@@ -265,13 +269,19 @@ namespace Neptuo.WebStack.Http
             }
         }
 
+        /// <summary>
+        /// Tries to set <see cref="Url.Path"/> from <see cref="applicationPath"/> and <see cref="Url.VirtualPath"/>.
+        /// </summary>
+        /// <param name="url">The URL to update path on.</param>
         private void TrySetPath(Url url)
         {
             if (applicationPath != null)
             {
-                url.Path = url.VirtualPath.Replace("~", applicationPath);
+                if (applicationPath == "/")
+                    url.Path = url.VirtualPath.Substring(1);
+                else
+                    url.Path = url.VirtualPath.Replace("~", applicationPath);
             }
-
         }
     }
 }

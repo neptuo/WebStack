@@ -15,12 +15,16 @@ namespace Neptuo.WebStack.Routing
     {
         private static UrlBuilderSupportedPart supportedPart = UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Host | UrlBuilderSupportedPart.VirtualPath;
 
-        private readonly PathRouteSegment pathTree;
+        private readonly StaticRouteSegment schemaTree;
+        private readonly HostRouteSegment hostTree;
+        private readonly VirtualPathRouteSegment virtualPathTree;
         private readonly PatternParser parser;
 
         public RouteRequestHandler(IRouteParameterCollection parameterCollection)
         {
-            pathTree = new PathRouteSegment();
+            schemaTree = null;
+            hostTree = new HostRouteSegment();
+            virtualPathTree = new VirtualPathRouteSegment();
             parser = new PatternParser(parameterCollection);
         }
 
@@ -48,7 +52,7 @@ namespace Neptuo.WebStack.Routing
                 List<RouteSegment> segments;
                 if (parser.TryBuildUp(routePattern.VirtualPath, out segments))
                 {
-                    RouteSegment routeSegment = pathTree.TryInclude(segments[0]);
+                    RouteSegment routeSegment = virtualPathTree.TryInclude(segments[0]);
                     for (int i = 1; i < segments.Count; i++)
                     {
                         RouteSegment partSegment = segments[i];
@@ -66,10 +70,27 @@ namespace Neptuo.WebStack.Routing
 
         public Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
-            string virtualPath = "~" + httpContext.Request().Url().Path;
-            IRequestHandler requestHandler = pathTree.ResolveUrl(virtualPath);
-            if (requestHandler != null)
-                return requestHandler.TryHandleAsync(httpContext);
+            IReadOnlyUrl requestUrl = httpContext.Request().Url();
+            if (requestUrl.HasSchema)
+            {
+                //TODO: Implement URL match from schema.
+            }
+
+            if (requestUrl.HasHost)
+            {
+                string hostUrl = httpContext.Request().Url().ToString("HP");
+                IRequestHandler requestHandler = hostTree.ResolveUrl(hostUrl);
+                if (requestHandler != null)
+                    return requestHandler.TryHandleAsync(httpContext);
+            }
+
+            if (requestUrl.HasVirtualPath)
+            {
+                string virtualPath = httpContext.Request().Url().VirtualPath;
+                IRequestHandler requestHandler = virtualPathTree.ResolveUrl(virtualPath);
+                if (requestHandler != null)
+                    return requestHandler.TryHandleAsync(httpContext);
+            }
 
             return Task.FromResult(false);
         }
@@ -77,9 +98,9 @@ namespace Neptuo.WebStack.Routing
         /// <summary>
         /// TODO: Very temporal.
         /// </summary>
-        public PathRouteSegment PathTree
+        public VirtualPathRouteSegment PathTree
         {
-            get { return pathTree; }
+            get { return virtualPathTree; }
         }
     }
 }
