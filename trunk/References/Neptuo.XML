@@ -236,19 +236,46 @@
             When trying to get value which key is not present, 
             first gets called provider registered with specific key, 
             than those registered without key.
+            This collection also supports set listeners after set value in collection,
+            these listener can be attached to specific key or to any key.
             </summary>
         </member>
-        <member name="F:Neptuo.Collections.Specialized.ProviderKeyValueCollection.storage">
+        <member name="F:Neptuo.Collections.Specialized.ProviderKeyValueCollection.providerStorage">
             <summary>
             Backing storage for providers.
             </summary>
         </member>
+        <member name="F:Neptuo.Collections.Specialized.ProviderKeyValueCollection.listenerStorage">
+            <summary>
+            Backing storage for listeners.
+            </summary>
+        </member>
         <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddProvider(Neptuo.OutFunc{System.String,System.Object,System.Boolean})">
             <summary>
-            Mapps <paramref name="provider"/>.
+            Adds <paramref name="provider"/> for any key.
             This provider will be called after providers registered for specific key.
             </summary>
             <param name="provider">Provider for getting values.</param>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddProvider(System.String,Neptuo.OutFunc{System.String,System.Object,System.Boolean})">
+            <summary>
+            Adds <paramref name="provider"/> for specific key.
+            </summary>
+            <param name="key">Key for which <paramref name="provider"/> will be executed.</param>
+            <param name="provider">Provider for getting values.</param>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddListener(System.Action{System.String,System.Object})">
+            <summary>
+            Adds listener after setting value (with any key).
+            </summary>
+            <param name="listener">Listener executed after setting value.</param>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddListener(System.String,System.Action{System.String,System.Object})">
+            <summary>
+            Adds listener after setting value (with any key).
+            </summary>
+            <param name="key">Key for which <paramref name="listener"/> will be executed.</param>
+            <param name="listener">Listener executed after setting value.</param>
         </member>
         <member name="T:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions">
             <summary>

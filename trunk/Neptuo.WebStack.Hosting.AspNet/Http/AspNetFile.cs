@@ -11,7 +11,7 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Wraps <see cref="HttpPostedFile"/>.
     /// </summary>
-    public class AspNetHttpFile : IHttpFile
+    public class AspNetFile : IHttpFile
     {
         private readonly HttpPostedFile postedFile;
 
@@ -35,7 +35,7 @@ namespace Neptuo.WebStack.Http
             get { return postedFile.InputStream; }
         }
 
-        public AspNetHttpFile(HttpPostedFile postedFile)
+        public AspNetFile(HttpPostedFile postedFile)
         {
             Guard.NotNull(postedFile, "postedFile");
             this.postedFile = postedFile;

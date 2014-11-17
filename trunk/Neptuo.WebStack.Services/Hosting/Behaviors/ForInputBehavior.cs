@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Neptuo.WebStack.Services.Hosting.Behaviors
 {
@@ -16,10 +17,20 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     {
         protected override Task ExecuteAsync(IForInput<T> handler, IHttpContext context)
         {
-            throw new NotImplementedException();
-            //T model;
-            //if (context.Request.InputContext.Deserializer.TryDeserialize(context.Request, out model))
-            //    handler.Input = model;
+            if (typeof(T) == typeof(string))
+            {
+                using (StreamReader reader = new StreamReader(context.Request().InputStream()))
+                    handler.Input = (T)Convert.ChangeType((reader.ReadToEnd()), typeof(T));
+            }
+            else
+            {
+                throw new NotImplementedException();
+                //T model;
+                //if (context.Request.InputContext.Deserializer.TryDeserialize(context.Request, out model))
+                //    handler.Input = model;
+            }
+
+            return Task.FromResult(true);
         }
     }
 }
