@@ -139,7 +139,9 @@ namespace Neptuo.WebStack.Http
         {
             if (key == ResponseKey.Headers)
             {
-                value = new KeyValueCollection(httpContext.Response.Headers);
+                ProviderKeyValueCollection headers = new ProviderKeyValueCollection(httpContext.Response.Headers);
+                headers.AddListener(OnSetResponseHeader);
+                value = headers;
                 return true;
             }
 
@@ -151,6 +153,18 @@ namespace Neptuo.WebStack.Http
 
             value = null;
             return false;
+        }
+
+        private void OnSetResponseHeader(string headerName, object headerValue)
+        {
+            string stringValue = null;
+            if (headerValue != null)
+            {
+                if (!Converts.Try(headerValue, out stringValue))
+                    stringValue = headerValue.ToString();
+            }
+
+            httpContext.Response.AddHeader(headerName, stringValue);
         }
 
         private IEnumerable<IHttpFile> GetPostedFiles(HttpFileCollection files)
