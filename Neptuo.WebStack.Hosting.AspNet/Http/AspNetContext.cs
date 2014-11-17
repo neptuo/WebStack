@@ -10,7 +10,7 @@ using System.Web;
 
 namespace Neptuo.WebStack.Http
 {
-    public class AspNetHttpContext : DisposableBase, IHttpContext, IHttpRequest, IHttpResponse
+    public class AspNetContext : DisposableBase, IHttpContext, IHttpRequest, IHttpResponse
     {
         private readonly HttpContext httpContext;
         private readonly ProviderKeyValueCollection values;
@@ -22,14 +22,33 @@ namespace Neptuo.WebStack.Http
 
         public event Action OnDisposing;
 
-        public AspNetHttpContext(HttpContext httpContext)
+        public AspNetContext(HttpContext httpContext)
         {
             Guard.NotNull(httpContext, "httpContext");
             this.values = new ProviderKeyValueCollection();
             this.values.AddProvider(TryGetContextValue);
             this.values.AddProvider(TryGetRequestValue);
             this.values.AddProvider(TryGetResponseValue);
+            this.values.AddListener(ResponseKey.Status, SetStatus);
             this.httpContext = httpContext;
+        }
+
+        private void SetStatus(string key, object value)
+        {
+            int? intStatus = value as int?;
+            if (intStatus != null)
+            {
+                httpContext.Response.StatusCode = intStatus.Value;
+                return;
+            }
+
+            HttpStatus status = value as HttpStatus;
+            if (status != null)
+            {
+                httpContext.Response.StatusCode = status.Code;
+                httpContext.Response.StatusDescription = status.Text;
+                return;
+            }
         }
 
         private bool TryGetContextValue(string key, out object value)
@@ -48,7 +67,7 @@ namespace Neptuo.WebStack.Http
 
             if (key == ContextKey.UrlBuilder)
             {
-                value = new UrlBuilder();
+                value = new UrlBuilder(httpContext.Request.ApplicationPath);
                 return true;
             }
 
@@ -72,7 +91,7 @@ namespace Neptuo.WebStack.Http
 
             if (key == RequestKey.Form)
             {
-                value = new KeyValueCollection(httpContext.Request.QueryString);
+                value = new AspNetParamCollection(httpContext.Request.QueryString);
                 return true;
             }
 
@@ -96,7 +115,7 @@ namespace Neptuo.WebStack.Http
 
             if (key == RequestKey.QueryString)
             {
-                value = new KeyValueCollection(httpContext.Request.QueryString);
+                value = new AspNetParamCollection(httpContext.Request.QueryString);
                 return true;
             }
 
@@ -138,7 +157,7 @@ namespace Neptuo.WebStack.Http
         {
             List<IHttpFile> result = new List<IHttpFile>();
             foreach (HttpPostedFile file in files)
-                result.Add(new AspNetHttpFile(file));
+                result.Add(new AspNetFile(file));
 
             return result;
         }

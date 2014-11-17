@@ -39,33 +39,31 @@ namespace Neptuo.WebStack.Routing
             Guard.NotNull(requestHandler, "requestHandler");
 
             if (routePattern.HasSchema)
-            {
-
-            }
+                IntegrateUrl(routePattern.ToString("SHP"), virtualPathTree, requestHandler);
             else if (routePattern.HasHost)
-            {
-
-            }
+                IntegrateUrl(routePattern.ToString("HP"), virtualPathTree, requestHandler);
+            else if (routePattern.HasVirtualPath)
+                IntegrateUrl(routePattern.VirtualPath, virtualPathTree, requestHandler);
             else
-            {
-                // Parse routePattern.VirtualPath into segments (if needed).
-                List<RouteSegment> segments;
-                if (parser.TryBuildUp(routePattern.VirtualPath, out segments))
-                {
-                    RouteSegment routeSegment = virtualPathTree.TryInclude(segments[0]);
-                    for (int i = 1; i < segments.Count; i++)
-                    {
-                        RouteSegment partSegment = segments[i];
-                        routeSegment = routeSegment.Append(partSegment);
-                    }
+                throw Guard.Exception.NotSupported();
 
-                    routeSegment.RequestHandler = requestHandler;
+            return this;
+        }
+
+        private void IntegrateUrl(string url, RouteSegment rootSegment, IRequestHandler requestHandler)
+        {
+            List<RouteSegment> segments;
+            if (parser.TryBuildUp(url, out segments))
+            {
+                RouteSegment routeSegment = rootSegment.TryInclude(segments[0]);
+                for (int i = 1; i < segments.Count; i++)
+                {
+                    RouteSegment partSegment = segments[i];
+                    routeSegment = routeSegment.Append(partSegment);
                 }
 
-                return this;
+                routeSegment.RequestHandler = requestHandler;
             }
-
-            throw new NotSupportedException();
         }
 
         public Task<bool> TryHandleAsync(IHttpContext httpContext)

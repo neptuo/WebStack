@@ -20,7 +20,7 @@ namespace Neptuo.WebStack.Hosting
             bool handlerExecuted = false;
             HttpApplication httpApplication = (HttpApplication)sender;
             HttpContext httpContext = httpApplication.Context;
-            using (IHttpContext context = new AspNetHttpContext(httpContext))
+            using (IHttpContext context = new AspNetContext(httpContext))
             {
                 IRequestHandler requestHandler = Engine.Environment.WithRootRequestHandler();
                 if (requestHandler.TryHandleAsync(context).Result)
