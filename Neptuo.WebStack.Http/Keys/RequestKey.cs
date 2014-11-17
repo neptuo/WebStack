@@ -8,14 +8,14 @@ namespace Neptuo.WebStack.Http.Keys
 {
     public static class RequestKey
     {
-        public const string Method = "Method";
-        public const string Url = "Url";
-        public const string Headers = "Headers";
-        public const string InputStream = "InputStream";
-        public const string QueryString = "QueryString";
-        public const string Form = "Form";
-        public const string Files = "Files";
-        public const string CancellationToken = "CancellationToken";
-        public const string ApplicationPath = "ApplicationPath";
+        public const string Method = "Request.Method";
+        public const string Url = "Request.Url";
+        public const string Headers = "Request.Headers";
+        public const string InputStream = "Request.InputStream";
+        public const string QueryString = "Request.QueryString";
+        public const string Form = "Request.Form";
+        public const string Files = "Request.Files";
+        public const string CancellationToken = "Request.CancellationToken";
+        public const string ApplicationPath = "Request.ApplicationPath";
     }
 }
