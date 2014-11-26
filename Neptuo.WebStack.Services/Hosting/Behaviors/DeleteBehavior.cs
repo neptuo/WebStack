@@ -18,7 +18,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public Task ExecuteAsync(IDelete handler, IHttpContext context, IBehaviorContext pipeline)
+        public Task<bool> ExecuteAsync(IDelete handler, IHttpContext context, IBehaviorContext pipeline)
         {
             if (context.Request().IsMethodDelete())
                 return handler.ExecuteAsync();

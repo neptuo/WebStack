@@ -14,13 +14,13 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     /// <typeparam name="T">Type of output.</typeparam>
     public class WithOutputBehavior<T> : WithBehavior<IWithOutput<T>>
     {
-        protected override async Task ExecuteAsync(IWithOutput<T> handler, IHttpContext context)
+        protected override async Task<bool> ExecuteAsync(IWithOutput<T> handler, IHttpContext context)
         {
             string output = handler.Output as string;
             if (output != null)
             {
                 await context.Response().OutputWriter().WriteAsync(output);
-                return;
+                return true;
             }
 
             throw new NotImplementedException();

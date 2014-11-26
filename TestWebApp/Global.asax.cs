@@ -1,6 +1,7 @@
 ﻿using Neptuo;
 using Neptuo.FileSystems;
 using Neptuo.WebStack;
+using Neptuo.WebStack.Exceptions;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Routing;
 using Neptuo.WebStack.Services.Behaviors;
@@ -24,20 +25,30 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            Engine.Environment.UseBehaviors(new InterfaceBehaviorProvider().AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>)).AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>)));
-            Engine.Environment.UseCodeDomConfiguration(new CodeDomPipelineConfiguration(@"C:\Temp", @"D:\Projects\Neptuo.WebStack\TestWebApp\bin"));
+            Engine.Environment.UseBehaviors(provider =>
+                provider
+                    .AddMapping<IWithRedirect, WithRedirectBehavior>()
+                    .AddMapping<IWithStatus, WithStatusBehavior>()
+                    .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
+                    .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
+            );
+            Engine.Environment.UseCodeDomConfiguration(@"C:\Temp\Services", @"D:\Projects\Neptuo.WebStack\TestWebApp\bin");
 
             RouteRequestHandler routeTable = new RouteRequestHandler(new RouteParameterCollection());
             routeTable.MapService(typeof(HelloHandler));
 
-            Engine.Environment.UseRootRequestHandler(new DelegatingRequestHandler(
-                new FileSystemRequestHandler(
-                    LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
-                    new UrlPathProvider()
-                ),
-                routeTable,
-                this
-            ));
+            Engine.Environment.UseRootRequestHandler(
+                new ExceptionRequestHandler(
+                    new DelegatingRequestHandler(
+                        new FileSystemRequestHandler(
+                            LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
+                            new UrlPathProvider()
+                        ),
+                        routeTable,
+                        this
+                    )
+                )
+            );
         }
 
         public async Task<bool> TryHandleAsync(IHttpContext httpContext)

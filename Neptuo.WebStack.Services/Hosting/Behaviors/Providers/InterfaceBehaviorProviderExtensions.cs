@@ -12,18 +12,16 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors.Providers
     public static class InterfaceBehaviorProviderExtensions
     {
         /// <summary>
-        /// Maps <typeparamref name="TBehavior"/> to <typeparamref name="TImplementation"/>.
+        /// Adds mapping with <typeparamref name="TBehaviorContract"/> as contract and <typeparamref name="TBehaviorImplementation"/> as implementation type.
         /// </summary>
-        /// <typeparam name="TBehavior">Behavior definition.</typeparam>
-        /// <typeparam name="TImplementation">Behavior implementation.</typeparam>
-        /// <param name="provider">Interface behavior provider.</param>
-        /// <returns><paramref name="provider"/> (for fluency).</returns>
-        public static InterfaceBehaviorProvider AddMapping<TBehavior, TImplementation>(this InterfaceBehaviorProvider provider)
-            where TImplementation : IBehavior<TBehavior>
+        /// <typeparam name="TBehaviorContract">Behavior interface contract.</typeparam>
+        /// <typeparam name="TBehaviorImplementation">Behavior contract implementor.</typeparam>
+        /// <returns>Self (for fluency).</returns>>
+        public static InterfaceBehaviorProvider AddMapping<TBehaviorContract, TBehaviorImplementation>(this InterfaceBehaviorProvider provider)
+            where TBehaviorImplementation : IBehavior<TBehaviorContract>
         {
             Guard.NotNull(provider, "provider");
-            return provider
-                .AddMapping(typeof(TBehavior), typeof(TImplementation));
+            return provider.AddMapping(typeof(TBehaviorContract), typeof(TBehaviorImplementation));
         }
     }
 }

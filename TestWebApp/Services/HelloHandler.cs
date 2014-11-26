@@ -15,7 +15,7 @@ namespace TestWebApp.Services
         public string Input { get; set; }
         public string Output { get; private set; }
 
-        public Task ExecuteAsync()
+        public Task<bool> ExecuteAsync()
         {
             Output = String.Format("Hello, {0}!", Input);
             return Task.FromResult(true);

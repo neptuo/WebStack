@@ -452,6 +452,17 @@
             Factory for predefining and preconfiguring compilers (both dynamic and static).
             </summary>
         </member>
+        <member name="M:Neptuo.Compilers.CompilerFactory.#ctor">
+            <summary>
+            Creates new empty instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Compilers.CompilerFactory.#ctor(Neptuo.Compilers.CompilerConfiguration)">
+            <summary>
+            Creates new instance and copies initial configuration from <paramref name="configuration"/>.
+            </summary>
+            <param name="configuration">Initial configuration.</param>
+        </member>
         <member name="M:Neptuo.Compilers.CompilerFactory.CreateDynamic">
             <summary>
             Creates compiler for in-memory assembly compilation.
