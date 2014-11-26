@@ -19,6 +19,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        Task ExecuteAsync(T handler, IHttpContext context, IBehaviorContext pipeline);
+        /// <returns>Whether behavior succeeded or not.</returns>
+        Task<bool> ExecuteAsync(T handler, IHttpContext context, IBehaviorContext pipeline);
     }
 }

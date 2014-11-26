@@ -64,7 +64,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
         /// <summary>
         /// Moves to next processing to next behavior.
         /// </summary>
-        public Task NextAsync()
+        public Task<bool> NextAsync()
         {
             if (behaviorEnumerator.MoveNext())
                 return behaviorEnumerator.Current.ExecuteAsync(handler, context, this);

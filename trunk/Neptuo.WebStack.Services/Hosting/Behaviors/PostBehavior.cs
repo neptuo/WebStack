@@ -18,7 +18,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public Task ExecuteAsync(IPost handler, IHttpContext context, IBehaviorContext pipeline)
+        public Task<bool> ExecuteAsync(IPost handler, IHttpContext context, IBehaviorContext pipeline)
         {
             if (context.Request().IsMethodPost())
                 return handler.ExecuteAsync();

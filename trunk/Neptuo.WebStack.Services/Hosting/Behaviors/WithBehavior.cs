@@ -19,10 +19,12 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public async Task ExecuteAsync(T handler, IHttpContext context, IBehaviorContext pipeline)
+        public async Task<bool> ExecuteAsync(T handler, IHttpContext context, IBehaviorContext pipeline)
         {
-            await pipeline.NextAsync();
-            await ExecuteAsync(handler, context);
+            if (!await pipeline.NextAsync())
+                return false;
+
+            return await ExecuteAsync(handler, context);
         }
 
         /// <summary>
@@ -30,6 +32,6 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
         /// <param name="context">Current Http context.</param>
-        protected abstract Task ExecuteAsync(T handler, IHttpContext context);
+        protected abstract Task<bool> ExecuteAsync(T handler, IHttpContext context);
     }
 }

@@ -11,6 +11,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Neptuo.Compilers;
+using Neptuo.Reflection;
 
 namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
 {
@@ -35,9 +37,14 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
         private IBehaviorCollection behaviorCollection;
 
         /// <summary>
-        /// Generator configuration.
+        /// Factory for code compilers.
         /// </summary>
-        private CodeDomPipelineConfiguration configuration;
+        private CompilerFactory compilerFactory;
+
+        /// <summary>
+        /// Directory for storing temp compilation files.
+        /// </summary>
+        private readonly string tempDirectory;
 
         /// <summary>
         /// Creates new instance for <paramref name="handlerType"/>.
@@ -51,7 +58,8 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             Guard.NotNull(configuration, "configuration");
             this.handlerType = handlerType;
             this.behaviorCollection = behaviorCollection;
-            this.configuration = configuration;
+            this.compilerFactory = new CompilerFactory(configuration);
+            this.tempDirectory = configuration.TempDirectory;
         }
 
         /// <summary>
@@ -157,16 +165,16 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
         /// <returns>Generated assembly.</returns>
         private Assembly CompileCodeUnit(CodeCompileUnit unit)
         {
-            CsCodeDomCompiler compiler = new CsCodeDomCompiler();
+            IStaticCompiler compiler = compilerFactory.CreateStatic();
 
-            foreach (string binDirectory in configuration.EnumerateBindDirectories())
-                compiler.AddReferencedFolder(binDirectory);
-
-            CompilerResults result = compiler.CompileAssemblyFromUnit(unit, Path.Combine(configuration.TempDirectory, FormatAssemblyFileName()));
-            if (result.Errors.Count > 0)
+            string assemblyFilePath = Path.Combine(tempDirectory, FormatAssemblyFileName());
+            ICompilerResult result = compiler.FromUnit(unit, assemblyFilePath);
+            if (!result.IsSuccess)
             {
+                // Save source code if compilation was not successfull.
+
                 CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-                string sourceCodePath = Path.Combine(configuration.TempDirectory, FormatSourceCodeFileName());
+                string sourceCodePath = Path.Combine(tempDirectory, FormatSourceCodeFileName());
 
                 using (StreamWriter writer = new StreamWriter(sourceCodePath))
                 {
@@ -176,7 +184,8 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
                 throw new PipelineFactoryException(String.Format("Error during compilation of generated pipeline, source code saved to '{0}'.", sourceCodePath));
             }
 
-            return result.CompiledAssembly;
+            // Load compiled assembly.
+            return ReflectionFactory.FromCurrentAppDomain().LoadAssembly(assemblyFilePath);
         }
 
         /// <summary>

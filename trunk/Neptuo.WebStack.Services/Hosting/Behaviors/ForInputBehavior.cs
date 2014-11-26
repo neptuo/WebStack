@@ -15,7 +15,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     /// <typeparam name="T">Type of input.</typeparam>
     public class ForInputBehavior<T> : ForBehavior<IForInput<T>>
     {
-        protected override Task ExecuteAsync(IForInput<T> handler, IHttpContext context)
+        protected override Task<bool> ExecuteAsync(IForInput<T> handler, IHttpContext context)
         {
             if (typeof(T) == typeof(string))
             {

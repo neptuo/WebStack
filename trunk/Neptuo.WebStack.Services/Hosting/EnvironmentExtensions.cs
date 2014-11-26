@@ -87,6 +87,18 @@ namespace Neptuo.WebStack.Services.Hosting
         }
 
         /// <summary>
+        /// Registers singleton code dom pipeline configuration.
+        /// </summary>
+        /// <param name="environment">Engine environment.</param>
+        /// <param name="tempDirectory">Path to temp directory.</param>
+        /// <param name="binDirectories">List of bin directories to add as references.</param>
+        /// <returns><paramref name="environment"/>.</returns>
+        public static EngineEnvironment UseCodeDomConfiguration(this EngineEnvironment environment, string tempDirectory, params string[] bindDirectories)
+        {
+            return environment.Use<CodeDomPipelineConfiguration>(new CodeDomPipelineConfiguration(tempDirectory, bindDirectories));
+        }
+
+        /// <summary>
         /// Tries to retrieve code dom pipeline configuration.
         /// </summary>
         /// <param name="environment">Engine environment.</param>

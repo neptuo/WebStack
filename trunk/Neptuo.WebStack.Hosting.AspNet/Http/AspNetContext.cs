@@ -77,6 +77,7 @@ namespace Neptuo.WebStack.Http
 
         private bool TryGetRequestValue(string key, out object value)
         {
+            //System.Web.HttpContextExtensions.GetOwinContext(httpContext).Environment
             if (key == RequestKey.CancellationToken)
             {
                 value = httpContext.Response.ClientDisconnectedToken;

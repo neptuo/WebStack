@@ -14,7 +14,7 @@ namespace Neptuo.TestConsole.Routing.Services
     {
         public string Output { get; private set; }
 
-        public Task ExecuteAsync()
+        public Task<bool> ExecuteAsync()
         {
             Output = "Hello, World!";
             return Task.FromResult(true);
