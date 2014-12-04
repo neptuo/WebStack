@@ -69,6 +69,11 @@ namespace Neptuo.WebStack.Http
 
         #region Equality comparision
 
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as HttpMediaType);
+        }
+
         /// <summary>
         /// Equality comparition based on matching at least one supported text value.
         /// </summary>
@@ -115,6 +120,11 @@ namespace Neptuo.WebStack.Http
             }
 
             return !first.Equals(second);
+        }
+
+        public override int GetHashCode()
+        {
+            return TextValue.GetHashCode() ^ SupportedTextValues.GetHashCode();
         }
 
         #endregion

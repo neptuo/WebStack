@@ -32,17 +32,20 @@ namespace Neptuo.WebStack.Routing
             //    pattern = pattern.ToLowerInvariant();
 
             int lastIndex = 0;
-            List<RouteSegment> result = new List<RouteSegment>();
+            List<RouteSegment> resultSegments = new List<RouteSegment>();
             TokenParser tokenParser = CreateTokenParser();
 
+            bool result = true;
             tokenParser.OnParsedToken += (sender, e) =>
             {
                 if (e.StartPosition > lastIndex)
-                    result.Add(new StaticRouteSegment(pattern.Substring(lastIndex, e.StartPosition - lastIndex)));
+                    resultSegments.Add(new StaticRouteSegment(pattern.Substring(lastIndex, e.StartPosition - lastIndex)));
 
                 IRouteParameter parameter;
                 if (parameterCollection.TryGet(e.Token.Fullname, out parameter))
-                    result.Add(new TokenRouteSegment(e.Token.Fullname, parameter));
+                    resultSegments.Add(new TokenRouteSegment(e.Token.Fullname, parameter));
+                else
+                    result = false;
 
                 lastIndex = e.EndPosition + 1;
             };
@@ -54,10 +57,10 @@ namespace Neptuo.WebStack.Routing
             }
 
             if (pattern.Length > lastIndex)
-                result.Add(new StaticRouteSegment(pattern.Substring(lastIndex)));
+                resultSegments.Add(new StaticRouteSegment(pattern.Substring(lastIndex)));
 
-            routeSegments = result;
-            return true;
+            routeSegments = resultSegments;
+            return result;
         }
     }
 }

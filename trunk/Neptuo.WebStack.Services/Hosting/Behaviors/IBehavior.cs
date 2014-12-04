@@ -17,9 +17,9 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// Invoked when processing pipeline.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
-        /// <param name="context">Current Http context.</param>
+        /// <param name="context">Current HTTP request.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        /// <returns>Whether behavior succeeded or not.</returns>
-        Task<bool> ExecuteAsync(T handler, IHttpContext context, IBehaviorContext pipeline);
+        /// <returns>HTTP response for current request.</returns>
+        Task<IHttpResponse> ExecuteAsync(T handler, IHttpRequest httpRequest, IBehaviorContext pipeline);
     }
 }

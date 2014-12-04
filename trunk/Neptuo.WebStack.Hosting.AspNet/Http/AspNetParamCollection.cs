@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Http
 {
-    public class AspNetParamCollection : IHttpParamCollection
+    public class AspNetParamCollection : KeyValueCollection, IHttpParamCollection
     {
-        public IKeyValueCollection Values { get; private set; }
-
         public AspNetParamCollection(NameValueCollection source)
+            : base(source)
         {
-            Values = new KeyValueCollection(source);
+            IsReadOnly = true;
         }
     }
 }

@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hosting\AspNetHttpModule.cs" />
+    <Compile Include="Hosting\AspNetModule.cs" />
     <Compile Include="Http\AspNetContext.cs" />
     <Compile Include="Http\AspNetFile.cs" />
     <Compile Include="Http\AspNetParamCollection.cs" />

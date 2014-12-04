@@ -14,94 +14,38 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Describes Http response.
     /// </summary>
-    public interface IHttpResponse
+    public interface IHttpResponse : IDisposable
     {
+        /// <summary>
+        /// HTTP response status.
+        /// </summary>
+        HttpStatus Status();
+
+        /// <summary>
+        /// HTTP response status.
+        /// </summary>
+        IHttpResponse Status(HttpStatus status);
+
+        /// <summary>
+        /// HTTP response headers.
+        /// </summary>
+        IKeyValueCollection Headers();
+
+        /// <summary>
+        /// HTTP response stream.
+        /// </summary>
+        Stream OutputStream();
+
+        /// <summary>
+        /// Event fired when disposing this HTTP response object.
+        /// </summary>
+        event Action OnDisposing;
+
+        
         /// <summary>
         /// Collection of supported values.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        IKeyValueCollection Values { get; }
-
-        /// <summary>
-        /// Event fired when disposing HTTP response.
-        /// </summary>
-        event Action OnDisposing;
-    }
-
-    public static class HttpResponseExtensions
-    {
-        /// <summary>
-        /// Http response status.
-        /// </summary>
-        public static HttpStatus Status(this IHttpResponse response)
-        {
-            Guard.NotNull(response, "response");
-
-            HttpStatus status;
-            if (!response.Values.TryGet(ResponseKey.Status, out status))
-                status = response.Status(HttpStatus.Ok);
-
-            return status;
-        }
-
-        /// <summary>
-        /// Http response status.
-        /// </summary>
-        public static HttpStatus Status(this IHttpResponse response, HttpStatus status)
-        {
-            Guard.NotNull(response, "response");
-            Guard.NotNull(status, "status");
-            response.Values.Set(ResponseKey.Status, status);
-            return status;
-        }
-
-        /// <summary>
-        /// Http response headers.
-        /// </summary>
-        public static IKeyValueCollection Headers(this IHttpResponse response)
-        {
-            Guard.NotNull(response, "response");
-            return response.Values.Get<IKeyValueCollection>(ResponseKey.Headers);
-        }
-
-        /// <summary>
-        /// Sets header name <paramref name="headerName"/> to value <paramref name="headerValue"/>.
-        /// </summary>
-        /// <param name="headerName">Header name.</param>
-        /// <param name="headerValue">Header value.</param>
-        public static IHttpResponse Header(this IHttpResponse response, string headerName, object headerValue)
-        {
-            Guard.NotNull(response, "response");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            response.Headers().Set(headerName, headerValue);
-            return response;
-        }
-
-        /// <summary>
-        /// Response stream.
-        /// </summary>
-        public static Stream OutputStream(this IHttpResponse response)
-        {
-            Guard.NotNull(response, "response");
-            return response.Values.Get<Stream>(ResponseKey.OutputStream);
-        }
-
-        /// <summary>
-        /// Response text writer.
-        /// </summary>
-        public static TextWriter OutputWriter(this IHttpResponse response)
-        {
-            Guard.NotNull(response, "response");
-
-            TextWriter writer;
-            if (!response.Values.TryGet<TextWriter>(ResponseKey.OutputWriter, out writer))
-            {
-                writer = new StreamWriter(response.OutputStream());
-                response.Values.Set(ResponseKey.OutputWriter, writer);
-                response.OnDisposing += writer.Dispose;
-            }
-
-            return writer;
-        }
+        IKeyValueCollection CustomValues();
     }
 }

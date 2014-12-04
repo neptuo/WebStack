@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.WebStack.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <summary>
         /// Promotes execution to next behavior in pipeline.
         /// </summary>
-        Task<bool> NextAsync();
+        /// <param name="httpRequest">Current HTTP request.</param>
+        /// <returns>HTTP response for current request.</returns>
+        Task<IHttpResponse> NextAsync(IHttpRequest httpRequest);
     }
 }

@@ -10,12 +10,12 @@ using System.Web;
 
 namespace Neptuo.WebStack.Http
 {
-    public class AspNetContext : DisposableBase, IHttpContext, IHttpRequest, IHttpResponse
+    public class AspNetContext : DisposableBase
     {
         private readonly HttpContext httpContext;
         private readonly ProviderKeyValueCollection values;
 
-        public IKeyValueCollection Values
+        public IKeyValueCollection CustomValues
         {
             get { return values; }
         }
@@ -122,8 +122,9 @@ namespace Neptuo.WebStack.Http
 
             if (key == RequestKey.Url)
             {
-                value = this.UrlBuilder().FromUrl(httpContext.Request.Url.AbsoluteUri);
-                return true;
+                //value = this.UrlBuilder().FromUrl(httpContext.Request.Url.AbsoluteUri);
+                value = null;
+                return false;
             }
 
             if (key == RequestKey.ApplicationPath)

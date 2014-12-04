@@ -22,11 +22,6 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
         private IEnumerator<IBehavior<T>> behaviorEnumerator;
 
         /// <summary>
-        /// Current Http request context that this pipeline operates on.
-        /// </summary>
-        private IHttpContext context;
-
-        /// <summary>
         /// Instance of handler to execute.
         /// </summary>
         private T handler;
@@ -34,42 +29,43 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
         /// <summary>
         /// Gets factory for handlers of type <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="context">Current Http request context.</param>
+        /// <param name="httpRequest">Current Http request context.</param>
         /// <returns>Factory for handlers of type <typeparamref name="T"/>.</returns>
-        protected abstract IHandlerFactory<T> GetHandlerFactory(IHttpContext context);
+        protected abstract IHandlerFactory<T> GetHandlerFactory(IHttpRequest httpRequest);
 
         /// <summary>
         /// Gets enumeration of behaviors for handler of type <typeparamref name="T"/>.
         /// </summary>
         /// <param name="context">Current Http request context.</param>
         /// <returns>Enumeration of behaviors for handler of type <typeparamref name="T"/>.</returns>
-        protected abstract IEnumerable<IBehavior<T>> GetBehaviors(IHttpContext context);
+        protected abstract IEnumerable<IBehavior<T>> GetBehaviors(IHttpRequest httpRequest);
 
         /// <summary>
         /// Creates instance of handler and using <see cref="IBehavior"/> executes action.
         /// </summary>
-        /// <param name="context">Current Http request context.</param>
-        public async Task<bool> TryHandleAsync(IHttpContext context)
+        /// <param name="httpRequest">Current HTTP request.</param>
+        /// <returns>Response for the current HTTP request.</returns>
+        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
         {
-            IHandlerFactory<T> handlerFactory = GetHandlerFactory(context);
-            this.handler = handlerFactory.Create(context);
-            this.context = context;
+            IHandlerFactory<T> handlerFactory = GetHandlerFactory(httpRequest);
+            this.handler = handlerFactory.Create(httpRequest);
 
-            behaviorEnumerator = GetBehaviors(context).GetEnumerator();
-            await NextAsync();
-
-            return true;
+            behaviorEnumerator = GetBehaviors(httpRequest).GetEnumerator();
+            return await NextAsync(httpRequest);
         }
 
         /// <summary>
         /// Moves to next processing to next behavior.
         /// </summary>
-        public Task<bool> NextAsync()
+        /// <param name="httpRequest">Current HTTP request.</param>
+        public Task<IHttpResponse> NextAsync(IHttpRequest httpRequest)
         {
+            // Try to call next behavior in pipeline.
             if (behaviorEnumerator.MoveNext())
-                return behaviorEnumerator.Current.ExecuteAsync(handler, context, this);
+                return behaviorEnumerator.Current.ExecuteAsync(handler, httpRequest, this);
 
-            return Task.FromResult(true);
+            // No more behaviors equal to inability process request this way.
+            return Task.FromResult<IHttpResponse>(null);
         }
     }
 }

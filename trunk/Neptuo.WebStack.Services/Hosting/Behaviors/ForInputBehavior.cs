@@ -15,12 +15,12 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     /// <typeparam name="T">Type of input.</typeparam>
     public class ForInputBehavior<T> : ForBehavior<IForInput<T>>
     {
-        protected override Task<bool> ExecuteAsync(IForInput<T> handler, IHttpContext context)
+        protected override async Task<IHttpResponse> ExecuteAsync(IForInput<T> handler, IHttpRequest httpRequest)
         {
             if (typeof(T) == typeof(string))
             {
-                using (StreamReader reader = new StreamReader(context.Request().InputStream()))
-                    handler.Input = (T)Convert.ChangeType((reader.ReadToEnd()), typeof(T));
+                using (StreamReader reader = new StreamReader(httpRequest.InputStream()))
+                    handler.Input = (T)Convert.ChangeType((await reader.ReadToEndAsync()), typeof(T));
             }
             else
             {
@@ -30,7 +30,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
                 //    handler.Input = model;
             }
 
-            return Task.FromResult(true);
+            return null;
         }
     }
 }

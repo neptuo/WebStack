@@ -38,9 +38,9 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
         /// Creates behaviors using <see cref="Activator"/>.
         /// Returns enumeration of haviors for <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="context">Current Http context.</param>
+        /// <param name="httpRequest">Current HTTP request.</param>
         /// <returns>Enumeration of haviors for <typeparamref name="T"/>.</returns>
-        protected override IEnumerable<IBehavior<T>> GetBehaviors(IHttpContext context)
+        protected override IEnumerable<IBehavior<T>> GetBehaviors(IHttpRequest httpRequest)
         {
             IEnumerable<Type> behaviorTypes = collection.GetBehaviors(typeof(T));
             foreach (Type behaviorType in behaviorTypes)

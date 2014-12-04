@@ -36,15 +36,16 @@ namespace Neptuo.WebStack
             this.handlers.AddRange(handlers);
         }
 
-        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
+        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
         {
             foreach (IRequestHandler handler in handlers)
             {
-                if (await handler.TryHandleAsync(httpContext))
-                    return true;
+                IHttpResponse httpResponse = await handler.TryHandleAsync(httpRequest);
+                if (httpResponse != null)
+                    return httpResponse;
             }
 
-            return false;
+            return null;
         }
     }
 }

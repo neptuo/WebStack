@@ -13,11 +13,11 @@ namespace Neptuo.WebStack.Exceptions
     public interface IExceptionRequestHandler
     {
         /// <summary>
-        /// Processes <paramref name="exception"/> raised during processing request described in <paramref name="httpContext"/>.
+        /// Processes <paramref name="exception"/> raised during processing request described in <paramref name="httpRequest"/>.
         /// </summary>
         /// <param name="exception">Raised exception.</param>
-        /// <param name="httpContext">Current HTTP context.</param>
-        /// <returns>Whether handler was able to handler the exception.</returns>
-        Task<bool> HandleAsync(Exception exception, IHttpContext httpContext);
+        /// <param name="httpRequest">Current HTTP request.</param>
+        /// <returns>Response for the current HTTP request.</returns>
+        Task<IHttpResponse> HandleAsync(Exception exception, IHttpRequest httpRequest);
     }
 }

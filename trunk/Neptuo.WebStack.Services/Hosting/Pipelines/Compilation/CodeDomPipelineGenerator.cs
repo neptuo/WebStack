@@ -125,7 +125,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             CodeMemberMethod getBehaviorsMethod = new CodeMemberMethod();
             getBehaviorsMethod.Name = "GetBehaviors";
             getBehaviorsMethod.Attributes = MemberAttributes.Override | MemberAttributes.Family;
-            getBehaviorsMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(IHttpContext), "context"));
+            getBehaviorsMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(IHttpRequest), "httpRequest"));
             getBehaviorsMethod.ReturnType = new CodeTypeReference(typeof(IEnumerable<>).MakeGenericType(typeof(IBehavior<>).MakeGenericType(handlerType)));
             return getBehaviorsMethod;
         }

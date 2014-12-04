@@ -11,12 +11,6 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// The collection of request parameters (query string or form) for extending.
     /// </summary>
-    public interface IHttpParamCollection
-    {
-        /// <summary>
-        /// The inner collection of request parameters.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        IKeyValueCollection Values { get; }
-    }
+    public interface IHttpParamCollection : IReadOnlyKeyValueCollection
+    { }
 }

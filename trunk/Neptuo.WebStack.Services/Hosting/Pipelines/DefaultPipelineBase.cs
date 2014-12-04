@@ -15,7 +15,7 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
     public abstract class DefaultPipelineBase<T> : PipelineBase<T>
         where T: new()
     {
-        protected override IHandlerFactory<T> GetHandlerFactory(IHttpContext context)
+        protected override IHandlerFactory<T> GetHandlerFactory(IHttpRequest httpRequest)
         {
             return new DefaultHandlerFactory<T>();
         }
