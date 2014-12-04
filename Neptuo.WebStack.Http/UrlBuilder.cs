@@ -240,8 +240,8 @@ namespace Neptuo.WebStack.Http
 
         public IReadOnlyUrl VirtualPath(string virtualPath)
         {
-            Guard.NotNullOrEmpty(path, "path");
-            if (path[0] != '~' || path[1] != '/')
+            Guard.NotNullOrEmpty(virtualPath, "virtualPath");
+            if (virtualPath[0] != '~' || virtualPath[1] != '/')
                 throw Guard.Exception.ArgumentOutOfRange("path", "Path argument must start with '~/'.");
 
             string output;

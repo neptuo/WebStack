@@ -16,8 +16,8 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <summary>
         /// Creates instance of handler.
         /// </summary>
-        /// <param name="context">Current Http context.</param>
+        /// <param name="httpRequest">Current HTTP request.</param>
         /// <returns>Instance of handler.</returns>
-        T Create(IHttpContext context);
+        T Create(IHttpRequest httpRequest);
     }
 }

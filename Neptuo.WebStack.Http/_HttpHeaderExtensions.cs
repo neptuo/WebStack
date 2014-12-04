@@ -9,7 +9,7 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Extensions for type safe access to HTTP headers
     /// </summary>
-    public static class HttpHeaderExtensions
+    public static class _HttpHeaderExtensions
     {
         /// <summary>
         /// Sets header 'Content-type'.
@@ -30,7 +30,7 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Gets request header 'Accept'.
         /// </summary>
-        public static IEnumerable<HttpMediaType> HeaderAcceptList(this IHttpRequest request)
+        public static IEnumerable<HttpMediaType> HeaderAcceptAll(this IHttpRequest request)
         {
             return request.Header<IEnumerable<HttpMediaType>>("Accept", Enumerable.Empty<HttpMediaType>());
         }
@@ -40,7 +40,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static HttpMediaType HeaderAccept(this IHttpRequest request)
         {
-            return request.HeaderAcceptList().FirstOrDefault();
+            return request.HeaderAcceptAll().FirstOrDefault();
         }
     }
 }

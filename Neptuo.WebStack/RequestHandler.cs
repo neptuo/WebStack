@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack
 {
     /// <summary>
-    /// Defines invokable handler for processing complete HTTP request with response.
+    /// Synchronous version of <see cref="RequestHandlerAsync"/>.
     /// </summary>
-    public interface IRequestHandler
+    public abstract class RequestHandler : RequestHandlerAsync
     {
         /// <summary>
         /// Process <paramref name="httpRequest"/>.
@@ -20,6 +20,11 @@ namespace Neptuo.WebStack
         /// If returns <c>null</c>, request processing should be delegated to the next handler.
         /// If returns any non-null response, this handler handled the request described in <paramref name="httpRequest"/>;
         /// </returns>
-        Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest);
+        protected abstract IHttpResponse TryHandle(IHttpRequest httpRequest);
+
+        protected override Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
+        {
+            return Task.FromResult(TryHandle(httpRequest));
+        }
     }
 }

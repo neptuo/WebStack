@@ -15,14 +15,14 @@ namespace Neptuo.WebStack.Routing
     {
         private static UrlBuilderSupportedPart supportedPart = UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Host | UrlBuilderSupportedPart.VirtualPath;
 
-        private readonly StaticRouteSegment schemaTree;
+        private readonly SchemaSegment schemaTree;
         private readonly HostRouteSegment hostTree;
         private readonly VirtualPathRouteSegment virtualPathTree;
         private readonly PatternParser parser;
 
         public RouteRequestHandler(IRouteParameterCollection parameterCollection)
         {
-            schemaTree = null;
+            schemaTree = new SchemaSegment();
             hostTree = new HostRouteSegment();
             virtualPathTree = new VirtualPathRouteSegment();
             parser = new PatternParser(parameterCollection);
@@ -66,31 +66,34 @@ namespace Neptuo.WebStack.Routing
             }
         }
 
-        public Task<bool> TryHandleAsync(IHttpContext httpContext)
+        public Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
         {
-            IReadOnlyUrl requestUrl = httpContext.Request().Url();
+            IReadOnlyUrl requestUrl = httpRequest.Url();
             if (requestUrl.HasSchema)
             {
-                //TODO: Implement URL match from schema.
+                string hostUrl = httpRequest.Url().ToString();
+                IRequestHandler requestHandler = schemaTree.ResolveUrl(hostUrl, httpRequest);
+                if (requestHandler != null)
+                    return requestHandler.TryHandleAsync(httpRequest);
             }
 
             if (requestUrl.HasHost)
             {
-                string hostUrl = httpContext.Request().Url().ToString("HP");
-                IRequestHandler requestHandler = hostTree.ResolveUrl(hostUrl);
+                string hostUrl = httpRequest.Url().ToString("HP");
+                IRequestHandler requestHandler = hostTree.ResolveUrl(hostUrl, httpRequest);
                 if (requestHandler != null)
-                    return requestHandler.TryHandleAsync(httpContext);
+                    return requestHandler.TryHandleAsync(httpRequest);
             }
 
             if (requestUrl.HasVirtualPath)
             {
-                string virtualPath = httpContext.Request().Url().VirtualPath;
-                IRequestHandler requestHandler = virtualPathTree.ResolveUrl(virtualPath);
+                string virtualPath = httpRequest.Url().VirtualPath;
+                IRequestHandler requestHandler = virtualPathTree.ResolveUrl(virtualPath, httpRequest);
                 if (requestHandler != null)
-                    return requestHandler.TryHandleAsync(httpContext);
+                    return requestHandler.TryHandleAsync(httpRequest);
             }
 
-            return Task.FromResult(false);
+            return Task.FromResult<IHttpResponse>(null);
         }
 
         /// <summary>

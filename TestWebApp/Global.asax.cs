@@ -1,5 +1,8 @@
-﻿using Neptuo;
+﻿using Microsoft.Practices.Unity;
+using Neptuo;
 using Neptuo.FileSystems;
+using Neptuo.Lifetimes.Mapping;
+using Neptuo.Unity;
 using Neptuo.WebStack;
 using Neptuo.WebStack.Exceptions;
 using Neptuo.WebStack.Http;
@@ -12,6 +15,7 @@ using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
 using Neptuo.WebStack.StaticFiles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -25,6 +29,11 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType<IUrlBuilder, UrlBuilder>(new GetterLifetimeManager(() => new UrlBuilder(HttpContext.Current.Request.ApplicationPath)));
+
+            Engine.Environment.Use<IDependencyContainer>(new UnityDependencyContainer(container, new LifetimeMapping<LifetimeManager>()));
+            Engine.Environment.UseParameterCollection(c => c.Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(@"E:\Pictures\Camera Roll"))));
             Engine.Environment.UseBehaviors(provider =>
                 provider
                     .AddMapping<IWithRedirect, WithRedirectBehavior>()
@@ -34,16 +43,25 @@ namespace TestWebApp
             );
             Engine.Environment.UseCodeDomConfiguration(@"C:\Temp\Services", @"D:\Projects\Neptuo.WebStack\TestWebApp\bin");
 
-            RouteRequestHandler routeTable = new RouteRequestHandler(new RouteParameterCollection());
+            RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
             routeTable.MapService(typeof(HelloHandler));
+
+            IUrlBuilder builder = routeTable.UrlBuilder();
+            routeTable.Map(
+                builder.VirtualPath("~/photos/{FileName}"), 
+                new FileSystemRequestHandler(
+                    LocalFileSystem.FromDirectoryPath(@"E:\Pictures\Camera Roll"),
+                    new UrlPathProvider()
+                )
+            );
 
             Engine.Environment.UseRootRequestHandler(
                 new ExceptionRequestHandler(
                     new DelegatingRequestHandler(
-                        new FileSystemRequestHandler(
-                            LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
-                            new UrlPathProvider()
-                        ),
+                        //new FileSystemRequestHandler(
+                        //    LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
+                        //    new UrlPathProvider()
+                        //),
                         routeTable,
                         this
                     )
@@ -51,10 +69,35 @@ namespace TestWebApp
             );
         }
 
-        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
+        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
         {
-            await httpContext.Response().OutputWriter().WriteLineAsync("Hello, World!");
-            return true;
+            IHttpResponse httpResponse = new DefaultHttpResponse();
+            await httpResponse.OutputWriter().WriteLineAsync("Hello, World!");
+            return httpResponse;
+        }
+    }
+
+    public class FileNameParameter : IRouteParameter
+    {
+        private readonly IReadOnlyDirectory rootDirectory;
+
+        public FileNameParameter(IReadOnlyDirectory rootDirectory)
+        {
+            Guard.NotNull(rootDirectory, "rootDirectory");
+            this.rootDirectory = rootDirectory;
+        }
+
+        public bool MatchUrl(IRouteParameterMatchContext context)
+        {
+            string remainingUrl = context.RemainingUrl;
+            if(rootDirectory.FindFiles(remainingUrl, true).Any())
+            {
+                context.HttpRequest.CustomValues().Set("FileSystemRequestHandler:FileName", remainingUrl);
+                context.RemainingUrl = null;
+                return true;
+            }
+
+            return false;
         }
     }
 }

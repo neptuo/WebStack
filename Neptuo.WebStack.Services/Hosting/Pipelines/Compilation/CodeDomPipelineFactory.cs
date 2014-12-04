@@ -59,12 +59,11 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines.Compilation
             this.configuration = configuration;
         }
 
-        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
+        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
         {
             EnsurePipelineFactory();
             IRequestHandler pipeline = generatedFactory();
-            await pipeline.TryHandleAsync(httpContext);
-            return true;
+            return await pipeline.TryHandleAsync(httpRequest);
         }
 
         /// <summary>

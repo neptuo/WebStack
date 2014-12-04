@@ -32,31 +32,31 @@ namespace Neptuo.WebStack.Exceptions
             return this;
         }
 
-        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
+        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
         {
             try
             {
-                return await innerHandler.TryHandleAsync(httpContext);
+                return await innerHandler.TryHandleAsync(httpRequest);
             }
             catch (Exception e)
             {
-                return HandleExceptionAsync(e, httpContext).Result; //TODO: Fix await
+                return HandleExceptionAsync(e, httpRequest).Result; //TODO: Fix await
             }
         }
 
-        private async Task<bool> HandleExceptionAsync(Exception e, IHttpContext httpContext)
+        private async Task<IHttpResponse> HandleExceptionAsync(Exception e, IHttpRequest httpRequest)
         {
             IExceptionRequestHandler exceptionHandler = FindExceptionHandler(e.GetType());
             if (exceptionHandler == null)
-                return false;
+                return null;
 
             try
             {
-                return await exceptionHandler.HandleAsync(e, httpContext);
+                return await exceptionHandler.HandleAsync(e, httpRequest);
             }
             catch (Exception next)
             {
-                return HandleExceptionAsync(next, httpContext).Result; //TODO: Fix await
+                return HandleExceptionAsync(next, httpRequest).Result; //TODO: Fix await
             }
         }
 

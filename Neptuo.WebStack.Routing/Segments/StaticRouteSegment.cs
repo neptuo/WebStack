@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.WebStack.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -128,7 +129,7 @@ namespace Neptuo.WebStack.Routing.Segments
 
         #region Resolving url
 
-        public override IRequestHandler ResolveUrl(string url)
+        public override IRequestHandler ResolveUrl(string url, IHttpRequest httpRequest)
         {
             Guard.NotNull(url, "url");
             if (url.StartsWith(UrlPart))
@@ -139,7 +140,7 @@ namespace Neptuo.WebStack.Routing.Segments
 
                 foreach (RouteSegment child in Children)
                 {
-                    IRequestHandler requestHandler = child.ResolveUrl(remainingUrl);
+                    IRequestHandler requestHandler = child.ResolveUrl(remainingUrl, httpRequest);
                     if (requestHandler != null)
                         return requestHandler;
                 }

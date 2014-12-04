@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.StaticFiles
 {
-    public class FileSystemRequestHandler : IRequestHandler
+    public class FileSystemRequestHandler : RequestHandler
     {
         private readonly IReadOnlyDirectory rootDirectory;
         private readonly IPathProvider pathProvider;
@@ -22,25 +22,17 @@ namespace Neptuo.WebStack.StaticFiles
             this.pathProvider = pathProvider;
         }
 
-        public Task<bool> TryHandleAsync(IHttpContext httpContext)
+        protected override IHttpResponse TryHandle(IHttpRequest httpRequest)
         {
-            string path = pathProvider.GetPath(httpContext);
+            string path = pathProvider.GetPath(httpRequest);
             if (!String.IsNullOrEmpty(path))
             {
                 IReadOnlyFile file = rootDirectory.FindFiles(path, true).FirstOrDefault();
                 if (file != null)
-                {
-                    using (Stream fileContent = file.GetContentAsStream())
-                    {
-                        httpContext.Response().HeaderContentType(new HttpMediaType("image/jpeg"));
-                        fileContent.CopyTo(httpContext.Response().OutputStream());
-                    }
-
-                    return Task.FromResult(true);
-                }
+                    return BuildStreamResponse(file.GetContentAsStream(), new HttpMediaType("image/jpeg"));
             }
 
-            return Task.FromResult(false);
+            return null;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Extensions for <see cref="IHttpFile"/>.
     /// </summary>
-    public static class HttpFileExtensions
+    public static class _HttpFileExtensions
     {
         /// <summary>
         /// Saves <paramref name="httpFile"/> into <paramref name="targetDirectory"/> with name <see cref="IHttpFile.FileName"/>.

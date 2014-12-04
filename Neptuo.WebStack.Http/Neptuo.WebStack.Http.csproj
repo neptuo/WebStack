@@ -42,14 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpFileExtensions.cs" />
-    <Compile Include="HttpHeaderExtensions.cs" />
+    <Compile Include="DefaultHttpRequest.cs" />
+    <Compile Include="HttpRequestBuilder.cs" />
+    <Compile Include="DefaultHttpResponse.cs" />
+    <Compile Include="_HttpFileExtensions.cs" />
+    <Compile Include="_HttpHeaderExtensions.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />
     <Compile Include="HttpStatus.cs" />
     <Compile Include="HttpStatusCollection.cs" />
-    <Compile Include="IHttpContext.cs" />
     <Compile Include="IHttpFile.cs" />
     <Compile Include="IHttpParamCollection.cs" />
     <Compile Include="IHttpRequest.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="UrlBuilder.cs" />
     <Compile Include="UrlBuilderException.cs" />
     <Compile Include="UrlBuilderSupportedPart.cs" />
+    <Compile Include="_HttpRequestExtensions.cs" />
+    <Compile Include="_HttpResponseExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

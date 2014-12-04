@@ -46,13 +46,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IRouteParameter.cs" />
     <Compile Include="IRouteParameterCollection.cs" />
-    <Compile Include="IRouteParameterContext.cs" />
+    <Compile Include="IRouteParameterMatchContext.cs" />
     <Compile Include="IRouteTable.cs" />
     <Compile Include="PatternParser.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="RouteParameterCollection.cs" />
     <Compile Include="RouteRequestHandler.cs" />
     <Compile Include="Segments\HostRouteSegment.cs" />
+    <Compile Include="Segments\SchemaSegment.cs" />
     <Compile Include="Segments\VirtualPathRouteSegment.cs" />
     <Compile Include="Segments\RouteSegment.cs" />
     <Compile Include="Segments\StaticRouteSegment.cs" />

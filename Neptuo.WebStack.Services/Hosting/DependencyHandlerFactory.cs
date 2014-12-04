@@ -25,7 +25,7 @@ namespace Neptuo.WebStack.Services.Hosting
             this.dependencyProvider = dependencyProvider;
         }
 
-        public T Create(IHttpContext context)
+        public T Create(IHttpRequest httpRequest)
         {
             return dependencyProvider.Resolve<T>();
         }
