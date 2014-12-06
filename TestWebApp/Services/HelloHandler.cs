@@ -21,4 +21,26 @@ namespace TestWebApp.Services
             return Task.FromResult(true);
         }
     }
+
+    [Route("~/person/john")]
+    public class PersonJohnDoeHandler : IGet, IWithOutput<PersonModel>
+    {
+        public PersonModel Output { get; private set; }
+
+        public Task<bool> ExecuteAsync()
+        {
+            Output = new PersonModel()
+            {
+                FirstName = "John",
+                LastName = "Doe"
+            };
+            return Task.FromResult(true);
+        }
+    }
+
+    public class PersonModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
 }

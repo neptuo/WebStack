@@ -22,10 +22,10 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         {
             if (httpRequest.IsMethodPut())
             {
-                await handler.ExecuteAsync();
-                return new DefaultHttpResponse();
+                if (await handler.ExecuteAsync())
+                    return new DefaultHttpResponse();
             }
-            
+
             return await pipeline.NextAsync(httpRequest);
         }
     }

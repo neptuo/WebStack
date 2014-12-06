@@ -48,7 +48,7 @@ namespace Neptuo.WebStack.Exceptions
         {
             IExceptionRequestHandler exceptionHandler = FindExceptionHandler(e.GetType());
             if (exceptionHandler == null)
-                return null;
+                throw e;
 
             try
             {

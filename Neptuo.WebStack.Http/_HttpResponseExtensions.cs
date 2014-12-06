@@ -28,6 +28,21 @@ namespace Neptuo.WebStack.Http
         }
 
         /// <summary>
+        /// Http request headers.
+        /// </summary>
+        public static T HeaderValue<T>(this IHttpResponse response, string headerName, T defaultValue)
+        {
+            Guard.NotNull(response, "request");
+            Guard.NotNullOrEmpty(headerName, "headerName");
+
+            T value;
+            if (response.Headers().TryGet(headerName, out value))
+                return value;
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// Response text writer.
         /// </summary>
         public static TextWriter OutputWriter(this IHttpResponse response)
