@@ -20,6 +20,14 @@ namespace Neptuo.WebStack.Http
         }
 
         /// <summary>
+        /// Sets header 'Content-type'.
+        /// </summary>
+        public static HttpMediaType HeaderContentType(this IHttpResponse response)
+        {
+            return response.HeaderValue<HttpMediaType>("Content-type", null);
+        }
+
+        /// <summary>
         /// Gets request header 'Content-type'.
         /// </summary>
         public static HttpMediaType HeaderContentType(this IHttpRequest request)

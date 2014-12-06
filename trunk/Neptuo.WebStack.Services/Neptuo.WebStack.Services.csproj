@@ -98,6 +98,10 @@
       <Project>{b60172b4-9d8b-41d9-b14c-f82a30a94a4c}</Project>
       <Name>Neptuo.WebStack.Routing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Serialization\Neptuo.WebStack.Serialization.csproj">
+      <Project>{bb38b38a-9398-41cf-96b8-20c1a23c1077}</Project>
+      <Name>Neptuo.WebStack.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack\Neptuo.WebStack.csproj">
       <Project>{d661162a-cc24-4de8-920f-ae54c9258a7f}</Project>
       <Name>Neptuo.WebStack</Name>

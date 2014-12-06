@@ -21,6 +21,10 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public string Text { get; private set; }
 
+        public HttpStatus(int code)
+            : this(code, String.Empty)
+        { }
+
         /// <summary>
         /// Creates new instance with <paramref name="code"/> and <paramref name="text"/>.
         /// </summary>
@@ -29,7 +33,7 @@ namespace Neptuo.WebStack.Http
         public HttpStatus(int code, string text)
         {
             Guard.Positive(code, "code");
-            Guard.NotNullOrEmpty(text, "text");
+            Guard.NotNull(text, "text");
             Code = code;
             Text = text;
         }

@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\HttpMediaTypeConverter.cs" />
+    <Compile Include="Converters\HttpMethodConverter.cs" />
+    <Compile Include="Converters\HttpStatusConverter.cs" />
     <Compile Include="DefaultHttpRequest.cs" />
     <Compile Include="HttpRequestBuilder.cs" />
     <Compile Include="DefaultHttpResponse.cs" />

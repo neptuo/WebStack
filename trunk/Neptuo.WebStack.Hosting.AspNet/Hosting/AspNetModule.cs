@@ -23,23 +23,23 @@ namespace Neptuo.WebStack.Hosting
         private async Task OnBeginRequest(object sender, EventArgs e)
         {
             bool handlerExecuted = false;
-            HttpApplication httpApplication = (HttpApplication)sender;
-            HttpContext httpContext = httpApplication.Context;
+            HttpApplication application = (HttpApplication)sender;
+            HttpContext context = application.Context;
 
-            DefaultHttpRequest httpRequest = CreateHttpRequest(httpContext.Request, httpContext.Response);
+            DefaultHttpRequest httpRequest = CreateHttpRequest(context.Request, context.Response);
             IRequestHandler requestHandler = Engine.Environment.WithRootRequestHandler();
             IHttpResponse httpResponse = await requestHandler.TryHandleAsync(httpRequest);
             httpRequest.RaiseOnDisposing();
 
             if (httpResponse != null)
             {
-                ProcessResponse(httpContext.Response, httpResponse);
+                ProcessResponse(context.Response, httpResponse);
                 httpResponse.Dispose();
                 handlerExecuted = true;
             }
 
             if (handlerExecuted)
-                httpApplication.CompleteRequest();
+                application.CompleteRequest();
         }
 
         private DefaultHttpRequest CreateHttpRequest(HttpRequest request, HttpResponse response)
