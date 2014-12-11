@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\HelloHandler.cs" />
+    <Compile Include="Services\PersonJohnDoeHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj">

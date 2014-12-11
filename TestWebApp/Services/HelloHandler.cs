@@ -1,6 +1,6 @@
-﻿using Neptuo.WebStack.Services;
+﻿using Neptuo.WebStack.Routing;
+using Neptuo.WebStack.Services;
 using Neptuo.WebStack.Services.Behaviors;
-using Neptuo.WebStack.Services.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,27 +20,5 @@ namespace TestWebApp.Services
             Output = String.Format("Hello, {0}!", Input);
             return Task.FromResult(true);
         }
-    }
-
-    [Route("~/person/john")]
-    public class PersonJohnDoeHandler : IGet, IWithOutput<PersonModel>
-    {
-        public PersonModel Output { get; private set; }
-
-        public Task<bool> ExecuteAsync()
-        {
-            Output = new PersonModel()
-            {
-                FirstName = "John",
-                LastName = "Doe"
-            };
-            return Task.FromResult(true);
-        }
-    }
-
-    public class PersonModel
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 }

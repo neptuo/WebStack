@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Services.Routing
+namespace Neptuo.WebStack.Routing
 {
     /// <summary>
     /// Attribute for mapping handlers to routes.
