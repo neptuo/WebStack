@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Neptuo.ComponentModel.Converters;
 using Neptuo.WebStack.Serialization;
+using System.IO;
 
 namespace Neptuo.WebStack.Services.Hosting.Behaviors
 {
@@ -37,17 +38,22 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
                 return httpResponse;
             }
 
+            Stream outputStream = handler.Output as Stream;
+            if (outputStream != null)
+            {
+                await outputStream.CopyToAsync(httpResponse.OutputStream());
+                return httpResponse;
+            }
+
             if (handler.Output != null)
             {
                 HttpMediaType contentType = httpResponse.HeaderContentType();
                 if(contentType == null)
                     httpResponse.HeaderContentType(contentType = httpRequest.HeaderAccept());
 
-                ISerializer serializer;
-                if (!serializers.TryGet(contentType, out serializer))
-                    throw new NotSupportedException();
 
-                await serializer.SerializeAsync(httpResponse.OutputStream(), handler.Output);
+                if (!await serializers.TrySerialize(contentType, httpResponse.OutputStream(), handler.Output))
+                    throw new NotSupportedException();
             }
 
             return httpResponse;

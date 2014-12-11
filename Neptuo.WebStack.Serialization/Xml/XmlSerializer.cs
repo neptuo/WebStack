@@ -13,7 +13,7 @@ namespace Neptuo.WebStack.Serialization.Xml
     /// </summary>
     public class XmlSerializer : ISerializer, IDeserializer
     {
-        public Task SerializeAsync(Stream stream, object instance)
+        public Task<bool> TrySerializeAsync(Stream stream, object instance)
         {
             Guard.NotNull(stream, "stream");
             Guard.NotNull(instance, "instance");
@@ -22,10 +22,11 @@ namespace Neptuo.WebStack.Serialization.Xml
             {
                 SystemSerializer serializer = new SystemSerializer(instance.GetType());
                 serializer.Serialize(stream, instance);
+                return true;
             });
         }
 
-        public Task<object> DeserializeAsync(Stream stream, Type type)
+        public Task<object> TryDeserializeAsync(Stream stream, Type type)
         {
             Guard.NotNull(stream, "stream");
             Guard.NotNull(type, "instanceType");
