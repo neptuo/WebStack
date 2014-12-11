@@ -50,6 +50,7 @@
     <Compile Include="IRouteTable.cs" />
     <Compile Include="PatternParser.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="RouteAttribute.cs" />
     <Compile Include="RouteParameterCollection.cs" />
     <Compile Include="RouteRequestHandler.cs" />
     <Compile Include="Segments\HostRouteSegment.cs" />
