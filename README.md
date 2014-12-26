@@ -41,7 +41,7 @@ Oh, wait a moment, where is the handler for static files? Like in OWIN apps, thi
 
 This way request handlers are registered as singletons, if need to create handler instance for each request, simply by using the composite pattern, we create request handler that works like a factory for passed request handler type.
 
-Features to reimplement:
-	- IReadOnlyUrl MUST contains query string parameters.
-	- RoutingRequestHandler SHOULD support query string, HTTP method, header values.
+**Features to re-implement:**
+  - IReadOnlyUrl MUST contains query string parameters.
+  - RoutingRequestHandler SHOULD support query string, HTTP method, header values.
 
