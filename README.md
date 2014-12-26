@@ -1,5 +1,5 @@
 WebStack
-========
+==
 
 A different look to webapp structure and development (in C#) ...
 
@@ -7,7 +7,7 @@ Every webapp is represented by a single handler (IRequestHandler). This handler 
 
 At the application level, the root IRequestHandler can be implemented in two ways. The first one is that handler directly provides some output (eg. file content or genereted HTML, XML etc), the second one is that handler dispatches request processing to the other handlers (eg. routing handler, exception processing handler, etc).
 
----------
+==
 
 Request handler (represented by the interface IRequestHandler) defines single method for handling HTTP request and providing HTTP response. This method has the following signature:
 
@@ -42,6 +42,6 @@ Oh, wait a moment, where is the handler for static files? Like in OWIN apps, thi
 This way request handlers are registered as singletons, if need to create handler instance for each request, simply by using the composite pattern, we create request handler that works like a factory for passed request handler type.
 
 **Features to re-implement:**
-  - IReadOnlyUrl MUST contains query string parameters.
+  - IReadOnlyUrl MUST contain query string parameters.
   - RoutingRequestHandler SHOULD support query string, HTTP method, header values.
 
