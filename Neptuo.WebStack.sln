@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack", "Neptuo.WebStack\Neptuo.WebStack.csproj", "{D661162A-CC24-4DE8-920F-AE54C9258A7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack", "src\Neptuo.WebStack\Neptuo.WebStack.csproj", "{D661162A-CC24-4DE8-920F-AE54C9258A7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.AspNet", "Neptuo.WebStack.Hosting.AspNet\Neptuo.WebStack.Hosting.AspNet.csproj", "{77A95819-04AB-492C-81B4-B59553C94A99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.AspNet", "src\Neptuo.WebStack.Hosting.AspNet\Neptuo.WebStack.Hosting.AspNet.csproj", "{77A95819-04AB-492C-81B4-B59553C94A99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{79AAD4CC-773A-4045-9A11-6200410A9153}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "src\TestConsole\TestConsole.csproj", "{79AAD4CC-773A-4045-9A11-6200410A9153}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Services", "Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj", "{B628A16E-F84F-49AD-A04B-FC8A5428A663}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Services", "src\Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj", "{B628A16E-F84F-49AD-A04B-FC8A5428A663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Routing", "Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj", "{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Routing", "src\Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj", "{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Exceptions", "Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj", "{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Exceptions", "src\Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj", "{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Http", "Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj", "{EBD4A12A-E485-4E20-ABEB-756A42B27949}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Http", "src\Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj", "{EBD4A12A-E485-4E20-ABEB-756A42B27949}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{282B5595-E7BE-4612-96C8-D1ACE6F9E4B6}"
 EndProject
@@ -23,13 +23,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{167F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{CC76C880-4F10-4B33-B794-649515C64D6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.Owin", "Neptuo.WebStack.Hosting.Owin\Neptuo.WebStack.Hosting.Owin.csproj", "{0696E3F0-E358-4383-A47F-8BD47F4F71AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Hosting.Owin", "src\Neptuo.WebStack.Hosting.Owin\Neptuo.WebStack.Hosting.Owin.csproj", "{0696E3F0-E358-4383-A47F-8BD47F4F71AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{FC458A2B-DA40-4215-A028-B40A5CBABB14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "src\TestWebApp\TestWebApp.csproj", "{FC458A2B-DA40-4215-A028-B40A5CBABB14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.StaticFiles", "Neptuo.WebStack.StaticFiles\Neptuo.WebStack.StaticFiles.csproj", "{A18AD38E-7564-4B9E-B964-5E6289192AED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.StaticFiles", "src\Neptuo.WebStack.StaticFiles\Neptuo.WebStack.StaticFiles.csproj", "{A18AD38E-7564-4B9E-B964-5E6289192AED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Serialization", "Neptuo.WebStack.Serialization\Neptuo.WebStack.Serialization.csproj", "{BB38B38A-9398-41CF-96B8-20C1A23C1077}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Serialization", "src\Neptuo.WebStack.Serialization\Neptuo.WebStack.Serialization.csproj", "{BB38B38A-9398-41CF-96B8-20C1A23C1077}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{55D6397E-C238-4AC5-B278-3D76E78B86E8}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
