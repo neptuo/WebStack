@@ -40,6 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{55D639
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Templates", "Neptuo.WebStack.Templates\Neptuo.WebStack.Templates.csproj", "{184067CB-0B04-445D-A134-B47B6F686019}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources", "src\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj", "{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources.Bundling", "src\Neptuo.WebStack.Resources.Bundling\Neptuo.WebStack.Resources.Bundling.csproj", "{C43DC17F-8856-47C4-85DB-49B06BBDD385}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +98,14 @@ Global
 		{184067CB-0B04-445D-A134-B47B6F686019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{184067CB-0B04-445D-A134-B47B6F686019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{184067CB-0B04-445D-A134-B47B6F686019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +121,8 @@ Global
 		{A18AD38E-7564-4B9E-B964-5E6289192AED} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 		{BB38B38A-9398-41CF-96B8-20C1A23C1077} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 		{184067CB-0B04-445D-A134-B47B6F686019} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{C43DC17F-8856-47C4-85DB-49B06BBDD385} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
