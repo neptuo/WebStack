@@ -45,11 +45,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj">
+    <ProjectReference Include="..\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj">
       <Project>{f20e4ae3-6dc3-4a34-992d-0fef1b17fd9e}</Project>
       <Name>Neptuo.WebStack.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\src\Neptuo.WebStack.Templates\Neptuo.WebStack.Templates.csproj">
+    <ProjectReference Include="..\Neptuo.WebStack.Templates\Neptuo.WebStack.Templates.csproj">
       <Project>{184067cb-0b04-445d-a134-b47b6f686019}</Project>
       <Name>Neptuo.WebStack.Templates</Name>
     </ProjectReference>
