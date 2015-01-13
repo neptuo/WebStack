@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.WebStack.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,9 @@ namespace Neptuo.WebStack.Templates
         /// </summary>
         IHtmlWriter Writer { get; }
 
-
+        /// <summary>
+        /// Context for selecting which resources to use from collection.
+        /// </summary>
+        IResourceContext ResourceContext { get; }
     }
 }

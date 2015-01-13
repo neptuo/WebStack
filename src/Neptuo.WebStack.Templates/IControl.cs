@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Templates
 {
+    /// <summary>
+    /// Base renderable component.
+    /// </summary>
     public interface IControl
     {
         /// <summary>
@@ -15,9 +18,9 @@ namespace Neptuo.WebStack.Templates
         void OnInit(IComponentManager componentManager);
 
         /// <summary>
-        /// Renders output to <paramref name="writer"/>.
+        /// Renders output to <paramref name="context"/>.
         /// </summary>
-        /// <param name="writer">Output writer.</param>
-        void Render(IHtmlWriter writer);
+        /// <param name="context">Output rendering context.</param>
+        void Render(IRenderContext context);
     }
 }

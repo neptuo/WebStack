@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neptuo">
+      <HintPath>..\..\references\Neptuo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,11 +42,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultExtensionContext.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
     <Compile Include="IHtmlWriter.cs" />
+    <Compile Include="IControlObserver.cs" />
     <Compile Include="IRenderContext.cs" />
+    <Compile Include="IValueExtension.cs" />
+    <Compile Include="IValueExtensionContext.cs" />
+    <Compile Include="ControlObserverEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runtime\ComponentManager.ComponentEntry.cs" />
+    <Compile Include="Runtime\ComponentManager.cs" />
+    <Compile Include="IComponentManager.cs" />
+    <Compile Include="Runtime\ComponentManager.ObserverInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj">
+      <Project>{f20e4ae3-6dc3-4a34-992d-0fef1b17fd9e}</Project>
+      <Name>Neptuo.WebStack.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
