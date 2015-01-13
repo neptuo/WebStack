@@ -64,6 +64,7 @@
     <Compile Include="Providers\XmlProviders\XmlDocumentElement.cs" />
     <Compile Include="Providers\XmlProviders\XmlResourceReader.cs" />
     <Compile Include="ResourceTable.cs" />
+    <Compile Include="_ResourceContextExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
