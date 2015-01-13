@@ -44,7 +44,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources.Bundling", "src\Neptuo.WebStack.Resources.Bundling\Neptuo.WebStack.Resources.Bundling.csproj", "{C43DC17F-8856-47C4-85DB-49B06BBDD385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Templates.Compilation", "Neptuo.WebStack.Templates.Compilation\Neptuo.WebStack.Templates.Compilation.csproj", "{6DB7A842-54A6-4E3B-A7A9-48B3CCC38980}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Templates.Compilation", "src\Neptuo.WebStack.Templates.Compilation\Neptuo.WebStack.Templates.Compilation.csproj", "{6DB7A842-54A6-4E3B-A7A9-48B3CCC38980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
