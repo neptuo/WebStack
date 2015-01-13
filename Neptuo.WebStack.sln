@@ -38,7 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{55D639
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Templates", "Neptuo.WebStack.Templates\Neptuo.WebStack.Templates.csproj", "{184067CB-0B04-445D-A134-B47B6F686019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Templates", "src\Neptuo.WebStack.Templates\Neptuo.WebStack.Templates.csproj", "{184067CB-0B04-445D-A134-B47B6F686019}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources", "src\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj", "{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}"
 EndProject
