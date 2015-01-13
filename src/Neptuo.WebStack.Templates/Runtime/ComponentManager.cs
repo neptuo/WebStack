@@ -115,7 +115,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             bool canInit = true;
             if (entry.Observers.Count > 0)
             {
-                ControlObserverEventArgs args = new ControlObserverEventArgs(entry.Control as IControl);
+                ControlObserverEventArgs args = new ControlObserverEventArgs((IControl)entry.Control, this);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
@@ -201,7 +201,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             bool canRender = true;
             if (entry.Observers.Count > 0)
             {
-                ControlObserverEventArgs args = new ControlObserverEventArgs(target);
+                ControlObserverEventArgs args = new ControlObserverEventArgs(target, this);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
