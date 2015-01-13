@@ -38,6 +38,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{55D639
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources", "src\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj", "{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{BB38B38A-9398-41CF-96B8-20C1A23C1077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB38B38A-9398-41CF-96B8-20C1A23C1077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB38B38A-9398-41CF-96B8-20C1A23C1077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{0696E3F0-E358-4383-A47F-8BD47F4F71AA} = {CC76C880-4F10-4B33-B794-649515C64D6B}
 		{A18AD38E-7564-4B9E-B964-5E6289192AED} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 		{BB38B38A-9398-41CF-96B8-20C1A23C1077} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
