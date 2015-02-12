@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,20 @@ namespace Neptuo.WebStack.Http
     /// </summary>
     public static class _HttpRequestExtensions
     {
+        public static HttpMethod Method(this IHttpRequest request)
+        {
+            Guard.NotNull(request, "request");
+
+            HttpMethod method;
+            if (!request.CustomValues.TryGet(RequestKey.Method, out method))
+            {
+                method = Converts.To<string, HttpMethod>(request.RawValues.Method);
+                request.CustomValues.Set(RequestKey.Method, method);
+            }
+
+            return method;
+        }
+
         /// <summary>
         /// Returns <c>true</c> if Http method equals to Get; returns <c>false</c> otherwise.
         /// </summary>

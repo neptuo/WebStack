@@ -277,12 +277,12 @@
             <param name="key">Key for which <paramref name="listener"/> will be executed.</param>
             <param name="listener">Listener executed after setting value.</param>
         </member>
-        <member name="T:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions">
+        <member name="T:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions">
             <summary>
             Some common extensions.
             </summary>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String)">
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String)">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <typeparamref name="T"/>, returns it.
@@ -293,7 +293,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{``0})">
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{``0})">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <typeparamref name="T"/>, returns it.
@@ -304,7 +304,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,``0)">
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,``0)">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <typeparamref name="T"/>, returns it.
@@ -315,7 +315,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{System.Int32})">
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{System.Int32})">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <see cref="T:System.Int32"/>, returns it.
@@ -326,7 +326,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.String)">
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.String)">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <see cref="T:System.String"/>, returns it.
@@ -337,7 +337,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{System.Boolean})">
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{System.Boolean})">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <see cref="T:System.Boolean"/>, returns it.
@@ -534,6 +534,22 @@
             </summary>
             <param name="errors">Enumeration of compilation errors.</param>
             <param name="output">Raw compiler output.</param>
+        </member>
+        <member name="T:Neptuo.ComponentModel.Converters.CollectionConverter`1">
+            <summary>
+            Converter for converting string value (splitted using defined separator) to one of supported collection types.
+            </summary>
+            <typeparam name="TItemTarget">Target collection item value.</typeparam>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Converters._ConverterRepositoryExtensions.Add``2(Neptuo.ComponentModel.Converters.IConverterRepository,Neptuo.ComponentModel.Converters.IConverter{``0,``1})">
+            <summary>
+            Registers <paramref name="converter"/> for conversion from <paramref name="sourceType"/> to <paramref name="targetType"/>.
+            </summary>
+            <typeparam name="TSource">Source type.</typeparam>
+            <typeparam name="TTarget">Target type.</typeparam>
+            <param name="repository">The repository to register converter to.</param>
+            <param name="converter">The converter.</param>
+            <returns><paramref name="repository"/>.</returns>
         </member>
         <member name="T:Neptuo.ComponentModel.IErrorInfo">
             <summary>
@@ -750,6 +766,35 @@
             <param name="sourceValue">Source value.</param>
             <param name="targetValue">Output target value.</param>
             <returns>True if conversion was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Converts.To``2(``0)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> of type <typeparamref name="TSource"/> to target type <typeparamref name="TTarget"/>.
+            If conversion is not possible, throws exception <see cref="T:System.ArgumentOutOfRangeException"/>.
+            </summary>
+            <typeparam name="TSource">Source value type.</typeparam>
+            <typeparam name="TTarget">Target value type.</typeparam>
+            <param name="sourceValue">Source value.</param>
+            <returns>Value <paramref name="sourceValue"/> converted to type <typeparamref name="TTarget"/></returns>
+        </member>
+        <member name="M:Neptuo.Converts.To(System.Type,System.Type,System.Object)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> to target type <paramref name="targetType"/>.
+            If conversion is not possible, throws exception <see cref="T:System.ArgumentOutOfRangeException"/>.
+            </summary>
+            <param name="sourceType">Type of source value.</param>
+            <param name="targetType">Type of target value.</param>
+            <param name="sourceValue">Source value.</param>
+            <returns>Value <paramref name="sourceValue"/> converted to type <paramref name="targetType"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Converts.To(System.Type,System.Object)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> to target type <paramref name="targetType"/>.
+            If conversion is not possible, throws exception <see cref="T:System.ArgumentOutOfRangeException"/>.
+            </summary>
+            <param name="targetType">Type of target value.</param>
+            <param name="sourceValue">Source value.</param>
+            <returns>Value <paramref name="sourceValue"/> converted to type <paramref name="targetType"/>.</returns>
         </member>
         <member name="P:Neptuo.Converts.Repository">
             <summary>
@@ -1178,7 +1223,7 @@
             Internal storage for registrations.
             </summary>
         </member>
-        <member name="M:Neptuo.Events.EventDispatcherExtensions.SubscribeDependency``2(Neptuo.Events.IEventRegistry,Neptuo.IDependencyProvider)">
+        <member name="M:Neptuo.Events._EventDispatcherExtensions.SubscribeDependency``2(Neptuo.Events.IEventRegistry,Neptuo.IDependencyProvider)">
             <summary>
             Subscribes <typeparamref name="TEventHandler"/> using dependency handler factory.
             </summary>
@@ -1339,42 +1384,42 @@
             <param name="formatParameters"></param>
             <returns><see cref="T:System.InvalidOperationException"/>.</returns>
         </member>
-        <member name="T:Neptuo.FileSystems.FileContentExtensions">
+        <member name="T:Neptuo.FileSystems._FileContentExtensions">
             <summary>
             Extensions for reading and writing file content in sync mode.
             </summary>
         </member>
-        <member name="M:Neptuo.FileSystems.FileContentExtensions.GetContent(Neptuo.FileSystems.IReadOnlyFile)">
+        <member name="M:Neptuo.FileSystems._FileContentExtensions.GetContent(Neptuo.FileSystems.IReadOnlyFile)">
             <summary>
             Returns file content.
             </summary>
             <returns>File content.</returns>
         </member>
-        <member name="M:Neptuo.FileSystems.FileContentExtensions.GetContentAsByteArray(Neptuo.FileSystems.IReadOnlyFile)">
+        <member name="M:Neptuo.FileSystems._FileContentExtensions.GetContentAsByteArray(Neptuo.FileSystems.IReadOnlyFile)">
             <summary>
             Returns file content as byte array.
             </summary>
             <returns>File content as byte array.</returns>
         </member>
-        <member name="M:Neptuo.FileSystems.FileContentExtensions.GetContentAsStream(Neptuo.FileSystems.IReadOnlyFile)">
+        <member name="M:Neptuo.FileSystems._FileContentExtensions.GetContentAsStream(Neptuo.FileSystems.IReadOnlyFile)">
             <summary>
             Returns file content as stream.
             </summary>
             <returns>File content as stream.</returns>
         </member>
-        <member name="M:Neptuo.FileSystems.FileContentExtensions.SetContent(Neptuo.FileSystems.IFile,System.String)">
+        <member name="M:Neptuo.FileSystems._FileContentExtensions.SetContent(Neptuo.FileSystems.IFile,System.String)">
             <summary>
             Overrides file content to <paramref name="fileContent"/>.
             </summary>
             <param name="fileContent">New file content.</param>
         </member>
-        <member name="M:Neptuo.FileSystems.FileContentExtensions.SetContentFromByteArray(Neptuo.FileSystems.IFile,System.Byte[])">
+        <member name="M:Neptuo.FileSystems._FileContentExtensions.SetContentFromByteArray(Neptuo.FileSystems.IFile,System.Byte[])">
             <summary>
             Overrides file content to <paramref name="fileContent"/>.
             </summary>
             <param name="fileContent">New file content.</param>
         </member>
-        <member name="M:Neptuo.FileSystems.FileContentExtensions.SetContentFromStream(Neptuo.FileSystems.IFile,System.IO.Stream)">
+        <member name="M:Neptuo.FileSystems._FileContentExtensions.SetContentFromStream(Neptuo.FileSystems.IFile,System.IO.Stream)">
             <summary>
             Overrides file content to <paramref name="fileContent"/>.
             </summary>
@@ -1782,16 +1827,16 @@
             Generates identifiers from <see cref="T:System.Guid"/>.
             </summary>
         </member>
-        <member name="T:Neptuo.ComponentModel.IGuidProvider">
+        <member name="T:Neptuo.ComponentModel.IUniqueNameProvider">
             <summary>
-            Provider for unique identifiers.
+            Provider for unique names.
             </summary>
         </member>
-        <member name="M:Neptuo.ComponentModel.IGuidProvider.Next">
+        <member name="M:Neptuo.ComponentModel.IUniqueNameProvider.Next">
             <summary>
-            Generates new unique identifier.
+            Generates new unique name.
             </summary>
-            <returns>New unique identifier.</returns>
+            <returns>New unique name.</returns>
         </member>
         <member name="T:Neptuo.IParametrizedActivator`1">
             <summary>
@@ -1969,22 +2014,22 @@
             Provides SHA256 hash provider.
             </summary>
         </member>
-        <member name="T:Neptuo.ComponentModel.SequenceGuidProvider">
+        <member name="T:Neptuo.ComponentModel.SequenceUniqueNameProvider">
             <summary>
             Generates identifiers using specified prefix and integer sequence.
             </summary>
         </member>
-        <member name="F:Neptuo.ComponentModel.SequenceGuidProvider.prefix">
+        <member name="F:Neptuo.ComponentModel.SequenceUniqueNameProvider.prefix">
             <summary>
             Optional string prefix.
             </summary>
         </member>
-        <member name="F:Neptuo.ComponentModel.SequenceGuidProvider.offset">
+        <member name="F:Neptuo.ComponentModel.SequenceUniqueNameProvider.offset">
             <summary>
             Optional zero offset.
             </summary>
         </member>
-        <member name="M:Neptuo.ComponentModel.SequenceGuidProvider.#ctor(System.String,System.Int32)">
+        <member name="M:Neptuo.ComponentModel.SequenceUniqueNameProvider.#ctor(System.String,System.Int32)">
             <summary>
             Creates instance with optional string prefix <paramref name="prefix"/> and optional int offset <paramref name="offset"/>.
             </summary>
