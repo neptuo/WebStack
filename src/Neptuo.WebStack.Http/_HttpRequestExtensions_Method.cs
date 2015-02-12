@@ -1,5 +1,4 @@
-﻿using Neptuo.Collections.Specialized;
-using Neptuo.WebStack.Http.Keys;
+﻿using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +8,13 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack.Http
 {
     /// <summary>
-    /// Common extensions for <see cref="IHttpRequest"/>.
+    /// Common HTTP method extensions for <see cref="IHttpRequest"/>.
     /// </summary>
-    public static class _HttpRequestExtensions
+    public static class _HttpRequestExtensions_Method
     {
+        /// <summary>
+        /// Returns HTTP method of <paramref name="request"/>.
+        /// </summary>
         public static HttpMethod Method(this IHttpRequest request)
         {
             Guard.NotNull(request, "request");
@@ -63,36 +65,5 @@ namespace Neptuo.WebStack.Http
             return request.Method() == HttpMethod.Delete;
         }
 
-        /// <summary>
-        /// Http request headers.
-        /// </summary>
-        public static T Header<T>(this IHttpRequest request, string headerName, T? defaltValue)
-            where T : struct
-        {
-            Guard.NotNull(request, "request");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            return request.Headers().Get<T>(headerName, defaltValue);
-        }
-
-        /// <summary>
-        /// Http request headers.
-        /// </summary>
-        public static T Header<T>(this IHttpRequest request, string headerName, T defaltValue)
-            where T : class
-        {
-            Guard.NotNull(request, "request");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            return request.Headers().Get<T>(headerName, defaltValue);
-        }
-
-
-        /// <summary>
-        /// Gets builder for URL addresses.
-        /// </summary>
-        public static IUrlBuilder UrlBuilder(this IHttpRequest httpRequest)
-        {
-            Guard.NotNull(httpRequest, "httpRequest");
-            return httpRequest.DependencyProvider().Resolve<IUrlBuilder>();
-        }
     }
 }

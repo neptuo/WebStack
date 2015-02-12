@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.FeatureModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ namespace Neptuo.WebStack.Http
     /// <summary>
     /// Http request.
     /// </summary>
-    public interface IHttpRequest
+    public interface IHttpRequest : IFeatureModel
     {
         /// <summary>
         /// Raw HTTP request values.

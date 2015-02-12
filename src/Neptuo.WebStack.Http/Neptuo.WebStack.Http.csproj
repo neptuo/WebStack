@@ -33,6 +33,9 @@
     <Reference Include="Neptuo">
       <HintPath>..\..\references\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.FeatureModels">
+      <HintPath>..\..\references\Neptuo.FeatureModels.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,7 @@
     <Compile Include="Converters\HttpMediaTypeConverter.cs" />
     <Compile Include="Converters\HttpMethodConverter.cs" />
     <Compile Include="Converters\HttpStatusConverter.cs" />
+    <Compile Include="DefaultRawHttpRequest.cs" />
     <Compile Include="DefaultHttpRequest.cs" />
     <Compile Include="HttpRequestBuilder.cs" />
     <Compile Include="DefaultHttpResponse.cs" />
@@ -60,6 +64,7 @@
     <Compile Include="IHttpParamCollection.cs" />
     <Compile Include="IHttpRequest.cs" />
     <Compile Include="IHttpResponse.cs" />
+    <Compile Include="_HttpRequestExtensions_Method.cs" />
     <Compile Include="_Url\IReadOnlyUrl.cs" />
     <Compile Include="_Url\IUrlBuilder.cs" />
     <Compile Include="_Url\IUrlHostBuilder.cs" />
@@ -73,7 +78,7 @@
     <Compile Include="_Url\UrlBuilder.cs" />
     <Compile Include="_Url\UrlBuilderException.cs" />
     <Compile Include="_Url\UrlBuilderSupportedPart.cs" />
-    <Compile Include="_HttpRequestExtensions.cs" />
+    <Compile Include="_HttpRequestExtensions_Headers.cs" />
     <Compile Include="_HttpResponseExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
