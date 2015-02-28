@@ -45,11 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Specialized\MultiKeyValueCollection.cs" />
     <Compile Include="Collections\Specialized\PrefixKeyValueCollection.cs" />
     <Compile Include="Converters\HttpMediaTypeConverter.cs" />
     <Compile Include="Converters\HttpMethodConverter.cs" />
     <Compile Include="Converters\HttpStatusConverter.cs" />
     <Compile Include="Features\IHttpRequestFileFeature.cs" />
+    <Compile Include="Features\IHttpRequestFormFeature.cs" />
+    <Compile Include="HttpRequestParamCollection.cs" />
     <Compile Include="HttpRequestHeaderCollection.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
@@ -72,6 +75,16 @@
     <Compile Include="_HttpRequestExtensions_Files.cs" />
     <Compile Include="_HttpRequestExtensions_Headers.cs" />
     <Compile Include="_HttpRequestExtensions_Method.cs" />
+    <Compile Include="_HttpRequestExtensions_Params.cs" />
+    <Compile Include="_HttpRequestExtensions_Url.cs" />
+    <Compile Include="_Url\IReadOnlyUrl.cs" />
+    <Compile Include="_Url\IUrlBuilder.cs" />
+    <Compile Include="_Url\IUrlHostBuilder.cs" />
+    <Compile Include="_Url\IUrlPathBuilder.cs" />
+    <Compile Include="_Url\Url.cs" />
+    <Compile Include="_Url\UrlBuilder.cs" />
+    <Compile Include="_Url\UrlBuilderException.cs" />
+    <Compile Include="_Url\UrlBuilderSupportedPart.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
