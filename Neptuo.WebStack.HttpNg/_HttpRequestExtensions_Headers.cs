@@ -13,43 +13,15 @@ namespace Neptuo.WebStack.Http
     /// </summary>
     public static class _HttpRequestExtensions_Headers
     {
-        public static IReadOnlyKeyValueCollection Headers(this HttpRequest request)
+        public static HttpRequestHeaderCollection Headers(this HttpRequest request)
         {
             Guard.NotNull(request, "request");
 
-            IReadOnlyKeyValueCollection headers;
+            HttpRequestHeaderCollection headers;
             if (!request.CustomValues().TryGet(RequestKey.Headers, out headers))
-            {
-                KeyValueCollection storage = new KeyValueCollection();
-                foreach (KeyValuePair<string, string> header in request.RawMessage().Headers)
-                    storage.Set(header.Key, header.Value);
-
-                request.CustomValues().Set(RequestKey.Headers, headers = storage);
-            }
+                request.CustomValues().Set(RequestKey.Headers, headers = new HttpRequestHeaderCollection(request.RawMessage()));
 
             return headers;
-        }
-
-        /// <summary>
-        /// HTTP request header.
-        /// </summary>
-        public static T Header<T>(this HttpRequest request, string headerName, T? defaltValue)
-            where T : struct
-        {
-            Guard.NotNull(request, "request");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            return request.Headers().Get<T>(headerName, defaltValue);
-        }
-
-        /// <summary>
-        /// HTTP request header.
-        /// </summary>
-        public static T Header<T>(this HttpRequest request, string headerName, T defaltValue)
-            where T : class
-        {
-            Guard.NotNull(request, "request");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            return request.Headers().Get<T>(headerName, defaltValue);
         }
     }
 }

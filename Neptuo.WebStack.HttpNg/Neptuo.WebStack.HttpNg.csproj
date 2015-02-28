@@ -50,6 +50,7 @@
     <Compile Include="Converters\HttpMethodConverter.cs" />
     <Compile Include="Converters\HttpStatusConverter.cs" />
     <Compile Include="Features\IHttpRequestFileFeature.cs" />
+    <Compile Include="HttpRequestHeaderCollection.cs" />
     <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />

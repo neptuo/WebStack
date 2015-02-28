@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http.Keys;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,25 +32,17 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// Gets request header 'Content-type'.
         /// </summary>
-        public static HttpMediaType HeaderContentType(this HttpRequest httpRequest)
+        public static HttpMediaType ContentType(this HttpRequestHeaderCollection httpHeaders)
         {
-            return httpRequest.Header<HttpMediaType>(RequestKey.Header.ContentType, null);
+            return httpHeaders.Get<HttpMediaType>(RequestKey.Header.ContentType, null);
         }
 
         /// <summary>
         /// Gets request header 'Accept'.
         /// </summary>
-        public static IEnumerable<HttpMediaType> HeaderAcceptAll(this HttpRequest httpRequest)
+        public static IEnumerable<HttpMediaType> Accept(this HttpRequestHeaderCollection httpHeaders)
         {
-            return httpRequest.Header<IEnumerable<HttpMediaType>>(RequestKey.Header.Accept, Enumerable.Empty<HttpMediaType>());
-        }
-
-        /// <summary>
-        /// Gets (first value from) request header 'Accept'.
-        /// </summary>
-        public static HttpMediaType HeaderAccept(this HttpRequest httpRequest)
-        {
-            return httpRequest.HeaderAcceptAll().FirstOrDefault();
+            return httpHeaders.Get<IEnumerable<HttpMediaType>>(RequestKey.Header.Accept, Enumerable.Empty<HttpMediaType>());
         }
     }
 }
