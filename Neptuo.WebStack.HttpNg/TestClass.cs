@@ -12,10 +12,10 @@ namespace Neptuo.WebStack.Http
         {
             IHttpContext httpContext = null;
 
-            //httpContext.Request().IsMethodGet();
+            httpContext.Request().IsMethodGet();
             httpContext.Request().Files();
 
-
+            httpContext.Response().Headers().Set(null, null);
 
 
             IUrlBuilder builder = null;

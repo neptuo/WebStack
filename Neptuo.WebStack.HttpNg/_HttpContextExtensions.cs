@@ -40,5 +40,21 @@ namespace Neptuo.WebStack.Http
 
             return httpRequest;
         }
+
+        /// <summary>
+        /// Returns extensible HTTP request from <paramref name="httpContext"/>.
+        /// </summary>
+        /// <param name="httpContext">Target HTTP context.</param>
+        /// <returns>Extensible HTTP request from <paramref name="httpContext"/>.</returns>
+        public static HttpResponse Response(this IHttpContext httpContext)
+        {
+            Guard.NotNull(httpContext, "httpContext");
+
+            HttpResponse httpResponse;
+            if (!httpContext.CustomValues().TryGet(ResponseKey.Root, out httpResponse))
+                httpContext.CustomValues().Set(ResponseKey.Root, httpResponse = new HttpResponse(httpContext));
+
+            return httpResponse;
+        }
     }
 }

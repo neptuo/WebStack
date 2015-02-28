@@ -59,6 +59,7 @@
     <Compile Include="HttpMethodCollection.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="HttpResponse.cs" />
+    <Compile Include="HttpResponseHeaderCollection.cs" />
     <Compile Include="HttpStatus.cs" />
     <Compile Include="HttpStatusCollection.cs" />
     <Compile Include="IHttpContext.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="_HttpContextExtensions.cs" />
     <Compile Include="_HttpHeaderExtensions_MediaType.cs" />
     <Compile Include="_HttpRequestExtensions_Files.cs" />
+    <Compile Include="_HttpResponseExtensions_Headers.cs" />
     <Compile Include="_HttpRequestExtensions_Headers.cs" />
     <Compile Include="_HttpRequestExtensions_Method.cs" />
     <Compile Include="_HttpRequestExtensions_Params.cs" />

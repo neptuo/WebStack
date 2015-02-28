@@ -13,13 +13,13 @@ namespace Neptuo.WebStack.Http
     /// </summary>
     public static class _HttpRequestExtensions_Headers
     {
-        public static HttpRequestHeaderCollection Headers(this HttpRequest request)
+        public static HttpRequestHeaderCollection Headers(this HttpRequest httpRequest)
         {
-            Guard.NotNull(request, "request");
+            Guard.NotNull(httpRequest, "request");
 
             HttpRequestHeaderCollection headers;
-            if (!request.CustomValues().TryGet(RequestKey.Headers, out headers))
-                request.CustomValues().Set(RequestKey.Headers, headers = new HttpRequestHeaderCollection(request.RawMessage()));
+            if (!httpRequest.CustomValues().TryGet(RequestKey.Headers, out headers))
+                httpRequest.CustomValues().Set(RequestKey.Headers, headers = new HttpRequestHeaderCollection(httpRequest.RawMessage()));
 
             return headers;
         }
