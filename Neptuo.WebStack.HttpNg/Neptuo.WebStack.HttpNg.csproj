@@ -55,6 +55,7 @@
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />
     <Compile Include="HttpRequest.cs" />
+    <Compile Include="HttpResponse.cs" />
     <Compile Include="HttpStatus.cs" />
     <Compile Include="HttpStatusCollection.cs" />
     <Compile Include="IHttpContext.cs" />
