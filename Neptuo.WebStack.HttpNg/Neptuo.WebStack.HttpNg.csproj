@@ -67,7 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="_HttpContextExtensions.cs" />
-    <Compile Include="_HttpHeaderExtensions.cs" />
+    <Compile Include="_HttpHeaderExtensions_MediaType.cs" />
     <Compile Include="_HttpRequestExtensions_Files.cs" />
     <Compile Include="_HttpRequestExtensions_Headers.cs" />
     <Compile Include="_HttpRequestExtensions_Method.cs" />

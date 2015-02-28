@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack.Http
 {
     /// <summary>
-    /// Extensions for type safe access to HTTP headers
+    /// Extensions for type safe access to HTTP headers on both HTTP request and response.
     /// </summary>
-    public static class _HttpHeaderExtensions
+    public static class _HttpHeaderExtensions_MediaType
     {
         ///// <summary>
         ///// Sets header 'Content-type'.
