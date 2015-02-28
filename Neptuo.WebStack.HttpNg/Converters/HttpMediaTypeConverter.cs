@@ -26,8 +26,8 @@ namespace Neptuo.WebStack.Http.Converters
         {
             if (String.IsNullOrEmpty(sourceValue))
             {
-                targetValue = null;
-                return false;
+                targetValue = HttpMediaType.Unknown;
+                return true;
             }
 
             foreach (HttpMediaType knownMediaType in knownMediaTypes)

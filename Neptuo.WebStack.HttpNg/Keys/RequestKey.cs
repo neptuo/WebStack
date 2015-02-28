@@ -18,5 +18,11 @@ namespace Neptuo.WebStack.Http.Keys
         public const string Files = "Request.Files";
         public const string CancellationToken = "Request.CancellationToken";
         public const string ApplicationPath = "Request.ApplicationPath";
+
+        public static class Header
+        {
+            public const string Accept = "Accept";
+            public const string ContentType = "Content-type";
+        }
     }
 }
