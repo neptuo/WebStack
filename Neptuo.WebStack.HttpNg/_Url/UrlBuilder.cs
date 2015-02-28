@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.WebStack.Http
 {
-    public class UrlBuilder : IUrlBuilder, IUrlHostBuilder, IUrlPathBuilder
+    public class UrlBuilder : IUrlBuilder, IUrlHostBuilder, IUrlPathBuilder, IUrlQueryStringBuilder
     {
         /// <summary>
         /// Matches protocol name.
@@ -50,10 +50,15 @@ namespace Neptuo.WebStack.Http
         private string path;
 
         /// <summary>
+        /// Current query string.
+        /// </summary>
+        private Dictionary<string, string> queryString;
+
+        /// <summary>
         /// Creates new empty instance.
         /// </summary>
         public UrlBuilder(string applicationPath = null)
-            : this(UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Host | UrlBuilderSupportedPart.Path | UrlBuilderSupportedPart.VirtualPath, applicationPath)
+            : this(UrlBuilderSupportedPart.Schema | UrlBuilderSupportedPart.Host | UrlBuilderSupportedPart.Path | UrlBuilderSupportedPart.VirtualPath | UrlBuilderSupportedPart.QueryString, applicationPath)
         { }
 
         /// <summary>
@@ -73,11 +78,12 @@ namespace Neptuo.WebStack.Http
         /// <param name="schema">Current schema name.</param>
         /// <param name="host">Current domain name + port.</param>
         /// <param name="path">Current path.</param>
-        protected UrlBuilder(string schema, string host, string path)
+        protected UrlBuilder(string schema, string host, string path, Dictionary<string, string> queryString)
         {
             this.schema = schema;
             this.host = host;
             this.path = path;
+            this.queryString = queryString;
         }
 
         public IReadOnlyUrl FromUrl(string url)
@@ -159,7 +165,7 @@ namespace Neptuo.WebStack.Http
             if(!TrySchema(schema, out output) || output != schema)
                 throw new UrlPartMalFormattedException("schema", schema);
 
-            return new UrlBuilder(schema, null, null);
+            return new UrlBuilder(schema, null, null, null);
         }
 
         protected bool TryHost(string url, out string host)
@@ -183,7 +189,7 @@ namespace Neptuo.WebStack.Http
             if(!TryHost(host, out output) || output != host)
                 throw new UrlPartMalFormattedException("host", host);
 
-            return new UrlBuilder(schema, host, null);
+            return new UrlBuilder(schema, host, null, null);
         }
 
         protected bool TryPath(string url, out string path)
@@ -199,7 +205,18 @@ namespace Neptuo.WebStack.Http
             return true;
         }
 
-        public IReadOnlyUrl Path(string path)
+        public IUrlQueryStringBuilder Path(string path)
+        {
+            Guard.NotNullOrEmpty(path, "path");
+
+            string output;
+            if (!TryPath(path, out output) || output != path)
+                throw new UrlPartMalFormattedException("path", path);
+
+            return new UrlBuilder(schema, host, path, null);
+        }
+
+        public IReadOnlyUrl PathToUrl(string path)
         {
             Guard.NotNullOrEmpty(path, "path");
 
@@ -238,14 +255,19 @@ namespace Neptuo.WebStack.Http
             return false;
         }
 
-        public IReadOnlyUrl VirtualPath(string virtualPath)
+        public IUrlQueryStringBuilder VirtualPath(string virtualPath)
+        {
+            throw Guard.Exception.NotImplemented();
+        }
+
+        public IReadOnlyUrl VirtualPathToUrl(string virtualPath)
         {
             Guard.NotNullOrEmpty(virtualPath, "virtualPath");
             if (virtualPath[0] != '~' || virtualPath[1] != '/')
                 throw Guard.Exception.ArgumentOutOfRange("path", "Path argument must start with '~/'.");
 
             string output;
-            if(!TryVirtualPath(virtualPath, out output) || output != virtualPath)
+            if (!TryVirtualPath(virtualPath, out output) || output != virtualPath)
                 throw new UrlPartMalFormattedException("virtualPath", virtualPath);
 
             Url url = Url.FromVirtualPath(virtualPath);
@@ -282,6 +304,67 @@ namespace Neptuo.WebStack.Http
                 else
                     url.Path = url.VirtualPath.Replace("~", applicationPath);
             }
+        }
+
+        /// <summary>
+        /// Tries to make <paramref name="key"/> valid.
+        /// </summary>
+        /// <param name="key">Source key.</param>
+        /// <param name="targetKey">Target valid key.</param>
+        /// <returns><c>true</c> if validation was successfull; <c>false</c> otherwise.</returns>
+        protected bool TryParameterKey(string key, out string targetKey)
+        {
+            targetKey = key;
+            return true;
+        }
+
+        /// <summary>
+        /// Tries to make <paramref name="value"/> valid.
+        /// </summary>
+        /// <param name="value">Source value.</param>
+        /// <param name="targetValue">Target valid value.</param>
+        /// <returns><c>true</c> if validation was successfull; <c>false</c> otherwise.</returns>
+        protected bool TryParameterValue(string value, out string targetValue)
+        {
+            targetValue = value;
+            return true;
+        }
+
+        public IUrlQueryStringBuilder Parameter(string key, string value)
+        {
+            Guard.NotNullOrEmpty(key, "key");
+            Guard.NotNull(value, "value");
+
+            string targetKey;
+            if (!TryParameterKey(key, out targetKey))
+                throw new UrlPartMalFormattedException("queryString.key", key);
+
+            string targetValue;
+            if (!TryParameterValue(value, out targetValue))
+                throw new UrlPartMalFormattedException("queryString.value", value);
+
+            Dictionary<string, string> newQueryString;
+            if (queryString != null)
+                newQueryString = new Dictionary<string, string>(queryString);
+            else
+                newQueryString = new Dictionary<string, string>();
+
+            newQueryString[targetKey] = targetValue;
+            return new UrlBuilder(schema, host, path, newQueryString);
+        }
+
+        public IReadOnlyUrl ParameterToUrl(string key, string value)
+        {
+            UrlBuilder builder = (UrlBuilder)Parameter(key, value);
+            Url url = Url.FromAbsolute(schema, host, path);
+
+            if (builder.queryString != null)
+            {
+                foreach (KeyValuePair<string, string> parameter in builder.queryString)
+                    url.QueryStringKey(parameter.Key, parameter.Value);
+            }
+
+            return url;
         }
     }
 }

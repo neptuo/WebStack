@@ -55,7 +55,7 @@ namespace Neptuo.WebStack.Http
         /// <summary>
         /// URL query string part.
         /// </summary>
-        IDictionary<string, string> QueryString { get; }
+        IReadOnlyDictionary<string, string> QueryString { get; }
 
         /// <summary>
         /// <c>true</c> if the URL has defined query string.
@@ -63,7 +63,7 @@ namespace Neptuo.WebStack.Http
         bool HasQueryString { get; }
         
         /// <summary>
-        /// Format can contain 'S', 'H' and 'P'.
+        /// Format can contain 'S', 'H', 'P' and 'Q'.
         /// </summary>
         /// <param name="format"></param>
         /// <returns>Formatted string value of this URL.</returns>

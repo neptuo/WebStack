@@ -20,7 +20,7 @@ namespace Neptuo.WebStack.Http
             this.storage = storage;
         }
 
-        internal HttpRequestParamCollection(IDictionary<string, string> parameters)
+        internal HttpRequestParamCollection(IEnumerable<KeyValuePair<string, string>> parameters)
         {
             Guard.NotNull(parameters, "parameters");
             KeyValueCollection storage = new KeyValueCollection();

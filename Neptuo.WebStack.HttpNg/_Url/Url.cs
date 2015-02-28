@@ -12,12 +12,16 @@ namespace Neptuo.WebStack.Http
         public const string NoSchemaPrefix = "//";
         public const string VirtualPathPrefix = "~/";
         public const string PathPrefix = "/";
+        public const string QueryStringPrefix = "?";
+        public const string QueryStringParameterSeparator = "&";
+
+        private Dictionary<string, string> queryString;
 
         public string Schema { get; set; }
         public string Host { get; set; }
         public string Path { get; set; }
         public string VirtualPath { get; set; }
-        public IDictionary<string, string> QueryString { get; set; }
+        public IReadOnlyDictionary<string, string> QueryString { get { return queryString; } }
 
         public bool HasSchema
         {
@@ -43,6 +47,8 @@ namespace Neptuo.WebStack.Http
         {
             get { return QueryString != null; }
         }
+
+        #region Construction
 
         public static Url FromAbsolute(string schema, string host, string path)
         {
@@ -77,6 +83,19 @@ namespace Neptuo.WebStack.Http
             VirtualPath = virtualPath;
         }
 
+        #endregion
+
+        public Url QueryStringKey(string key, string value)
+        {
+            if (queryString == null)
+                queryString = new Dictionary<string, string>();
+
+            queryString[key] = value;
+            return this;
+        }
+
+        #region ToString
+
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -100,6 +119,9 @@ namespace Neptuo.WebStack.Http
             else
                 result.Append(VirtualPath);
 
+            if (HasQueryString)
+                FormartQueryString(result);
+
             return result.ToString();
         }
 
@@ -111,15 +133,16 @@ namespace Neptuo.WebStack.Http
             bool hasSchema = false;
             bool hasHost = false;
             bool hasPath = false;
+            bool hasQueryString = false;
             foreach (char item in format)
             {
-                if (item == 'S' && HasSchema && !hasSchema && !hasHost && !hasPath)
+                if (item == 'S' && HasSchema && !hasSchema && !hasHost && !hasPath && !hasQueryString)
                 {
                     result.Append(Schema);
                     result.Append(SchemaSeparator);
                     hasSchema = true;
                 }
-                else if (item == 'H' && HasHost && !hasHost && !hasPath)
+                else if (item == 'H' && HasHost && !hasHost && !hasPath && !hasQueryString)
                 {
                     if (!hasSchema)
                         result.Append(NoSchemaPrefix);
@@ -127,9 +150,13 @@ namespace Neptuo.WebStack.Http
                     result.Append(Host);
                     hasHost = true;
                 }
-                else if (item == 'P' && HasPath && !hasPath)
+                else if (item == 'P' && HasPath && !hasPath && !hasQueryString)
                 {
                     result.Append(Path);
+                }
+                else if (item == 'Q' && HasQueryString && !hasQueryString)
+                {
+                    FormartQueryString(result);
                 }
                 else
                 {
@@ -139,5 +166,26 @@ namespace Neptuo.WebStack.Http
 
             return result.ToString();
         }
+
+        private void FormartQueryString(StringBuilder result)
+        {
+            if (HasQueryString && QueryString.Any())
+            {
+                bool isFirst = true;
+                foreach (KeyValuePair<string, string> parameter in queryString)
+                {
+                    result.AppendFormat(
+                        "{0}{1}={2}",
+                        isFirst ? QueryStringPrefix : QueryStringParameterSeparator,
+                        parameter.Key,
+                        parameter.Value
+                    );
+
+                    isFirst = false;
+                }
+            }
+        }
+
+        #endregion
     }
 }
