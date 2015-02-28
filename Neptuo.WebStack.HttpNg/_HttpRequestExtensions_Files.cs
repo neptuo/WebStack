@@ -21,7 +21,11 @@ namespace Neptuo.WebStack.Http
             IEnumerable<IHttpFile> files;
             if (!httpRequest.CustomValues().TryGet(RequestKey.Files, out files))
             {
-                files = httpRequest.Context().With<IHttpRequestFileFeature>().ParseCollection(httpRequest.RawMessage().BodyStream);
+                files = httpRequest
+                    .Context()
+                    .With<IHttpRequestFileFeature>()
+                    .ParseCollection(httpRequest.RawMessage().BodyStream);
+
                 httpRequest.CustomValues().Set(RequestKey.Files, files);
             }
 
