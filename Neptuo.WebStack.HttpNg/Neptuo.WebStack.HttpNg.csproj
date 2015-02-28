@@ -46,10 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Specialized\PrefixKeyValueCollection.cs" />
+    <Compile Include="Converters\HttpMediaTypeConverter.cs" />
+    <Compile Include="Converters\HttpMethodConverter.cs" />
+    <Compile Include="Converters\HttpStatusConverter.cs" />
     <Compile Include="Features\IHttpRequestFileFeature.cs" />
+    <Compile Include="HttpMediaType.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpMethodCollection.cs" />
     <Compile Include="HttpRequest.cs" />
+    <Compile Include="HttpStatus.cs" />
+    <Compile Include="HttpStatusCollection.cs" />
     <Compile Include="IHttpContext.cs" />
     <Compile Include="IHttpFile.cs" />
     <Compile Include="Keys\RequestKey.cs" />
