@@ -14,6 +14,13 @@ namespace Neptuo.WebStack.Http
 
             //httpContext.Request().IsMethodGet();
             httpContext.Request().Files();
+
+
+
+
+            IUrlBuilder builder = null;
+            builder.Path("/test").ToUrl();
+            builder.Schema("http").Host("www.google.com").Parameter("q", "John").ToUrl();
         }
     }
 }

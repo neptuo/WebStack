@@ -25,6 +25,11 @@ namespace Neptuo.WebStack.Http
         private static readonly Regex pathParser = new Regex(@"^(?<path>/\w*)[^?]*");
 
         /// <summary>
+        /// Matches query parameters.
+        /// </summary>
+        private static readonly Regex queryParser = new Regex(@"[?|&]([\w\.]+)=([^?|^&]+)");
+
+        /// <summary>
         /// List of supported root parts.
         /// </summary>
         private readonly UrlBuilderSupportedPart supportedPart;
@@ -48,6 +53,11 @@ namespace Neptuo.WebStack.Http
         /// Current path.
         /// </summary>
         private string path;
+
+        /// <summary>
+        /// Current virtual path.
+        /// </summary>
+        private string virtualPath;
 
         /// <summary>
         /// Current query string.
@@ -78,11 +88,12 @@ namespace Neptuo.WebStack.Http
         /// <param name="schema">Current schema name.</param>
         /// <param name="host">Current domain name + port.</param>
         /// <param name="path">Current path.</param>
-        protected UrlBuilder(string schema, string host, string path, Dictionary<string, string> queryString)
+        protected UrlBuilder(string schema, string host, string path, string virtualPath, Dictionary<string, string> queryString)
         {
             this.schema = schema;
             this.host = host;
             this.path = path;
+            this.virtualPath = virtualPath;
             this.queryString = queryString;
         }
 
@@ -101,6 +112,7 @@ namespace Neptuo.WebStack.Http
             string schema;
             string host;
             string path;
+            string queryString;
 
             if (url.StartsWith(Url.NoSchemaPrefix))
             {
@@ -132,8 +144,11 @@ namespace Neptuo.WebStack.Http
                     url = url.Substring(host.Length);
                     if (TryPath(url, out path))
                     {
+                        queryString = url.Substring(path.Length);
+
                         Url result = Url.FromAbsolute(schema, host, path);
                         TrySetVirtualPath(result);
+                        TrySetQueryParameters(result, queryString);
                         return result;
                     }
 
@@ -143,6 +158,8 @@ namespace Neptuo.WebStack.Http
 
             throw new UrlPartMalFormattedException("schema", url);
         }
+
+        #region Schema
 
         protected bool TrySchema(string url, out string schema)
         {
@@ -165,8 +182,12 @@ namespace Neptuo.WebStack.Http
             if(!TrySchema(schema, out output) || output != schema)
                 throw new UrlPartMalFormattedException("schema", schema);
 
-            return new UrlBuilder(schema, null, null, null);
+            return new UrlBuilder(schema, null, null, null, null);
         }
+
+        #endregion
+
+        #region Host
 
         protected bool TryHost(string url, out string host)
         {
@@ -189,8 +210,12 @@ namespace Neptuo.WebStack.Http
             if(!TryHost(host, out output) || output != host)
                 throw new UrlPartMalFormattedException("host", host);
 
-            return new UrlBuilder(schema, host, null, null);
+            return new UrlBuilder(schema, host, null, null, null);
         }
+
+        #endregion
+
+        #region Path
 
         protected bool TryPath(string url, out string path)
         {
@@ -213,27 +238,12 @@ namespace Neptuo.WebStack.Http
             if (!TryPath(path, out output) || output != path)
                 throw new UrlPartMalFormattedException("path", path);
 
-            return new UrlBuilder(schema, host, path, null);
+            return new UrlBuilder(schema, host, path, null, null);
         }
 
-        public IReadOnlyUrl PathToUrl(string path)
-        {
-            Guard.NotNullOrEmpty(path, "path");
+        #endregion
 
-            string output;
-            if(!TryPath(path, out output) || output != path)
-                throw new UrlPartMalFormattedException("path", path);
-
-            if (schema != null)
-                return Url.FromAbsolute(schema, host, path);
-
-            if (host != null)
-                return Url.FromHost(host, path);
-
-            Url url = Url.FromPath(path);
-            TrySetVirtualPath(url);
-            return url;
-        }
+        #region VirtualPath
 
         protected bool TryVirtualPath(string url, out string virtualPath)
         {
@@ -257,11 +267,6 @@ namespace Neptuo.WebStack.Http
 
         public IUrlQueryStringBuilder VirtualPath(string virtualPath)
         {
-            throw Guard.Exception.NotImplemented();
-        }
-
-        public IReadOnlyUrl VirtualPathToUrl(string virtualPath)
-        {
             Guard.NotNullOrEmpty(virtualPath, "virtualPath");
             if (virtualPath[0] != '~' || virtualPath[1] != '/')
                 throw Guard.Exception.ArgumentOutOfRange("path", "Path argument must start with '~/'.");
@@ -272,7 +277,8 @@ namespace Neptuo.WebStack.Http
 
             Url url = Url.FromVirtualPath(virtualPath);
             TrySetPath(url);
-            return url;
+
+            return new UrlBuilder(schema, host, null, virtualPath, null);
         }
 
         /// <summary>
@@ -306,6 +312,10 @@ namespace Neptuo.WebStack.Http
             }
         }
 
+        #endregion
+
+        #region QueryString
+
         /// <summary>
         /// Tries to make <paramref name="key"/> valid.
         /// </summary>
@@ -330,6 +340,24 @@ namespace Neptuo.WebStack.Http
             return true;
         }
 
+        /// <summary>
+        /// Tries to set query string parameters from <paramref name="queryString"/> to <paramref name="url"/>.
+        /// </summary>
+        /// <param name="url">Target URL.</param>
+        /// <param name="queryString">Source query string.</param>
+        /// <returns><c>true</c> if validation was successfull; <c>false</c> otherwise.</returns>
+        private bool TrySetQueryParameters(Url url, string queryString)
+        {
+            Match match = queryParser.Match(queryString);
+            while (match.Success)
+            {
+                url.QueryStringKey(match.Groups[1].Value, match.Groups[2].Value);
+                match = match.NextMatch();
+            }
+
+            return true;
+        }
+
         public IUrlQueryStringBuilder Parameter(string key, string value)
         {
             Guard.NotNullOrEmpty(key, "key");
@@ -350,21 +378,32 @@ namespace Neptuo.WebStack.Http
                 newQueryString = new Dictionary<string, string>();
 
             newQueryString[targetKey] = targetValue;
-            return new UrlBuilder(schema, host, path, newQueryString);
+            return new UrlBuilder(schema, host, path, virtualPath, newQueryString);
         }
 
-        public IReadOnlyUrl ParameterToUrl(string key, string value)
+        public IReadOnlyUrl ToUrl()
         {
-            UrlBuilder builder = (UrlBuilder)Parameter(key, value);
-            Url url = Url.FromAbsolute(schema, host, path);
-
-            if (builder.queryString != null)
+            Url url;
+            if (!String.IsNullOrEmpty(virtualPath))
             {
-                foreach (KeyValuePair<string, string> parameter in builder.queryString)
+                url = Url.FromVirtualPath(virtualPath);
+                TrySetPath(url);
+            }
+            else
+            {
+                url = Url.FromAbsolute(schema, host, path);
+                TrySetVirtualPath(url);
+            }
+
+            if (queryString != null)
+            {
+                foreach (KeyValuePair<string, string> parameter in queryString)
                     url.QueryStringKey(parameter.Key, parameter.Value);
             }
 
             return url;
         }
+
+        #endregion
     }
 }

@@ -20,12 +20,9 @@ namespace Neptuo.WebStack.Http
         IUrlQueryStringBuilder Parameter(string key, string value);
 
         /// <summary>
-        /// Adds (or overrides) key in query string of the URL.
-        /// And returns final URL.
+        /// Returns final URL.
         /// </summary>
-        /// <param name="key">Parameter name.</param>
-        /// <param name="value">Parameter value.</param>
         /// <returns>Built URL.</returns>
-        IReadOnlyUrl ParameterToUrl(string key, string value);
+        IReadOnlyUrl ToUrl();
     }
 }

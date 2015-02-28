@@ -17,12 +17,5 @@ namespace Neptuo.WebStack.Http
         /// <param name="path">Path string.</param>
         /// <returns>Query string builder.</returns>
         IUrlQueryStringBuilder Path(string path);
-
-        /// <summary>
-        /// Sets path part of URL in the current builder.
-        /// </summary>
-        /// <param name="path">Path string.</param>
-        /// <returns>Built URL.</returns>
-        IReadOnlyUrl PathToUrl(string path);
     }
 }

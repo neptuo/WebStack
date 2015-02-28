@@ -31,12 +31,5 @@ namespace Neptuo.WebStack.Http
         /// <param name="virtualPath">Virtual path.</param>
         /// <returns>Query strin builder.</returns>
         IUrlQueryStringBuilder VirtualPath(string virtualPath);
-
-        /// <summary>
-        /// Creates virtual URL (starts with '~/').
-        /// </summary>
-        /// <param name="virtualPath">Virtual path.</param>
-        /// <returns>Built URL.</returns>
-        IReadOnlyUrl VirtualPathToUrl(string virtualPath);
     }
 }
