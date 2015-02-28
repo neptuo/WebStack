@@ -1,5 +1,6 @@
 ﻿using Neptuo.Collections.Specialized;
 using Neptuo.FeatureModels;
+using Neptuo.WebStack.Http.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,22 @@ namespace Neptuo.WebStack.Http
         {
             Guard.NotNull(httpContext, "httpContext");
             return httpContext.With<IKeyValueCollection>();
+        }
+
+        /// <summary>
+        /// Returns extensible HTTP request from <paramref name="httpContext"/>.
+        /// </summary>
+        /// <param name="httpContext">Target HTTP context.</param>
+        /// <returns>Extensible HTTP request from <paramref name="httpContext"/>.</returns>
+        public static HttpRequest Request(this IHttpContext httpContext)
+        {
+            Guard.NotNull(httpContext, "httpContext");
+
+            HttpRequest httpRequest;
+            if (!httpContext.CustomValues().TryGet(RequestKey.Root, out httpRequest))
+                httpContext.CustomValues().Set(RequestKey.Root, httpRequest = new HttpRequest(httpContext));
+
+            return httpRequest;
         }
     }
 }

@@ -45,12 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Specialized\PrefixKeyValueCollection.cs" />
+    <Compile Include="Features\IHttpRequestFileFeature.cs" />
+    <Compile Include="HttpMethod.cs" />
+    <Compile Include="HttpMethodCollection.cs" />
+    <Compile Include="HttpRequest.cs" />
     <Compile Include="IHttpContext.cs" />
+    <Compile Include="IHttpFile.cs" />
+    <Compile Include="Keys\RequestKey.cs" />
+    <Compile Include="Keys\ResponseKey.cs" />
     <Compile Include="Messages\IHttpRequestMessage.cs" />
     <Compile Include="Messages\IHttpResponseMessage.cs" />
     <Compile Include="Messages\_HttpContextExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestClass.cs" />
     <Compile Include="_HttpContextExtensions.cs" />
+    <Compile Include="_HttpRequestExtensions_Files.cs" />
+    <Compile Include="_HttpRequestExtensions_Headers.cs" />
+    <Compile Include="_HttpRequestExtensions_Method.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
