@@ -1,4 +1,5 @@
-﻿using Neptuo.FeatureModels;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.FeatureModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,25 +14,14 @@ namespace Neptuo.WebStack.Http
     public static class _HttpContextExtensions
     {
         /// <summary>
-        /// Returns raw HTTP request from <paramref name="httpContext"/>.
+        /// Returns custom values collection from <paramref name="httpContext"/>.
         /// </summary>
         /// <param name="httpContext">Target HTTP context.</param>
-        /// <returns>Raw HTTP request from <paramref name="httpContext"/>.</returns>
-        public static IHttpRequestMessage RequestMessage(this IHttpContext httpContext)
+        /// <returns>Custom values collection from <paramref name="httpContext"/>.</returns>
+        public static IKeyValueCollection CustomValues(this IHttpContext httpContext)
         {
             Guard.NotNull(httpContext, "httpContext");
-            return httpContext.With<IHttpRequestMessage>();
-        }
-
-        /// <summary>
-        /// Returns raw HTTP response from <paramref name="httpContext"/>.
-        /// </summary>
-        /// <param name="httpContext">Target HTTP context.</param>
-        /// <returns>Raw HTTP response from <paramref name="httpContext"/>.</returns>
-        public static IHttpResponseMessage ResponseMessage(this IHttpContext httpContext)
-        {
-            Guard.NotNull(httpContext, "httpContext");
-            return httpContext.With<IHttpResponseMessage>();
+            return httpContext.With<IKeyValueCollection>();
         }
     }
 }

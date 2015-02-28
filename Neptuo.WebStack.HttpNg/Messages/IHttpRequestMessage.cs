@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Http
+namespace Neptuo.WebStack.Http.Messages
 {
     /// <summary>
     /// Describes HTTP raw request values.
