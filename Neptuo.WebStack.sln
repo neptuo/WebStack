@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Resources.Bundling", "src\Neptuo.WebStack.Resources.Bundling\Neptuo.WebStack.Resources.Bundling.csproj", "{C43DC17F-8856-47C4-85DB-49B06BBDD385}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.HttpNg", "Neptuo.WebStack.HttpNg\Neptuo.WebStack.HttpNg.csproj", "{3DDCFDDE-FC26-4945-AC92-B8946D4F2BD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +102,10 @@ Global
 		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C43DC17F-8856-47C4-85DB-49B06BBDD385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DDCFDDE-FC26-4945-AC92-B8946D4F2BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DDCFDDE-FC26-4945-AC92-B8946D4F2BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DDCFDDE-FC26-4945-AC92-B8946D4F2BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DDCFDDE-FC26-4945-AC92-B8946D4F2BD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +122,7 @@ Global
 		{BB38B38A-9398-41CF-96B8-20C1A23C1077} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 		{F20E4AE3-6DC3-4A34-992D-0FEF1B17FD9E} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
 		{C43DC17F-8856-47C4-85DB-49B06BBDD385} = {167FA88E-DBBA-44C8-8699-3C5902EB46EB}
+		{3DDCFDDE-FC26-4945-AC92-B8946D4F2BD9} = {282B5595-E7BE-4612-96C8-D1ACE6F9E4B6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
