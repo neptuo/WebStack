@@ -90,11 +90,10 @@ namespace TestWebApp
             );
         }
 
-        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
+        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
-            IHttpResponse httpResponse = new DefaultHttpResponse();
-            await httpResponse.OutputWriter().WriteLineAsync("Hello, World!");
-            return httpResponse;
+            await httpContext.Response().OutputWriter().WriteLineAsync("Hello, World!");
+            return true;
         }
     }
 
@@ -113,7 +112,7 @@ namespace TestWebApp
             string remainingUrl = context.RemainingUrl;
             if(rootDirectory.FindFiles(remainingUrl, true).Any())
             {
-                context.HttpRequest.CustomValues().Set("FileSystemRequestHandler:FileName", remainingUrl);
+                context.HttpContext.CustomValues().Set("FileSystemRequestHandler:FileName", remainingUrl);
                 context.RemainingUrl = null;
                 return true;
             }

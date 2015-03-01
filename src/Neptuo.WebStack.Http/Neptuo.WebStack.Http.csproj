@@ -81,6 +81,7 @@
     <Compile Include="_HttpRequestExtensions_Url.cs" />
     <Compile Include="_HttpResponseExtensions_Headers.cs" />
     <Compile Include="_HttpResponseExtensions_Output.cs" />
+    <Compile Include="_HttpResponseExtensions_Status.cs" />
     <Compile Include="_Url\IReadOnlyUrl.cs" />
     <Compile Include="_Url\IUrlBuilder.cs" />
     <Compile Include="_Url\IUrlHostBuilder.cs" />

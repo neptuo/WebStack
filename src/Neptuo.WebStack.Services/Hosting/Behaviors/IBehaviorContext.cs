@@ -15,8 +15,8 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <summary>
         /// Promotes execution to next behavior in pipeline.
         /// </summary>
-        /// <param name="httpRequest">Current HTTP request.</param>
-        /// <returns>HTTP response for current request.</returns>
-        Task<IHttpResponse> NextAsync(IHttpRequest httpRequest);
+        /// <param name="httpContext">Current HTTP context.</param>
+        /// <returns><c>true</c> if request was handled; <c>false</c> to process request by next handler.</returns>
+        Task<bool> NextAsync(IHttpContext httpContext);
     }
 }

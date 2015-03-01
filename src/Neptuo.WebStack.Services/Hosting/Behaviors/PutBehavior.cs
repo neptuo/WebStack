@@ -16,17 +16,14 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// Executes <see cref="IPut.ExecuteAsync"/> method on <paramref name="handler"/> if current request is PUT request.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
-        /// <param name="httpRequest">Current HTTP request.</param>
+        /// <param name="httpContext">Current HTTP context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public async Task<IHttpResponse> ExecuteAsync(IPut handler, IHttpRequest httpRequest, IBehaviorContext pipeline)
+        public async Task<bool> ExecuteAsync(IPut handler, IHttpContext httpContext, IBehaviorContext pipeline)
         {
-            if (httpRequest.IsMethodPut())
-            {
-                if (await handler.ExecuteAsync())
-                    return new DefaultHttpResponse();
-            }
+            if (httpContext.Request().IsMethodPut())
+                return await handler.ExecuteAsync();
 
-            return await pipeline.NextAsync(httpRequest);
+            return await pipeline.NextAsync(httpContext);
         }
     }
 }

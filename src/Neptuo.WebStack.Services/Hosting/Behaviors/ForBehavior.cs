@@ -17,15 +17,14 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// Invokes abstract <see cref="ExecuteAsync"/> before promoting to next behavior in pipeline.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
-        /// <param name="httpRequest">Current HTTP request.</param>
+        /// <param name="httpContext">Current HTTP context.</param>
         /// <param name="pipeline">Processing pipeline.</param>
-        public async Task<IHttpResponse> ExecuteAsync(T handler, IHttpRequest httpRequest, IBehaviorContext pipeline)
+        public async Task<bool> ExecuteAsync(T handler, IHttpContext httpContext, IBehaviorContext pipeline)
         {
-            IHttpResponse httpResponse = await ExecuteAsync(handler, httpRequest);
-            if (httpResponse != null)
-                return httpResponse;
+            if (await ExecuteAsync(handler, httpContext))
+                return true;
 
-            return await pipeline.NextAsync(httpRequest);
+            return await pipeline.NextAsync(httpContext);
         }
 
         /// <summary>
@@ -34,8 +33,8 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// Otherwise processing is promoted to the next behavior.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
-        /// <param name="httpResponse">Current HTTP request.</param>
-        /// <returns>Response for the current HTTP request.</returns>
-        protected abstract Task<IHttpResponse> ExecuteAsync(T handler, IHttpRequest httpRequest);
+        /// <param name="httpContext">Current HTTP context.</param>
+        /// <returns><c>true</c> if request was handled; <c>false</c> to process request by next handler.</returns>
+        protected abstract Task<bool> ExecuteAsync(T handler, IHttpContext httpContext);
     }
 }

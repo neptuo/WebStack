@@ -9,6 +9,6 @@ namespace Neptuo.WebStack.StaticFiles
 {
     public interface IPathProvider
     {
-        string GetPath(IHttpRequest httpRequest);
+        string GetPath(IHttpContext httpContext);
     }
 }

@@ -14,10 +14,10 @@ namespace Neptuo.WebStack.Services.Hosting.Pipelines
     public class ReflectionPipelineFactory<T> : IRequestHandler
         where T : new()
     {
-        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
+        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
             IRequestHandler pipeline = new ReflectionPipeline<T>(Engine.Environment.WithBehaviors());
-            return await pipeline.TryHandleAsync(httpRequest);
+            return await pipeline.TryHandleAsync(httpContext);
         }
     }
 }

@@ -25,6 +25,6 @@ namespace Neptuo.WebStack.Routing
         /// <summary>
         /// Current HTTP request.
         /// </summary>
-        IHttpRequest HttpRequest { get; }
+        IHttpContext HttpContext { get; }
     }
 }

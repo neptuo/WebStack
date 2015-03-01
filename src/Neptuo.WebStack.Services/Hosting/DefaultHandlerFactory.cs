@@ -10,7 +10,7 @@ namespace Neptuo.WebStack.Services.Hosting
     public class DefaultHandlerFactory<T> : IHandlerFactory<T>
         where T : new()
     {
-        public T Create(IHttpRequest httpRequest)
+        public T Create(IHttpContext httpContext)
         {
             return new T();
         }
