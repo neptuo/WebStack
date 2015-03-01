@@ -51,9 +51,19 @@ namespace Neptuo.WebStack.Http
         /// <c>true</c> if the URL has defined application relative (~/abc) path.
         /// </summary>
         bool HasVirtualPath { get; }
+
+        /// <summary>
+        /// URL query string part.
+        /// </summary>
+        IReadOnlyDictionary<string, string> QueryString { get; }
+
+        /// <summary>
+        /// <c>true</c> if the URL has defined query string.
+        /// </summary>
+        bool HasQueryString { get; }
         
         /// <summary>
-        /// Format can contain 'S', 'H' and 'P'.
+        /// Format can contain 'S', 'H', 'P' and 'Q'.
         /// </summary>
         /// <param name="format"></param>
         /// <returns>Formatted string value of this URL.</returns>

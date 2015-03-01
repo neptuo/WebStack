@@ -12,12 +12,29 @@ namespace Neptuo.WebStack.Http
     [Flags]
     public enum UrlBuilderSupportedPart
     {
+        /// <summary>
+        /// Schema (or protocol) of absolute the URL.
+        /// </summary>
         Schema,
 
+        /// <summary>
+        /// Domain name.
+        /// </summary>
         Host,
 
+        /// <summary>
+        /// Path on server.
+        /// </summary>
         Path,
 
-        VirtualPath
+        /// <summary>
+        /// Path on server relative to the hosting path.
+        /// </summary>
+        VirtualPath,
+
+        /// <summary>
+        /// Query parameters (after '?') in the URL.
+        /// </summary>
+        QueryString
     }
 }

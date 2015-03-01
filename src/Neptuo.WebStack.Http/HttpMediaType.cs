@@ -43,6 +43,11 @@ namespace Neptuo.WebStack.Http
             SupportedTextValues.Add(TextValue);
         }
 
+        protected HttpMediaType()
+        {
+            SupportedTextValues = new List<string>();
+        }
+
         #region Known types
 
         /// <summary>
@@ -65,6 +70,17 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static HttpMediaType Json = new HttpMediaType("application/json", "text/json");
 
+        /// <summary>
+        /// 'Any' media type.
+        /// </summary>
+        public static HttpMediaType Any = new HttpAnyMediaType();
+
+        /// <summary>
+        /// Unknown media type.
+        /// TODO: Fix 'unknown' value.
+        /// </summary>
+        public static HttpMediaType Unknown = new HttpUnknownMediaType();
+
         #endregion
 
         #region Equality comparision
@@ -79,7 +95,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         /// <param name="other">Other media type definition.</param>
         /// <returns><c>true</c> if this and <paramref name="other"/> has shared at least one supported text value.</returns>
-        public bool Equals(HttpMediaType other)
+        public virtual bool Equals(HttpMediaType other)
         {
             if (other == null)
                 return false;
@@ -128,5 +144,26 @@ namespace Neptuo.WebStack.Http
         }
 
         #endregion
+    }
+
+    public class HttpUnknownMediaType : HttpMediaType
+    {
+        public override bool Equals(HttpMediaType other)
+        {
+            HttpUnknownMediaType unknown = other as HttpUnknownMediaType;
+            return unknown != null;
+        }
+    }
+
+    public class HttpAnyMediaType : HttpMediaType
+    {
+        public HttpAnyMediaType()
+            : base("*/*")
+        { }
+
+        public override bool Equals(HttpMediaType other)
+        {
+            return true;
+        }
     }
 }

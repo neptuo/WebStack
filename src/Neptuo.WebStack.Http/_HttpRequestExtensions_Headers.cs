@@ -9,57 +9,19 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack.Http
 {
     /// <summary>
-    /// Common extensions for <see cref="IHttpRequest"/>.
+    /// Common extensions for <see cref="HttpRequest"/> for accessing HTTP headers.
     /// </summary>
     public static class _HttpRequestExtensions_Headers
     {
-        public static IReadOnlyKeyValueCollection Headers(this IHttpRequest request)
+        public static HttpRequestHeaderCollection Headers(this HttpRequest httpRequest)
         {
-            Guard.NotNull(request, "request");
+            Guard.NotNull(httpRequest, "request");
 
-            IReadOnlyKeyValueCollection headers;
-            if (!request.CustomValues.TryGet(RequestKey.Headers, out headers))
-            {
-                KeyValueCollection storage = new KeyValueCollection();
-                foreach (KeyValuePair<string, string> header in request.RawValues.Headers)
-                    storage.Set(header.Key, header.Value);
-
-                request.CustomValues.Set(RequestKey.Headers, headers = storage);
-            }
+            HttpRequestHeaderCollection headers;
+            if (!httpRequest.CustomValues().TryGet(RequestKey.Headers, out headers))
+                httpRequest.CustomValues().Set(RequestKey.Headers, headers = new HttpRequestHeaderCollection(httpRequest.RawMessage()));
 
             return headers;
-        }
-
-        /// <summary>
-        /// Http request headers.
-        /// </summary>
-        public static T Header<T>(this IHttpRequest request, string headerName, T? defaltValue)
-            where T : struct
-        {
-            Guard.NotNull(request, "request");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            return request.Headers().Get<T>(headerName, defaltValue);
-        }
-
-        /// <summary>
-        /// Http request headers.
-        /// </summary>
-        public static T Header<T>(this IHttpRequest request, string headerName, T defaltValue)
-            where T : class
-        {
-            Guard.NotNull(request, "request");
-            Guard.NotNullOrEmpty(headerName, "headerName");
-            return request.Headers().Get<T>(headerName, defaltValue);
-        }
-
-
-        /// <summary>
-        /// Gets builder for URL addresses.
-        /// </summary>
-        public static IUrlBuilder UrlBuilder(this IHttpRequest httpRequest)
-        {
-            Guard.NotNull(httpRequest, "httpRequest");
-            return httpRequest.DependencyProvider().Resolve<IUrlBuilder>();
         }
     }
 }
