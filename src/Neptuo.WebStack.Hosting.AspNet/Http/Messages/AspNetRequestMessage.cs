@@ -21,7 +21,13 @@ namespace Neptuo.WebStack.Http.Messages
 
         public string Url
         {
-            get { return webRequest.RawUrl; }
+            get
+            {
+                if (webRequest.Url.IsAbsoluteUri)
+                    return webRequest.Url.AbsoluteUri;
+                
+                return webRequest.RawUrl;
+            }
         }
 
         public string Protocol

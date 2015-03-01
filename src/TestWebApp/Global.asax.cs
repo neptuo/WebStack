@@ -40,6 +40,7 @@ namespace TestWebApp
                 .Add(typeof(int), typeof(HttpStatus), new HttpStatusConverter())
                 .Add(typeof(string), typeof(HttpMethod), new HttpMethodConverter())
                 .Add(typeof(string), typeof(HttpMediaType), new HttpMediaTypeConverter())
+                .Add(typeof(HttpMediaType), typeof(string), new HttpMediaTypeConverter())
                 .Add(typeof(string), typeof(IEnumerable<HttpMediaType>), new HttpMediaTypeConverter());
 
             IUnityContainer container = new UnityContainer()

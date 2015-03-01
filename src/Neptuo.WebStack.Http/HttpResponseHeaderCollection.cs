@@ -33,6 +33,15 @@ namespace Neptuo.WebStack.Http
             return storage.TryGet(key, out value);
         }
 
+        public T GetOrDefault<T>(string key, T defaultValue)
+        {
+            T value;
+            if (TryGet(key, out value))
+                return value;
+
+            return defaultValue;
+        }
+
         IKeyValueCollection IKeyValueCollection.Set(string key, object value)
         {
             return Set(key, value);
@@ -41,7 +50,7 @@ namespace Neptuo.WebStack.Http
         public HttpResponseHeaderCollection Set(string key, object value)
         {
             storage.Set(key, value);
-            httpResponse.Headers[key] = Converts.To<object, string>(value);
+            httpResponse.Headers[key] = (string)Converts.To(typeof(string), value);
             return this;
         }
     }

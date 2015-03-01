@@ -32,5 +32,14 @@ namespace Neptuo.WebStack.Http
         {
             return storage.TryGet(key, out value);
         }
+
+        public T GetOrDefault<T>(string key, T defaultValue)
+        {
+            T value;
+            if (TryGet(key, out value))
+                return value;
+
+            return defaultValue;
+        }
     }
 }
