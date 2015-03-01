@@ -32,6 +32,10 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
+            string binDirectory = @"D:\Development\Neptuo\WebStack\src\TestWebApp\bin";
+            string tempDirectory = @"C:\Temp\Services";
+            string wwwRootDirectory = @"E:\Pictures\Camera Roll";
+
             Converts.Repository
                 .Add(typeof(int), typeof(HttpStatus), new HttpStatusConverter())
                 .Add(typeof(string), typeof(HttpMethod), new HttpMethodConverter())
@@ -42,7 +46,7 @@ namespace TestWebApp
                 .RegisterType<IUrlBuilder, UrlBuilder>(new GetterLifetimeManager(() => new UrlBuilder(HttpContext.Current.Request.ApplicationPath)));
 
             Engine.Environment.Use<IDependencyContainer>(new UnityDependencyContainer(container, new LifetimeMapping<LifetimeManager>()));
-            Engine.Environment.UseParameterCollection(c => c.Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(@"E:\Pictures\Camera Roll"))));
+            Engine.Environment.UseParameterCollection(c => c.Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(wwwRootDirectory))));
             Engine.Environment.UseBehaviors(provider =>
                 provider
                     .AddMapping<IWithRedirect, WithRedirectBehavior>()
@@ -50,7 +54,7 @@ namespace TestWebApp
                     .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
                     .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
             );
-            Engine.Environment.UseCodeDomConfiguration(@"C:\Temp\Services", @"D:\Projects\Neptuo.WebStack\TestWebApp\bin");
+            Engine.Environment.UseCodeDomConfiguration(tempDirectory, binDirectory);
             Engine.Environment.UseSerialization((serializers, deserializers) =>
             {
                 serializers
@@ -71,7 +75,7 @@ namespace TestWebApp
             routeTable.Map(
                 builder.VirtualPath("~/photos/{FileName}").ToUrl(), 
                 new FileSystemRequestHandler(
-                    LocalFileSystem.FromDirectoryPath(@"E:\Pictures\Camera Roll"),
+                    LocalFileSystem.FromDirectoryPath(wwwRootDirectory),
                     new UrlPathProvider()
                 )
             );

@@ -47,6 +47,8 @@ namespace Neptuo.WebStack.Http
             customValues.Set(RequestKey.QueryString, new HttpRequestParamCollection(new NameValueDictionary(webContext.Request.QueryString)));
             customValues.Set(RequestKey.Form, new HttpRequestParamCollection(new NameValueDictionary(webContext.Request.Form)));
             customValues.Set(RequestKey.Files, webContext.Request.Files.OfType<HttpPostedFile>().Select(f => new AspNetFile(f)));
+
+            customValues.Set(ResponseKey.BodyWriter, webContext.Response.Output);
         }
 
         bool IFeatureModel.TryWith<TFeature>(out TFeature feature)
