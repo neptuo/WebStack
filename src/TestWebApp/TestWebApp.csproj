@@ -53,6 +53,10 @@
     <Reference Include="Neptuo">
       <HintPath>..\..\references\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.FeatureModels, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\references\Neptuo.FeatureModels.dll</HintPath>
+    </Reference>
     <Reference Include="Neptuo.Unity">
       <HintPath>..\..\references\Neptuo.Unity.dll</HintPath>
     </Reference>

@@ -31,7 +31,7 @@ namespace Neptuo.WebStack.Http
             this.webContext = webContext;
         }
 
-        public IDisposable HeadersSend()
+        public IDisposable OnHeadersSend()
         {
             if (isHeadersSent)
                 throw Guard.Exception.InvalidOperation("Headers already sent.");
@@ -40,7 +40,7 @@ namespace Neptuo.WebStack.Http
             return new EventDisposable(OnHeadersSending, OnHeadersSent);
         }
 
-        public IDisposable OutputFlush()
+        public IDisposable OnOutputFlush()
         {
             if (isOutputFlushed)
                 throw Guard.Exception.InvalidOperation("Output already flushed.");
@@ -49,7 +49,7 @@ namespace Neptuo.WebStack.Http
             return new EventDisposable(OnOutputFlushing, OnOutputFlushed);
         }
 
-        public IDisposable Dispose()
+        public IDisposable OnDispose()
         {
             if (isDisposed)
                 throw Guard.Exception.InvalidOperation("Already disposed.");

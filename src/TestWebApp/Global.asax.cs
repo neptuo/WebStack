@@ -69,7 +69,7 @@ namespace TestWebApp
 
             IUrlBuilder builder = routeTable.UrlBuilder();
             routeTable.Map(
-                builder.VirtualPath("~/photos/{FileName}"), 
+                builder.VirtualPath("~/photos/{FileName}").ToUrl(), 
                 new FileSystemRequestHandler(
                     LocalFileSystem.FromDirectoryPath(@"E:\Pictures\Camera Roll"),
                     new UrlPathProvider()

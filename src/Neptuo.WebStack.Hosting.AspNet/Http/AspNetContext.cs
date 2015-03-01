@@ -13,7 +13,7 @@ using HttpWebContext = System.Web.HttpContext;
 
 namespace Neptuo.WebStack.Http
 {
-    public class AspNetContext : IHttpContext
+    public class AspNetContext : DisposableBase, IHttpContext
     {
         private readonly HttpWebContext webContext;
         private readonly MappingFeatureModel features;
@@ -38,24 +38,35 @@ namespace Neptuo.WebStack.Http
                 { typeof(IHttpRequestMessage), httpRequestMessage },
                 { typeof(IHttpResponseMessage), httpResponseMessage }
             });
+
+            PrepareCustomValues();
         }
 
-        public bool TryWith<TFeature>(out TFeature feature)
+        private void PrepareCustomValues()
+        {
+            customValues.Set(RequestKey.QueryString, new HttpRequestParamCollection(new NameValueDictionary(webContext.Request.QueryString)));
+            customValues.Set(RequestKey.Form, new HttpRequestParamCollection(new NameValueDictionary(webContext.Request.Form)));
+            customValues.Set(RequestKey.Files, webContext.Request.Files.OfType<HttpPostedFile>().Select(f => new AspNetFile(f)));
+        }
+
+        bool IFeatureModel.TryWith<TFeature>(out TFeature feature)
         {
             return features.TryWith(out feature);
         }
 
-        #region IHttpContextNotification
+        public void FlushOutput()
+        {
+            using (notification.OnOutputFlush())
+                webContext.Response.OutputStream.Flush();
+        }
 
-        public event Action OnHeadersSending;
-        public event Action OnHeadersSent;
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
 
-        public event Action OnOutputFlushing;
-        public event Action OnOutputFlushed;
-
-        public event Action OnDisposing;
-        public event Action OnDisposed;
-
-        #endregion
+            notification
+                .OnDispose()
+                .Dispose();
+        }
     }
 }
