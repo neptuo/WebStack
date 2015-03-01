@@ -13,27 +13,30 @@ namespace Neptuo.WebStack.Http
     /// </summary>
     public static class _HttpHeaderExtensions_MediaType
     {
-        ///// <summary>
-        ///// Sets header 'Content-type'.
-        ///// </summary>
-        //public static IHttpResponse HeaderContentType(this IHttpResponse response, HttpMediaType mediaType)
-        //{
-        //    return response.Header("Content-type", mediaType);
-        //}
+        /// <summary>
+        /// Sets header 'Content-type'.
+        /// </summary>
+        public static HttpResponseHeaderCollection ContentType(this HttpResponseHeaderCollection httpHeaders, HttpMediaType mediaType)
+        {
+            Guard.NotNull(httpHeaders, "httpHeaders");
+            return httpHeaders.Set("Content-type", mediaType);
+        }
 
-        ///// <summary>
-        ///// Sets header 'Content-type'.
-        ///// </summary>
-        //public static HttpMediaType HeaderContentType(this IHttpResponse response)
-        //{
-        //    return response.HeaderValue<HttpMediaType>("Content-type", null);
-        //}
+        /// <summary>
+        /// Sets header 'Content-type'.
+        /// </summary>
+        public static HttpMediaType ContentType(this HttpResponseHeaderCollection httpHeaders)
+        {
+            Guard.NotNull(httpHeaders, "httpHeaders");
+            return httpHeaders.Get<HttpMediaType>("Content-type", null);
+        }
 
         /// <summary>
         /// Gets request header 'Content-type'.
         /// </summary>
         public static HttpMediaType ContentType(this HttpRequestHeaderCollection httpHeaders)
         {
+            Guard.NotNull(httpHeaders, "httpHeaders");
             return httpHeaders.Get<HttpMediaType>(RequestKey.Header.ContentType, null);
         }
 
@@ -42,6 +45,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static IEnumerable<HttpMediaType> Accept(this HttpRequestHeaderCollection httpHeaders)
         {
+            Guard.NotNull(httpHeaders, "httpHeaders");
             return httpHeaders.Get<IEnumerable<HttpMediaType>>(RequestKey.Header.Accept, Enumerable.Empty<HttpMediaType>());
         }
     }

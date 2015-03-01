@@ -63,6 +63,7 @@
     <Compile Include="HttpStatus.cs" />
     <Compile Include="HttpStatusCollection.cs" />
     <Compile Include="IHttpContext.cs" />
+    <Compile Include="IHttpContextNotification.cs" />
     <Compile Include="IHttpFile.cs" />
     <Compile Include="Keys\RequestKey.cs" />
     <Compile Include="Keys\ResponseKey.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="_HttpRequestExtensions_Method.cs" />
     <Compile Include="_HttpRequestExtensions_Params.cs" />
     <Compile Include="_HttpRequestExtensions_Url.cs" />
+    <Compile Include="_HttpResponseExtensions_Output.cs" />
     <Compile Include="_Url\IReadOnlyUrl.cs" />
     <Compile Include="_Url\IUrlBuilder.cs" />
     <Compile Include="_Url\IUrlHostBuilder.cs" />

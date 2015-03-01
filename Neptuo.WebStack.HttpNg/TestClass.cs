@@ -16,6 +16,7 @@ namespace Neptuo.WebStack.Http
             httpContext.Request().Files();
 
             httpContext.Response().Headers().Set(null, null);
+            httpContext.Response().OutputWriter().Write("Hello!");
 
 
             IUrlBuilder builder = null;
