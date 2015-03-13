@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.ComponentModel.Behaviors;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +15,6 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     public abstract class ForBehavior<T> : IBehavior<T>
     {
         /// <summary>
-        /// Invokes abstract <see cref="ExecuteAsync"/> before promoting to next behavior in pipeline.
-        /// </summary>
-        /// <param name="handler">Behavior interface.</param>
-        /// <param name="httpContext">Current HTTP context.</param>
-        /// <param name="pipeline">Processing pipeline.</param>
-        public async Task<bool> ExecuteAsync(T handler, IHttpContext httpContext, IBehaviorContext pipeline)
-        {
-            if (await ExecuteAsync(handler, httpContext))
-                return true;
-
-            return await pipeline.NextAsync(httpContext);
-        }
-
-        /// <summary>
         /// Invoked when processing 'Request' pipeline.
         /// If return value is not <c>null</c>, than this value is used as HTTP response and pipeline processing is stopped.
         /// Otherwise processing is promoted to the next behavior.
@@ -36,5 +23,13 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// <param name="httpContext">Current HTTP context.</param>
         /// <returns><c>true</c> if request was handled; <c>false</c> to process request by next handler.</returns>
         protected abstract Task<bool> ExecuteAsync(T handler, IHttpContext httpContext);
+
+        public async Task ExecuteAsync(T handler, IBehaviorContext context)
+        {
+            if (await ExecuteAsync(handler, context.HttpContext()))
+                return;
+
+            await context.NextAsync();
+        }
     }
 }

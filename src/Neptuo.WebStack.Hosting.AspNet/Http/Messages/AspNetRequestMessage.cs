@@ -32,7 +32,7 @@ namespace Neptuo.WebStack.Http.Messages
 
         public string Protocol
         {
-            get { throw Guard.Exception.NotImplemented(); }
+            get { throw Ensure.Exception.NotImplemented(); }
         }
 
         public IDictionary<string, string> Headers
@@ -53,7 +53,7 @@ namespace Neptuo.WebStack.Http.Messages
 
         public AspNetRequestMessage(HttpWebRequest webRequest)
         {
-            Guard.NotNull(webRequest, "webRequest");
+            Ensure.NotNull(webRequest, "webRequest");
             this.webRequest = webRequest;
         }
     }

@@ -16,7 +16,7 @@ namespace Neptuo.WebStack.Http
 
         internal HttpRequest(IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
             this.httpContext = httpContext;
             this.customValues = new PrefixKeyValueCollection("Request.", httpContext.CustomValues());
         }

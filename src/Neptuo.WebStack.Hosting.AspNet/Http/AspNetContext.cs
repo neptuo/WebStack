@@ -24,7 +24,7 @@ namespace Neptuo.WebStack.Http
 
         public AspNetContext(HttpWebContext webContext)
         {
-            Guard.NotNull(webContext, "webContext");
+            Ensure.NotNull(webContext, "webContext");
             this.webContext = webContext;
             this.customValues = new KeyValueCollection();
             this.httpRequestMessage = new AspNetRequestMessage(webContext.Request);

@@ -23,7 +23,7 @@ namespace Neptuo.WebStack.Routing.Segments
         /// <param name="urlPart">Static part of route.</param>
         public StaticRouteSegment(string urlPart)
         {
-            Guard.NotNullOrEmpty(urlPart, "urlPart");
+            Ensure.NotNullOrEmpty(urlPart, "urlPart");
             UrlPart = urlPart;
         }
 
@@ -131,7 +131,7 @@ namespace Neptuo.WebStack.Routing.Segments
 
         public override IRequestHandler ResolveUrl(string url, IHttpContext httpContext)
         {
-            Guard.NotNull(url, "url");
+            Ensure.NotNull(url, "url");
             if (url.StartsWith(UrlPart))
             {
                 string remainingUrl = url.Substring(UrlPart.Length);

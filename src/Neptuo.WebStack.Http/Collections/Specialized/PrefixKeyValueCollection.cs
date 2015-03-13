@@ -14,8 +14,8 @@ namespace Neptuo.WebStack.Http.Collections.Specialized
 
         public PrefixKeyValueCollection(string requiredPrefix, IKeyValueCollection collection)
         {
-            Guard.NotNullOrEmpty(requiredPrefix, "requiredPrefix");
-            Guard.NotNull(collection, "collection");
+            Ensure.NotNullOrEmpty(requiredPrefix, "requiredPrefix");
+            Ensure.NotNull(collection, "collection");
             this.requiredPrefix = requiredPrefix;
             this.collection = collection;
         }
@@ -40,7 +40,7 @@ namespace Neptuo.WebStack.Http.Collections.Specialized
 
         private string PrepareKey(string key)
         {
-            Guard.NotNull(key, "key");
+            Ensure.NotNull(key, "key");
 
             if (!key.StartsWith(requiredPrefix))
                 key = requiredPrefix + key;

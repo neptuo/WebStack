@@ -32,7 +32,7 @@ namespace Neptuo.WebStack.Http
         /// <param name="supportedTextValues">Enumeration of optional supported text values.</param>
         public HttpMediaType(string textValue, params string[] supportedTextValues)
         {
-            Guard.NotNull(textValue, "textValue");
+            Ensure.NotNull(textValue, "textValue");
             TextValue = textValue;
 
             if (supportedTextValues != null)

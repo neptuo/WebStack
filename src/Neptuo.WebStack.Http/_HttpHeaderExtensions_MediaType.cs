@@ -18,7 +18,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static HttpResponseHeaderCollection ContentType(this HttpResponseHeaderCollection httpHeaders, HttpMediaType mediaType)
         {
-            Guard.NotNull(httpHeaders, "httpHeaders");
+            Ensure.NotNull(httpHeaders, "httpHeaders");
             return httpHeaders.Set("Content-type", mediaType);
         }
 
@@ -27,7 +27,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static HttpMediaType ContentType(this HttpResponseHeaderCollection httpHeaders)
         {
-            Guard.NotNull(httpHeaders, "httpHeaders");
+            Ensure.NotNull(httpHeaders, "httpHeaders");
             return httpHeaders.GetOrDefault<HttpMediaType>("Content-type", null);
         }
 
@@ -36,7 +36,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static HttpMediaType ContentType(this HttpRequestHeaderCollection httpHeaders)
         {
-            Guard.NotNull(httpHeaders, "httpHeaders");
+            Ensure.NotNull(httpHeaders, "httpHeaders");
             return httpHeaders.GetOrDefault<HttpMediaType>(RequestKey.Header.ContentType, null);
         }
 
@@ -45,7 +45,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static IEnumerable<HttpMediaType> Accept(this HttpRequestHeaderCollection httpHeaders)
         {
-            Guard.NotNull(httpHeaders, "httpHeaders");
+            Ensure.NotNull(httpHeaders, "httpHeaders");
             return httpHeaders.GetOrDefault<IEnumerable<HttpMediaType>>(RequestKey.Header.Accept, Enumerable.Empty<HttpMediaType>());
         }
     }

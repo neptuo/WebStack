@@ -22,7 +22,7 @@ namespace Neptuo.WebStack
         /// <param name="handlers">Handlers to register.</param>
         public DelegatingRequestHandler(IEnumerable<IRequestHandler> handlers)
         {
-            Guard.NotNull(handlers, "handlers");
+            Ensure.NotNull(handlers, "handlers");
             this.handlers.AddRange(handlers);
         }
 
@@ -32,7 +32,7 @@ namespace Neptuo.WebStack
         /// <param name="handlers">Handlers to register.</param>
         public DelegatingRequestHandler(params IRequestHandler[] handlers)
         {
-            Guard.NotNull(handlers, "handlers");
+            Ensure.NotNull(handlers, "handlers");
             this.handlers.AddRange(handlers);
         }
 

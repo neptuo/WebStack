@@ -1,7 +1,6 @@
 ﻿using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Routing;
-using Neptuo.WebStack.Services.Hosting.Pipelines;
-using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
+using Neptuo.WebStack.Services.Hosting.Processing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Neptuo.WebStack.Services.Hosting
     /// <summary>
     /// Extensions for mapping routes for services.
     /// </summary>
-    public static class RouteTableExtensions
+    public static class _RouteTableExtensions
     {
         /// <summary>
         /// Maps types in <paramref name="assemblies"/> decorated with <see cref="RouteAttribute"/> using <see cref="CodeDomPipelineFactory"/>.
@@ -24,8 +23,8 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <returns><paramref name="routeTable"/>.</returns>
         public static IRouteTable MapServices(this IRouteTable routeTable, params Assembly[] assemblies)
         {
-            Guard.NotNull(routeTable, "routeTable");
-            Guard.NotNull(assemblies, "assemblies");
+            Ensure.NotNull(routeTable, "routeTable");
+            Ensure.NotNull(assemblies, "assemblies");
 
             foreach (Assembly assembly in assemblies)
             {
@@ -33,7 +32,7 @@ namespace Neptuo.WebStack.Services.Hosting
                 {
                     RouteAttribute attribute = type.GetCustomAttribute<RouteAttribute>();
                     if (attribute != null)
-                        routeTable.Map(routeTable.UrlBuilder().FromUrl(attribute.Url), new CodeDomPipelineFactory(type));
+                        routeTable.Map(routeTable.UrlBuilder().FromUrl(attribute.Url), new CodeDomServiceHandlerFactory(type));
                 }
             }
 
@@ -65,7 +64,7 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <returns><paramref name="routeTable"/>.</returns>
         public static IRouteTable MapService(this IRouteTable routeTable, IReadOnlyUrl url, Type handlerType)
         {
-            return routeTable.Map(url, new CodeDomPipelineFactory(handlerType));
+            return routeTable.Map(url, new CodeDomServiceHandlerFactory(handlerType));
         }
     }
 }

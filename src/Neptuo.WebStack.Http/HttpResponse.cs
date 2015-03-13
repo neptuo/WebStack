@@ -16,7 +16,7 @@ namespace Neptuo.WebStack.Http
 
         internal HttpResponse(IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
             this.httpContext = httpContext;
             this.customValues = new PrefixKeyValueCollection("Response.", httpContext.CustomValues());
         }

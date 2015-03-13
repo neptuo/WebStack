@@ -18,8 +18,8 @@ namespace Neptuo.WebStack.Routing.Segments
 
         public TokenRouteSegment(string tokenName, IRouteParameter parameter)
         {
-            Guard.NotNullOrEmpty(tokenName, "tokenName");
-            Guard.NotNull(parameter, "parameter");
+            Ensure.NotNullOrEmpty(tokenName, "tokenName");
+            Ensure.NotNull(parameter, "parameter");
             this.tokenName = tokenName;
             this.parameter = parameter;
         }

@@ -15,7 +15,7 @@ namespace Neptuo.WebStack.Http
     {
         public static HttpRequestHeaderCollection Headers(this HttpRequest httpRequest)
         {
-            Guard.NotNull(httpRequest, "request");
+            Ensure.NotNull(httpRequest, "request");
 
             HttpRequestHeaderCollection headers;
             if (!httpRequest.CustomValues().TryGet(RequestKey.Headers, out headers))

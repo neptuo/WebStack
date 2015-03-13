@@ -19,7 +19,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static TextWriter OutputWriter(this HttpResponse httpResponse)
         {
-            Guard.NotNull(httpResponse, "httpResponse");
+            Ensure.NotNull(httpResponse, "httpResponse");
 
             TextWriter writer;
             if (!httpResponse.CustomValues().TryGet<TextWriter>(ResponseKey.BodyWriter, out writer))

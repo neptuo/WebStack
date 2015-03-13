@@ -52,16 +52,16 @@ namespace Neptuo.WebStack.Http
 
         public static Url FromAbsolute(string schema, string host, string path)
         {
-            Guard.NotNullOrEmpty(schema, "schema");
-            Guard.NotNullOrEmpty(host, "host");
-            Guard.NotNullOrEmpty(path, "path");
+            Ensure.NotNullOrEmpty(schema, "schema");
+            Ensure.NotNullOrEmpty(host, "host");
+            Ensure.NotNullOrEmpty(path, "path");
             return new Url(schema, host, path, null);
         }
 
         public static Url FromHost(string host, string path)
         {
-            Guard.NotNullOrEmpty(host, "host");
-            Guard.NotNullOrEmpty(path, "path");
+            Ensure.NotNullOrEmpty(host, "host");
+            Ensure.NotNullOrEmpty(path, "path");
             return new Url(null, host, path, null);
         }
 
@@ -127,7 +127,7 @@ namespace Neptuo.WebStack.Http
 
         public string ToString(string format)
         {
-            Guard.NotNull(format, "format");
+            Ensure.NotNull(format, "format");
 
             StringBuilder result = new StringBuilder();
             bool hasSchema = false;
@@ -160,7 +160,7 @@ namespace Neptuo.WebStack.Http
                 }
                 else
                 {
-                    throw Guard.Exception.NotSupported("'{0}' is not supported by URL formatter.", item);
+                    throw Ensure.Exception.NotSupported("'{0}' is not supported by URL formatter.", item);
                 }
             }
 

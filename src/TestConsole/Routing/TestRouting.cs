@@ -6,7 +6,6 @@ using Neptuo.WebStack.Routing.Segments;
 using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
-using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Neptuo.WebStack;
+using Neptuo.WebStack.Services.Hosting.Processing;
 
 namespace Neptuo.TestConsole.Routing
 {
@@ -44,7 +44,7 @@ namespace Neptuo.TestConsole.Routing
                 //        .MapServices(Assembly.GetExecutingAssembly());
                 //});
 
-            IRequestHandler requestHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
+            IRequestHandler requestHandler = new CodeDomServiceHandlerFactory(typeof(GetHelloHandler));
 
             //PathRouteSegment rootSegment = new PathRouteSegment();
             //DebugIteration("Build route table", 1, () =>

@@ -20,7 +20,7 @@ namespace Neptuo.WebStack.Http.Messages
         /// <returns>Raw HTTP request from <paramref name="httpContext"/>.</returns>
         public static IHttpRequestMessage RequestMessage(this IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
             return httpContext.With<IHttpRequestMessage>();
         }
 
@@ -31,7 +31,7 @@ namespace Neptuo.WebStack.Http.Messages
         /// <returns>Raw HTTP response from <paramref name="httpContext"/>.</returns>
         public static IHttpResponseMessage ResponseMessage(this IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
             return httpContext.With<IHttpResponseMessage>();
         }
     }

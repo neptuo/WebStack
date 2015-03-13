@@ -14,8 +14,8 @@ namespace Neptuo.WebStack.Http
     {
         public static HttpResponse Status(this HttpResponse httpResponse, HttpStatus status)
         {
-            Guard.NotNull(httpResponse, "httpResponse");
-            Guard.NotNull(status, "status");
+            Ensure.NotNull(httpResponse, "httpResponse");
+            Ensure.NotNull(status, "status");
 
             httpResponse.CustomValues().Set(ResponseKey.Status, status);
             httpResponse.RawMessage().StatusCode = status.Code;

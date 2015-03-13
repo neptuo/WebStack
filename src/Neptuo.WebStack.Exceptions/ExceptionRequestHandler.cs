@@ -19,15 +19,15 @@ namespace Neptuo.WebStack.Exceptions
 
         public ExceptionRequestHandler(IRequestHandler innerHandler)
         {
-            Guard.NotNull(innerHandler, "innerHandler");
+            Ensure.NotNull(innerHandler, "innerHandler");
             this.innerHandler = innerHandler;
             this.storage = new Dictionary<Type, IExceptionRequestHandler>();
         }
 
         public IExceptionTable MapException(Type exceptionType, IExceptionRequestHandler exceptionHandler)
         {
-            Guard.NotNull(exceptionType, "exceptionType");
-            Guard.NotNull(exceptionHandler, "exceptionHandler");
+            Ensure.NotNull(exceptionType, "exceptionType");
+            Ensure.NotNull(exceptionHandler, "exceptionHandler");
             storage[exceptionType] = exceptionHandler;
             return this;
         }

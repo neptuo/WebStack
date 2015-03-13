@@ -17,7 +17,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static HttpMethod Method(this HttpRequest request)
         {
-            Guard.NotNull(request, "request");
+            Ensure.NotNull(request, "request");
 
             HttpMethod method;
             if (!request.CustomValues().TryGet(RequestKey.Method, out method))
@@ -34,7 +34,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static bool IsMethodGet(this HttpRequest request)
         {
-            Guard.NotNull(request, "request");
+            Ensure.NotNull(request, "request");
             return request.Method() == HttpMethod.Get;
         }
 
@@ -43,7 +43,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static bool IsMethodPost(this HttpRequest request)
         {
-            Guard.NotNull(request, "request");
+            Ensure.NotNull(request, "request");
             return request.Method() == HttpMethod.Post;
         }
 
@@ -52,7 +52,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static bool IsMethodPut(this HttpRequest request)
         {
-            Guard.NotNull(request, "request");
+            Ensure.NotNull(request, "request");
             return request.Method() == HttpMethod.Put;
         }
 
@@ -61,7 +61,7 @@ namespace Neptuo.WebStack.Http
         /// </summary>
         public static bool IsMethodDelete(this HttpRequest request)
         {
-            Guard.NotNull(request, "request");
+            Ensure.NotNull(request, "request");
             return request.Method() == HttpMethod.Delete;
         }
 

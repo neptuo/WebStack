@@ -50,7 +50,7 @@ namespace Neptuo.WebStack.Http.Messages
 
         public AspNetResponseMessage(HttpWebResponse webResponse)
         {
-            Guard.NotNull(webResponse, "webResponse");
+            Ensure.NotNull(webResponse, "webResponse");
             this.webResponse = webResponse;
         }
     }

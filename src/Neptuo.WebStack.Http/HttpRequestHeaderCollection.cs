@@ -15,7 +15,7 @@ namespace Neptuo.WebStack.Http
         
         internal HttpRequestHeaderCollection(IHttpRequestMessage httpRequest)
         {
-            Guard.NotNull(httpRequest, "httpRequest");
+            Ensure.NotNull(httpRequest, "httpRequest");
             this.httpRequest = httpRequest;
             this.storage = new KeyValueCollection();
 

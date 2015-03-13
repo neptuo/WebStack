@@ -99,7 +99,7 @@ namespace Neptuo.WebStack.Http
 
         public IReadOnlyUrl FromUrl(string url)
         {
-            Guard.NotNullOrEmpty(url, "url");
+            Ensure.NotNullOrEmpty(url, "url");
 
             string virtualPath;
             if (TryVirtualPath(url, out virtualPath))
@@ -176,7 +176,7 @@ namespace Neptuo.WebStack.Http
 
         public IUrlHostBuilder Schema(string schema)
         {
-            Guard.NotNullOrEmpty(schema, "schema");
+            Ensure.NotNullOrEmpty(schema, "schema");
 
             string output;
             if(!TrySchema(schema, out output) || output != schema)
@@ -204,7 +204,7 @@ namespace Neptuo.WebStack.Http
 
         public IUrlPathBuilder Host(string host)
         {
-            Guard.NotNullOrEmpty(host, "host");
+            Ensure.NotNullOrEmpty(host, "host");
 
             string output;
             if(!TryHost(host, out output) || output != host)
@@ -232,7 +232,7 @@ namespace Neptuo.WebStack.Http
 
         public IUrlQueryStringBuilder Path(string path)
         {
-            Guard.NotNullOrEmpty(path, "path");
+            Ensure.NotNullOrEmpty(path, "path");
 
             string output;
             if (!TryPath(path, out output) || output != path)
@@ -267,9 +267,9 @@ namespace Neptuo.WebStack.Http
 
         public IUrlQueryStringBuilder VirtualPath(string virtualPath)
         {
-            Guard.NotNullOrEmpty(virtualPath, "virtualPath");
+            Ensure.NotNullOrEmpty(virtualPath, "virtualPath");
             if (virtualPath[0] != '~' || virtualPath[1] != '/')
-                throw Guard.Exception.ArgumentOutOfRange("path", "Path argument must start with '~/'.");
+                throw Ensure.Exception.ArgumentOutOfRange("path", "Path argument must start with '~/'.");
 
             string output;
             if (!TryVirtualPath(virtualPath, out output) || output != virtualPath)
@@ -360,8 +360,8 @@ namespace Neptuo.WebStack.Http
 
         public IUrlQueryStringBuilder Parameter(string key, string value)
         {
-            Guard.NotNullOrEmpty(key, "key");
-            Guard.NotNull(value, "value");
+            Ensure.NotNullOrEmpty(key, "key");
+            Ensure.NotNull(value, "value");
 
             string targetKey;
             if (!TryParameterKey(key, out targetKey))

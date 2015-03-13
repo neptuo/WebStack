@@ -18,7 +18,7 @@ namespace Neptuo.WebStack.Http
     {
         public static HttpRequestParamCollection QueryString(this HttpRequest httpRequest)
         {
-            Guard.NotNull(httpRequest, "httpRequest");
+            Ensure.NotNull(httpRequest, "httpRequest");
 
             HttpRequestParamCollection queryString;
             if (!httpRequest.CustomValues().TryGet(RequestKey.QueryString, out queryString))

@@ -25,7 +25,7 @@ namespace Neptuo.WebStack.Resources.Providers.XmlProviders
         /// <param name="file">Xml source file.</param>
         public XmlResourceReader(IReadOnlyFile file)
         {
-            Guard.NotNull(file, "file");
+            Ensure.NotNull(file, "file");
             rootElement = CreateRootElement(file);
         }
 
@@ -36,7 +36,7 @@ namespace Neptuo.WebStack.Resources.Providers.XmlProviders
         /// <returns>Root xml element of document created from <paramref name="file"/>.</returns>
         internal static IXmlElement CreateRootElement(IReadOnlyFile file)
         {
-            Guard.NotNull(file, "file");
+            Ensure.NotNull(file, "file");
 
             XmlDocument document = new XmlDocument();
             using (Stream fileContent = file.GetContentAsStreamAsync().Result)
@@ -48,7 +48,7 @@ namespace Neptuo.WebStack.Resources.Providers.XmlProviders
 
         public void FillCollection(IResourceCollection collection)
         {
-            Guard.NotNull(collection, "collection");
+            Ensure.NotNull(collection, "collection");
             foreach (IXmlElement resourceElement in rootElement.EnumerateChildElements("Resource"))
             {
                 FileResource resource = new FileResource(resourceElement.GetAttributeValue("Name"), GetAttributesWithout(resourceElement, "Name"));

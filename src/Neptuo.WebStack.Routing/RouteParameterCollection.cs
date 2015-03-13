@@ -15,15 +15,15 @@ namespace Neptuo.WebStack.Routing
 
         public IRouteParameterCollection Add(string parameterName, IRouteParameter parameter)
         {
-            Guard.NotNullOrEmpty(parameterName, "parameterName");
-            Guard.NotNull(parameter, "parameter");
+            Ensure.NotNullOrEmpty(parameterName, "parameterName");
+            Ensure.NotNull(parameter, "parameter");
             storage[parameterName] = parameter;
             return this;
         }
 
         public bool TryGet(string parameterName, out IRouteParameter parameter)
         {
-            Guard.NotNullOrEmpty(parameterName, "parameterName");
+            Ensure.NotNullOrEmpty(parameterName, "parameterName");
             return storage.TryGetValue(parameterName, out parameter);
         }
     }

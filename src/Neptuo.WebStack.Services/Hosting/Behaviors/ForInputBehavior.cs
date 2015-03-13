@@ -25,7 +25,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
 
         protected ForInputBehavior(IDeserializerCollection deserializers)
         {
-            Guard.NotNull(deserializers, "deserializers");
+            Ensure.NotNull(deserializers, "deserializers");
             this.deserializers = deserializers;
         }
 

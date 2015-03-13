@@ -26,7 +26,7 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
 
         protected WithOutputBehavior(ISerializerCollection serializers)
         {
-            Guard.NotNull(serializers, "serializers");
+            Ensure.NotNull(serializers, "serializers");
             this.serializers = serializers;
         }
 

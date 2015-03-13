@@ -33,15 +33,15 @@ namespace Neptuo.WebStack.Resources.Collections
         /// <param name="included">Initial collection of used resources.</param>
         public ResourceContextBase(IResourceCollection collection, IEnumerable<IResource> included)
         {
-            Guard.NotNull(collection, "collection");
-            Guard.NotNull(included, "included");
+            Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(included, "included");
             Collection = collection;
             Included = new HashSet<IResource>(included);
         }
 
         public IResourceContext Use(IResource resource)
         {
-            Guard.NotNull(resource, "resource");
+            Ensure.NotNull(resource, "resource");
             Included.Add(resource);
             return this;
         }

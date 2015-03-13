@@ -27,14 +27,14 @@ namespace Neptuo.WebStack.Http
 
         public AspNetContextNotification(HttpWebContext webContext)
         {
-            Guard.NotNull(webContext, "webContext");
+            Ensure.NotNull(webContext, "webContext");
             this.webContext = webContext;
         }
 
         public IDisposable OnHeadersSend()
         {
             if (isHeadersSent)
-                throw Guard.Exception.InvalidOperation("Headers already sent.");
+                throw Ensure.Exception.InvalidOperation("Headers already sent.");
 
             isHeadersSent = true;
             return new EventDisposable(OnHeadersSending, OnHeadersSent);
@@ -43,7 +43,7 @@ namespace Neptuo.WebStack.Http
         public IDisposable OnOutputFlush()
         {
             if (isOutputFlushed)
-                throw Guard.Exception.InvalidOperation("Output already flushed.");
+                throw Ensure.Exception.InvalidOperation("Output already flushed.");
 
             isOutputFlushed = true;
             return new EventDisposable(OnOutputFlushing, OnOutputFlushed);
@@ -52,7 +52,7 @@ namespace Neptuo.WebStack.Http
         public IDisposable OnDispose()
         {
             if (isDisposed)
-                throw Guard.Exception.InvalidOperation("Already disposed.");
+                throw Ensure.Exception.InvalidOperation("Already disposed.");
 
             isDisposed = true;
             return new EventDisposable(OnDisposing, OnDisposed);

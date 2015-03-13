@@ -17,8 +17,8 @@ namespace Neptuo.WebStack.StaticFiles
 
         public FileSystemRequestHandler(IReadOnlyDirectory rootDirectory, IPathProvider pathProvider)
         {
-            Guard.NotNull(rootDirectory, "rootDirectory");
-            Guard.NotNull(pathProvider, "pathProvider");
+            Ensure.NotNull(rootDirectory, "rootDirectory");
+            Ensure.NotNull(pathProvider, "pathProvider");
             this.rootDirectory = rootDirectory;
             this.pathProvider = pathProvider;
         }

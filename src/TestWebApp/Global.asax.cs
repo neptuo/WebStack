@@ -1,8 +1,8 @@
 ﻿using Microsoft.Practices.Unity;
 using Neptuo;
+using Neptuo.Activators;
 using Neptuo.FileSystems;
-using Neptuo.Lifetimes.Mapping;
-using Neptuo.Unity;
+using Neptuo.ComponentModel.Behaviors.Providers;
 using Neptuo.WebStack;
 using Neptuo.WebStack.Exceptions;
 using Neptuo.WebStack.Http;
@@ -13,8 +13,7 @@ using Neptuo.WebStack.Serialization.Xml;
 using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
-using Neptuo.WebStack.Services.Hosting.Behaviors.Providers;
-using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
+using Neptuo.WebStack.Services.Hosting.Processing;
 using Neptuo.WebStack.StaticFiles;
 using System;
 using System.Collections.Generic;
@@ -28,6 +27,15 @@ using TestWebApp.Services;
 
 namespace TestWebApp
 {
+    public class UrlBuilderActivator : IActivator<IUrlBuilder>
+    {
+        public IUrlBuilder Create()
+        {
+            return new UrlBuilder(HttpContext.Current.Request.ApplicationPath);
+        }
+    }
+
+
     public class Global : HttpApplication, IRequestHandler
     {
         protected void Application_Start(object sender, EventArgs e)
@@ -43,19 +51,18 @@ namespace TestWebApp
                 .Add(typeof(HttpMediaType), typeof(string), new HttpMediaTypeConverter())
                 .Add(typeof(string), typeof(IEnumerable<HttpMediaType>), new HttpMediaTypeConverter());
 
-            IUnityContainer container = new UnityContainer()
-                .RegisterType<IUrlBuilder, UrlBuilder>(new GetterLifetimeManager(() => new UrlBuilder(HttpContext.Current.Request.ApplicationPath)));
-
-            Engine.Environment.Use<IDependencyContainer>(new UnityDependencyContainer(container, new LifetimeMapping<LifetimeManager>()));
+            Engine.Environment.Use<IDependencyContainer>(new UnityDependencyContainer().Map<IUrlBuilder>().InTransient().ToActivator(new UrlBuilderActivator()));
             Engine.Environment.UseParameterCollection(c => c.Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(wwwRootDirectory))));
-            Engine.Environment.UseBehaviors(provider =>
-                provider
+
+            Engine.Environment.UseWebServices()
+                .UseBehaviors(provider => provider
                     .AddMapping<IWithRedirect, WithRedirectBehavior>()
                     .AddMapping<IWithStatus, WithStatusBehavior>()
                     .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
                     .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
-            );
-            Engine.Environment.UseCodeDomConfiguration(tempDirectory, binDirectory);
+                )
+                .UseCodeDomConfiguration(typeof(RequestPipelineBase<>), tempDirectory, binDirectory);
+
             Engine.Environment.UseSerialization((serializers, deserializers) =>
             {
                 serializers
@@ -108,7 +115,7 @@ namespace TestWebApp
 
         public FileNameParameter(IReadOnlyDirectory rootDirectory)
         {
-            Guard.NotNull(rootDirectory, "rootDirectory");
+            Ensure.NotNull(rootDirectory, "rootDirectory");
             this.rootDirectory = rootDirectory;
         }
 

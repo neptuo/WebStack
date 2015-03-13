@@ -13,7 +13,7 @@ namespace Neptuo.WebStack.Http.Collections.Specialized
 
         public MultiKeyValueCollection(params IReadOnlyKeyValueCollection[] collections)
         {
-            Guard.NotNull(collections, "collections");
+            Ensure.NotNull(collections, "collections");
             this.collections = collections;
         }
 

@@ -15,7 +15,7 @@ namespace Neptuo.WebStack.Serialization
     {
         public static async Task<T> TryDeserialize<T>(this IDeserializerCollection collection, HttpMediaType dataType, Stream rawData)
         {
-            Guard.NotNull(collection, "collection");
+            Ensure.NotNull(collection, "collection");
 
             IDeserializer deserializer;
             if (!collection.TryGet(dataType, out deserializer))
@@ -26,7 +26,7 @@ namespace Neptuo.WebStack.Serialization
 
         public static async Task<bool> TrySerialize<T>(this ISerializerCollection collection, HttpMediaType dataType, Stream target, T instance)
         {
-            Guard.NotNull(collection, "collection");
+            Ensure.NotNull(collection, "collection");
 
             ISerializer serializer;
             if (!collection.TryGet(dataType, out serializer))

@@ -16,7 +16,7 @@ namespace Neptuo.WebStack.Http
     {
         public static IEnumerable<IHttpFile> Files(this HttpRequest httpRequest)
         {
-            Guard.NotNull(httpRequest, "httpRequest");
+            Ensure.NotNull(httpRequest, "httpRequest");
 
             IEnumerable<IHttpFile> files;
             if (!httpRequest.CustomValues().TryGet(RequestKey.Files, out files))

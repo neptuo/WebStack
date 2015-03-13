@@ -17,13 +17,13 @@ namespace Neptuo.WebStack.Resources
         /// <exception cref="ArgumentOutOfRangeException">When resource collection doesn't contain <paramref name="resourceName"/>.</exception>
         public static IResourceContext Use(IResourceContext context, string resourceName)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
 
             IResource resource;
             if (context.Collection.TryGet(resourceName, out resource))
                 return context.Use(resource);
 
-            throw Guard.Exception.ArgumentOutOfRange("resourceName", "Unnable to find resource with name '{0}'.", resourceName);
+            throw Ensure.Exception.ArgumentOutOfRange("resourceName", "Unnable to find resource with name '{0}'.", resourceName);
         }
     }
 }

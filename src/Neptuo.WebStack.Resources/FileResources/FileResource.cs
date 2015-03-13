@@ -21,7 +21,7 @@ namespace Neptuo.WebStack.Resources.FileResources
         public FileResource(string name, IDictionary<string, string> metadata)
             : base(metadata)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
             Name = name;
             Javascripts = new List<IJavascript>();
             Stylesheets = new List<IStylesheet>();
@@ -30,7 +30,7 @@ namespace Neptuo.WebStack.Resources.FileResources
 
         public void AddJavascript(IJavascript javascript)
         {
-            Guard.NotNull(javascript, "javascript");
+            Ensure.NotNull(javascript, "javascript");
             if (Javascripts.Contains(javascript))
                 throw new ArgumentException(String.Format("Resource '{0}' already contains javascript '{1}'.", Name, javascript.Source), "javascript");
 
@@ -39,7 +39,7 @@ namespace Neptuo.WebStack.Resources.FileResources
 
         public void AddStylesheet(IStylesheet Stylesheet)
         {
-            Guard.NotNull(Stylesheet, "stylesheet");
+            Ensure.NotNull(Stylesheet, "stylesheet");
             if (Stylesheets.Contains(Stylesheet))
                 throw new ArgumentException(String.Format("Resource '{0}' already contains stylesheet '{1}'.", Name, Stylesheet.Source), "stylesheet");
 
@@ -48,7 +48,7 @@ namespace Neptuo.WebStack.Resources.FileResources
 
         public void AddDependency(IResource dependency)
         {
-            Guard.NotNull(dependency, "dependency");
+            Ensure.NotNull(dependency, "dependency");
             if (Dependencies.Contains(dependency))
                 throw new ArgumentException(String.Format("Resource '{0}' already contains dependency on '{1}'.", Name, dependency.Name), "dependency");
 

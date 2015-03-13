@@ -21,7 +21,7 @@ namespace Neptuo.WebStack.Http
         /// <returns>Custom values collection from <paramref name="httpContext"/>.</returns>
         public static IKeyValueCollection CustomValues(this IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
             return httpContext.With<IKeyValueCollection>();
         }
 
@@ -32,7 +32,7 @@ namespace Neptuo.WebStack.Http
         /// <returns>Extensible HTTP request from <paramref name="httpContext"/>.</returns>
         public static HttpRequest Request(this IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
 
             HttpRequest httpRequest;
             if (!httpContext.CustomValues().TryGet(RequestKey.Root, out httpRequest))
@@ -48,7 +48,7 @@ namespace Neptuo.WebStack.Http
         /// <returns>Extensible HTTP request from <paramref name="httpContext"/>.</returns>
         public static HttpResponse Response(this IHttpContext httpContext)
         {
-            Guard.NotNull(httpContext, "httpContext");
+            Ensure.NotNull(httpContext, "httpContext");
 
             HttpResponse httpResponse;
             if (!httpContext.CustomValues().TryGet(ResponseKey.Root, out httpResponse))

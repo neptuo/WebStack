@@ -15,7 +15,7 @@ namespace Neptuo.WebStack.Http
     {
         public static IReadOnlyUrl Url(this HttpRequest httpRequest)
         {
-            Guard.NotNull(httpRequest, "httpRequest");
+            Ensure.NotNull(httpRequest, "httpRequest");
 
             IReadOnlyUrl url;
             if (!httpRequest.CustomValues().TryGet(RequestKey.Url, out url))

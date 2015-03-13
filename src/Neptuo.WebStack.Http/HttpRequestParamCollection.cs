@@ -16,13 +16,13 @@ namespace Neptuo.WebStack.Http
 
         internal HttpRequestParamCollection(IReadOnlyKeyValueCollection storage)
         {
-            Guard.NotNull(storage, "storage");
+            Ensure.NotNull(storage, "storage");
             this.storage = storage;
         }
 
         internal HttpRequestParamCollection(IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            Guard.NotNull(parameters, "parameters");
+            Ensure.NotNull(parameters, "parameters");
             KeyValueCollection storage = new KeyValueCollection();
 
             foreach (KeyValuePair<string, string> parameter in parameters)

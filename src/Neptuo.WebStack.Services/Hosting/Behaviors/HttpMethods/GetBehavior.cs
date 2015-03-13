@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.ComponentModel.Behaviors;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,16 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
         /// Executes <see cref="IGet.ExecuteAsync"/> method on <paramref name="handler"/> if current request is GET request.
         /// </summary>
         /// <param name="handler">Behavior interface.</param>
-        /// <param name="context">Current HTTP context.</param>
-        /// <param name="pipeline">Processing pipeline.</param>
-        public Task<bool> ExecuteAsync(IGet handler, IHttpContext httpContext, IBehaviorContext pipeline)
+        /// <param name="context">Behavior pipeline context.</param>
+        public async Task ExecuteAsync(IGet handler, IBehaviorContext context)
         {
-            if (httpContext.Request().IsMethodGet())
-                return handler.ExecuteAsync();
+            if (context.HttpContext().Request().IsMethodGet())
+            {
+                if (!await handler.ExecuteAsync())
+                    context.MarkAsNotHandled();
+            }
 
-            return pipeline.NextAsync(httpContext);
+            await context.NextAsync();
         }
     }
 }

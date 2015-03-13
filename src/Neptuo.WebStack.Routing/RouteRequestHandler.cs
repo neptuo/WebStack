@@ -35,8 +35,8 @@ namespace Neptuo.WebStack.Routing
 
         public IRouteTable Map(IReadOnlyUrl routePattern, IRequestHandler requestHandler)
         {
-            Guard.NotNull(routePattern, "routePattern");
-            Guard.NotNull(requestHandler, "requestHandler");
+            Ensure.NotNull(routePattern, "routePattern");
+            Ensure.NotNull(requestHandler, "requestHandler");
 
             if (routePattern.HasSchema)
                 IntegrateUrl(routePattern.ToString("SHP"), virtualPathTree, requestHandler);
@@ -45,7 +45,7 @@ namespace Neptuo.WebStack.Routing
             else if (routePattern.HasVirtualPath)
                 IntegrateUrl(routePattern.VirtualPath, virtualPathTree, requestHandler);
             else
-                throw Guard.Exception.NotSupported();
+                throw Ensure.Exception.NotSupported();
 
             return this;
         }
