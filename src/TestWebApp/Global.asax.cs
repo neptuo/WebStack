@@ -52,7 +52,10 @@ namespace TestWebApp
                 .Add(typeof(HttpMediaType), typeof(string), new HttpMediaTypeConverter())
                 .Add(typeof(string), typeof(IEnumerable<HttpMediaType>), new HttpMediaTypeConverter());
 
-            Engine.Environment.Use<IDependencyContainer>(new UnityDependencyContainer().Map<IUrlBuilder>().InTransient().ToActivator(new UrlBuilderActivator()));
+            Engine.Environment.Use<IDependencyContainer>(
+                new UnityDependencyContainer()
+                    .Map<IUrlBuilder>().InTransient().ToActivator(new UrlBuilderActivator())
+            );
             Engine.Environment.UseParameterCollection(c => c.Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(wwwRootDirectory))));
 
             Engine.Environment.UseWebServices()
