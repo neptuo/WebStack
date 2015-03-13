@@ -10,7 +10,7 @@ namespace Neptuo.WebStack.Routing.Segments
     /// <summary>
     /// Base for segment route.
     /// Represents single part of route, allows to integrace other segments. 
-    /// Also can contain route handler for handling request to route represented by this segment.
+    /// Also can contain target for handling request to route represented by this segment.
     /// </summary>
     public abstract class RouteSegment
     {
@@ -20,9 +20,9 @@ namespace Neptuo.WebStack.Routing.Segments
         protected HashSet<RouteSegment> Children { get; private set; }
 
         /// <summary>
-        /// If set, contains route handler for this segment.
+        /// If set, contains target for this segment.
         /// </summary>
-        public IRequestHandler RequestHandler { get; set; }
+        public object Target { get; set; }
 
         /// <summary>
         /// Creates new empty instance.
@@ -66,7 +66,7 @@ namespace Neptuo.WebStack.Routing.Segments
         /// </summary>
         /// <param name="url">Url to resolve registered handler for.</param>
         /// <returns>Handler for <paramref name="url"/>; <c>null</c> of not found/registered.</returns>
-        public abstract IRequestHandler ResolveUrl(string url, IHttpContext httpContext);
+        public abstract object ResolveUrl(string url, IHttpContext httpContext);
 
         #endregion
     }

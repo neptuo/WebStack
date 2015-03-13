@@ -21,8 +21,16 @@ namespace Neptuo.WebStack.Routing
         /// Maps <paramref name="pipelineFactory"/> to <paramref name="routePattern"/>.
         /// </summary>
         /// <param name="routePattern">Pattern to regiter <paramref name="requestHandler"/> on.</param>
-        /// <param name="requestHandler">Handler for handling requests.</param>
+        /// <param name="target">Route target.</param>
         /// <rereturns>Self (for fluency).</rereturns>
-        IRouteTable Map(IReadOnlyUrl routePattern, IRequestHandler requestHandler);
+        IRouteTable Map(IReadOnlyUrl routePattern, object target);
+
+        /// <summary>
+        /// Tries to find target for <paramref name="url"/>.
+        /// </summary>
+        /// <param name="url">Http context.</param>
+        /// <param name="target">Target for <paramref name="url"/>.</param>
+        /// <returns></returns>
+        bool TryGetTarget(IHttpContext httpContext, out object target);
     }
 }

@@ -24,6 +24,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using TestWebApp.Services;
+using Neptuo.WebStack.Routing.Hosting;
 
 namespace TestWebApp
 {
@@ -73,19 +74,17 @@ namespace TestWebApp
                     .Map(HttpMediaType.Xml, new XmlSerializer());
             });
 
-            RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
-            routeTable
-                .MapService(typeof(HelloHandler))
-                .MapService(typeof(PersonJohnDoeHandler));
-
-
-            IUrlBuilder builder = routeTable.UrlBuilder();
-            routeTable.Map(
-                builder.VirtualPath("~/photos/{FileName}").ToUrl(), 
-                new FileSystemRequestHandler(
-                    LocalFileSystem.FromDirectoryPath(wwwRootDirectory),
-                    new UrlPathProvider()
-                )
+            Engine.Environment.UseTreeRouteTable(routeTable =>
+                routeTable
+                    .MapService(typeof(HelloHandler))
+                    .MapService(typeof(PersonJohnDoeHandler))
+                    .Map(
+                        routeTable.UrlBuilder().VirtualPath("~/photos/{FileName}").ToUrl(),
+                        new FileSystemRequestHandler(
+                            LocalFileSystem.FromDirectoryPath(wwwRootDirectory),
+                            new UrlPathProvider()
+                        )
+                    )
             );
 
             Engine.Environment.UseRootRequestHandler(
@@ -95,7 +94,7 @@ namespace TestWebApp
                         //    LocalFileSystem.FromDirectoryPath(@"E:\Pictures"),
                         //    new UrlPathProvider()
                         //),
-                        routeTable,
+                        new RouteRequestHandler(),
                         this
                     )
                 )
@@ -104,7 +103,7 @@ namespace TestWebApp
 
         public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
-            await httpContext.Response().OutputWriter().WriteLineAsync("Hello, World!");
+            await httpContext.Response().OutputWriter().WriteLineAsync("Request handler was not found!");
             return true;
         }
     }

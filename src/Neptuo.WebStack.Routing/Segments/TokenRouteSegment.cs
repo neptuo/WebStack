@@ -55,7 +55,7 @@ namespace Neptuo.WebStack.Routing.Segments
 
         #region Resolving url
 
-        public override IRequestHandler ResolveUrl(string url, IHttpContext httpContext)
+        public override object ResolveUrl(string url, IHttpContext httpContext)
         {
             IRouteParameterMatchContext matchContext = new RouteParameterMatchContext()
             {
@@ -67,13 +67,13 @@ namespace Neptuo.WebStack.Routing.Segments
             if (parameter.MatchUrl(matchContext))
             {
                 if (String.IsNullOrEmpty(matchContext.RemainingUrl))
-                    return RequestHandler;
+                    return Target;
 
                 foreach (RouteSegment child in Children)
                 {
-                    IRequestHandler requestHandler = child.ResolveUrl(matchContext.RemainingUrl, httpContext);
-                    if (requestHandler != null)
-                        return requestHandler;
+                    object target = child.ResolveUrl(matchContext.RemainingUrl, httpContext);
+                    if (target != null)
+                        return target;
                 }
             }
 
