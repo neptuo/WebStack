@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack
+namespace Neptuo.WebStack.Routing
 {
     /// <summary>
     /// WebStack extensions for <see cref="EngineEnvironment"/>.
     /// </summary>
-    public static class EnvironmentExtensions
+    public static class _EnvironmentExtensions
     {
         #region Route table
 
@@ -19,39 +19,28 @@ namespace Neptuo.WebStack
         /// </summary>
         /// <param name="environment">Engine environment.</param>
         /// <param name="routeTable">Route table instance.</param>
+        /// <param name="mapper">Optional route mapper.</param>
         /// <returns><paramref name="environment"/>.</returns>
-        public static EngineEnvironment UseRouteTable(this EngineEnvironment environment, IRouteTable routeTable)
+        public static EngineEnvironment UseRouteTable(this EngineEnvironment environment, IRouteTable routeTable, Action<IRouteTable> mapper = null)
         {
             Ensure.NotNull(environment, "environment");
             Ensure.NotNull(routeTable, "routeTable");
+
+            if (mapper != null)
+                mapper(routeTable);
+
             return environment.Use<IRouteTable>(routeTable);
         }
 
         /// <summary>
-        /// Registers singleton route table with default implementation.
+        /// Registers singleton tree route table.
         /// </summary>
         /// <param name="environment">Engine environment.</param>
+        /// <param name="mapper">Optional route mapper.</param>
         /// <returns><paramref name="environment"/>.</returns>
-        public static EngineEnvironment UseRouteTable(this EngineEnvironment environment)
+        public static EngineEnvironment UseTreeRouteTable(this EngineEnvironment environment, Action<IRouteTable> mapper = null)
         {
-            Ensure.NotNull(environment, "environment");
-            return UseRouteTable(environment, new RouteRequestHandler(environment.WithParameterCollection()));
-        }
-
-        /// <summary>
-        /// Registers singleton route table and use <paramref name="mapper"/> to initialize routes.
-        /// </summary>
-        /// <param name="environment">Engine environment.</param>
-        /// <param name="mapper">Route mapper/initializer.</param>
-        /// <returns><paramref name="environment"/>.</returns>
-        public static EngineEnvironment UseRouteTable(this EngineEnvironment environment, Action<IRouteTable> mapper)
-        {
-            Ensure.NotNull(environment, "environment");
-            Ensure.NotNull(mapper, "mapper");
-
-            RouteRequestHandler routeTable = new RouteRequestHandler(environment.WithParameterCollection());
-            mapper(routeTable);
-            return UseRouteTable(environment, routeTable);
+            return UseRouteTable(environment, new TreeRouteTable(WithParameterCollection(environment)), mapper);
         }
 
         /// <summary>

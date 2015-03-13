@@ -108,6 +108,10 @@
       <Project>{ebd4a12a-e485-4e20-abeb-756a42b27949}</Project>
       <Name>Neptuo.WebStack.Http</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Routing.Hosting\Neptuo.WebStack.Routing.Hosting.csproj">
+      <Project>{3959d69f-1588-40a0-b889-3b50d70c43bb}</Project>
+      <Name>Neptuo.WebStack.Routing.Hosting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj">
       <Project>{b60172b4-9d8b-41d9-b14c-f82a30a94a4c}</Project>
       <Name>Neptuo.WebStack.Routing</Name>
