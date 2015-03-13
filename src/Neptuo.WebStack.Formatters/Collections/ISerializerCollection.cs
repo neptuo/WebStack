@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Serialization
+namespace Neptuo.WebStack.Formatters.Collections
 {
     /// <summary>
-    /// Collection of registered deserializers.
+    /// Content-type based collection of registered deserializers.
     /// </summary>
-    public interface ISerializerCollection
+    public interface ISerializerCollection : ISerializer
     {
         /// <summary>
         /// Mapps <paramref name="serializer"/> for serializing when required content type is <paramref name="contentType"/>.

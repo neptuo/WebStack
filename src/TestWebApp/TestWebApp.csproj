@@ -100,6 +100,14 @@
       <Project>{5f051bb8-e713-45f9-9685-4bef15daa0d8}</Project>
       <Name>Neptuo.WebStack.Exceptions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Formatters.Json\Neptuo.WebStack.Formatters.Json.csproj">
+      <Project>{df470a24-4844-419c-a368-5a6c2140872f}</Project>
+      <Name>Neptuo.WebStack.Formatters.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Formatters\Neptuo.WebStack.Formatters.csproj">
+      <Project>{28ebcca1-15e4-4d49-852c-efd8a01c6055}</Project>
+      <Name>Neptuo.WebStack.Formatters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack.Hosting.AspNet\Neptuo.WebStack.Hosting.AspNet.csproj">
       <Project>{77a95819-04ab-492c-81b4-b59553c94a99}</Project>
       <Name>Neptuo.WebStack.Hosting.AspNet</Name>
@@ -115,10 +123,6 @@
     <ProjectReference Include="..\Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj">
       <Project>{b60172b4-9d8b-41d9-b14c-f82a30a94a4c}</Project>
       <Name>Neptuo.WebStack.Routing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.WebStack.Serialization\Neptuo.WebStack.Serialization.csproj">
-      <Project>{bb38b38a-9398-41cf-96b8-20c1a23c1077}</Project>
-      <Name>Neptuo.WebStack.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack.Services\Neptuo.WebStack.Services.csproj">
       <Project>{b628a16e-f84f-49ad-a04b-fc8a5428a663}</Project>

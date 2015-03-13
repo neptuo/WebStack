@@ -41,45 +41,45 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <summary>
         /// Registers singleton behaviors collection.
         /// </summary>
-        /// <param name="appService">Engine environment.</param>
+        /// <param name="webService">Engine environment.</param>
         /// <param name="behaviors">Behaviors collection.</param>
-        /// <returns><paramref name="appService"/>.</returns>
-        public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment appService, IBehaviorCollection behaviors)
+        /// <returns><paramref name="webService"/>.</returns>
+        public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment webService, IBehaviorCollection behaviors)
         {
-            Ensure.NotNull(appService, "appService");
-            appService.Environment.Use<IBehaviorCollection>(behaviors, "AppService.Behaviors");
-            return appService;
+            Ensure.NotNull(webService, "webService");
+            webService.Environment.Use<IBehaviorCollection>(behaviors, "WebService.Behaviors");
+            return webService;
         }
 
         /// <summary>
         /// Registers behaviors collection.
         /// </summary>
-        /// <param name="appService">Engine environment.</param>
+        /// <param name="webService">Engine environment.</param>
         /// <param name="providers">List of behavior providers to add.</param>
-        /// <returns><paramref name="appService"/>.</returns>
-        public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment appService, params IBehaviorProvider[] providers)
+        /// <returns><paramref name="webService"/>.</returns>
+        public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment webService, params IBehaviorProvider[] providers)
         {
-            Ensure.NotNull(appService, "appService");
-            Ensure.NotNull(appService, "environment");
+            Ensure.NotNull(webService, "webService");
+            Ensure.NotNull(webService, "environment");
             Ensure.NotNull(providers, "providers");
 
             IBehaviorCollection collection = new BehaviorProviderCollection();
             foreach (IBehaviorProvider provider in providers)
                 collection.Add(provider);
 
-            return appService.UseBehaviors(collection);
+            return webService.UseBehaviors(collection);
         }
 
         /// <summary>
         /// Registers behaviors collection, add enpoint behaviors and invokes <paramref name="mapper"/> to map interface behaviors.
         /// </summary>
-        /// <param name="appService">Engine environment.</param>
+        /// <param name="webService">Engine environment.</param>
         /// <param name="mapper">Interface behavior mapper.</param>
-        /// <returns><paramref name="appService"/>.</returns>
-        public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment appService, Action<InterfaceBehaviorProvider> mapper)
+        /// <returns><paramref name="webService"/>.</returns>
+        public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment webService, Action<InterfaceBehaviorProvider> mapper)
         {
-            Ensure.NotNull(appService, "appService");
-            Ensure.NotNull(appService, "environment");
+            Ensure.NotNull(webService, "webService");
+            Ensure.NotNull(webService, "environment");
             Ensure.NotNull(mapper, "mapper");
 
             InterfaceBehaviorProvider provider = new InterfaceBehaviorProvider();
@@ -90,7 +90,7 @@ namespace Neptuo.WebStack.Services.Hosting
                 .AddMapping<IDelete, DeleteBehavior>();
 
             mapper(provider);
-            return appService.UseBehaviors(provider);
+            return webService.UseBehaviors(provider);
         }
 
         /// <summary>
@@ -106,36 +106,36 @@ namespace Neptuo.WebStack.Services.Hosting
         /// <summary>
         /// Tries to retrieve behaviors collection.
         /// </summary>
-        /// <param name="appService">Engine environment.</param>
+        /// <param name="webService">Engine environment.</param>
         /// <returns>Registered behaviors collection.</returns>
-        public static IBehaviorCollection WithBehaviors(this WebServiceEngineEnvironment appService)
+        public static IBehaviorCollection WithBehaviors(this WebServiceEngineEnvironment webService)
         {
-            Ensure.NotNull(appService, "appService");
-            return appService.Environment.With<IBehaviorCollection>("AppService.Behaviors");
+            Ensure.NotNull(webService, "webService");
+            return webService.Environment.With<IBehaviorCollection>("WebService.Behaviors");
         }
 
         /// <summary>
         /// Registers singleton code dom pipeline configuration.
         /// </summary>
-        /// <param name="appService">Engine environment.</param>
+        /// <param name="webService">Engine environment.</param>
         /// <param name="configuration">Code dom pipeline configuration.</param>
-        /// <returns><paramref name="appService"/>.</returns>
-        public static WebServiceEngineEnvironment UseCodeDomConfiguration(this WebServiceEngineEnvironment appService, ICompilerConfiguration configuration)
+        /// <returns><paramref name="webService"/>.</returns>
+        public static WebServiceEngineEnvironment UseCodeDomConfiguration(this WebServiceEngineEnvironment webService, ICompilerConfiguration configuration)
         {
-            Ensure.NotNull(appService, "appService");
-            appService.Environment.Use<ICompilerConfiguration>(configuration, "AppService.CodeDomConfiguration");
-            return appService;
+            Ensure.NotNull(webService, "webService");
+            webService.Environment.Use<ICompilerConfiguration>(configuration, "WebService.CodeDomConfiguration");
+            return webService;
         }
 
         /// <summary>
         /// Registers singleton code dom pipeline configuration.
         /// </summary>
-        /// <param name="appService">Engine environment.</param>
+        /// <param name="webService">Engine environment.</param>
         /// <param name="baseType">Custom base type (extending <see cref="DefaultPipelineBase{T}"/>).</param>
         /// <param name="tempDirectory">Path to temp directory.</param>
         /// <param name="binDirectories">List of bin directories to add as references.</param>
-        /// <returns><paramref name="appService"/>.</returns>
-        public static WebServiceEngineEnvironment UseCodeDomConfiguration(this WebServiceEngineEnvironment appService, Type baseType, string tempDirectory, params string[] binDirectories)
+        /// <returns><paramref name="webService"/>.</returns>
+        public static WebServiceEngineEnvironment UseCodeDomConfiguration(this WebServiceEngineEnvironment webService, Type baseType, string tempDirectory, params string[] binDirectories)
         {
             ICompilerConfiguration configuration = new CompilerConfiguration()
                 .BaseType(baseType)
@@ -145,7 +145,7 @@ namespace Neptuo.WebStack.Services.Hosting
                 .References()
                 .AddDirectories(binDirectories);
 
-            return appService.UseCodeDomConfiguration(configuration);
+            return webService.UseCodeDomConfiguration(configuration);
         }
 
         /// <summary>
@@ -153,9 +153,9 @@ namespace Neptuo.WebStack.Services.Hosting
         /// </summary>
         /// <param name="environment">Engine environment.</param>
         /// <returns>Registered code dom pipeline configuration.</returns>
-        public static ICompilerConfiguration WithCodeDomConfiguration(this WebServiceEngineEnvironment appService)
+        public static ICompilerConfiguration WithCodeDomConfiguration(this WebServiceEngineEnvironment webService)
         {
-            return appService.Environment.With<ICompilerConfiguration>("AppService.CodeDomConfiguration");
+            return webService.Environment.With<ICompilerConfiguration>("WebService.CodeDomConfiguration");
         }
     }
 }

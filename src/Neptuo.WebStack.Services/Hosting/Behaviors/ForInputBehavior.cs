@@ -1,13 +1,13 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.WebStack.Formatters;
+using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Http.Messages;
 using Neptuo.WebStack.Services.Behaviors;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using Neptuo.WebStack.Serialization;
 
 namespace Neptuo.WebStack.Services.Hosting.Behaviors
 {
@@ -17,16 +17,16 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     /// <typeparam name="T">Type of input.</typeparam>
     public class ForInputBehavior<T> : ForBehavior<IForInput<T>>
     {
-        private readonly IDeserializerCollection deserializers;
+        private readonly IDeserializer deserializer;
 
         public ForInputBehavior()
-            : this(Engine.Environment.WithDeserializers())
+            : this(Engine.Environment.WithDeserializer())
         { }
 
-        protected ForInputBehavior(IDeserializerCollection deserializers)
+        protected ForInputBehavior(IDeserializer deserializer)
         {
-            Ensure.NotNull(deserializers, "deserializers");
-            this.deserializers = deserializers;
+            Ensure.NotNull(deserializer, "deserializer");
+            this.deserializer = deserializer;
         }
 
         protected override async Task<bool> ExecuteAsync(IForInput<T> handler, IHttpContext httpContext)
@@ -45,11 +45,18 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
                 HttpMediaType contentType = httpContext.Request().Headers().ContentType();
                 if (contentType != null)
                 {
-                    T instance = await deserializers.TryDeserialize<T>(contentType, httpContext.RequestMessage().BodyStream);
-                    if(instance == null)
+                    IDeserializerResult result = await deserializer.TryDeserializeAsync(
+                        new DefaultDeserializerContext(
+                            httpContext.RequestMessage().BodyStream, 
+                            contentType, 
+                            typeof(T)
+                        )
+                    );
+
+                    if(!result.IsSuccessful)
                         throw new NotSupportedException();
 
-                    handler.Input = instance;
+                    handler.Input = (T)result.Instance;
                 }
             }
 

@@ -1,15 +1,16 @@
 ﻿using Microsoft.Practices.Unity;
 using Neptuo;
 using Neptuo.Activators;
-using Neptuo.FileSystems;
+using Neptuo.Compilers;
 using Neptuo.ComponentModel.Behaviors.Providers;
+using Neptuo.FileSystems;
 using Neptuo.WebStack;
 using Neptuo.WebStack.Exceptions;
+using Neptuo.WebStack.Formatters;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Http.Converters;
 using Neptuo.WebStack.Routing;
-using Neptuo.WebStack.Serialization;
-using Neptuo.WebStack.Serialization.Xml;
+using Neptuo.WebStack.Routing.Hosting;
 using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
@@ -24,7 +25,6 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using TestWebApp.Services;
-using Neptuo.WebStack.Routing.Hosting;
 
 namespace TestWebApp
 {
@@ -67,14 +67,18 @@ namespace TestWebApp
                 )
                 .UseCodeDomConfiguration(typeof(RequestPipelineBase<>), tempDirectory, binDirectory);
 
-            Engine.Environment.UseSerialization((serializers, deserializers) =>
+            Engine.Environment.WithWebServices().WithCodeDomConfiguration().IsDebugMode(true);
+
+            Engine.Environment.UseFormatters((serializers, deserializers) =>
             {
                 serializers
-                    .Map(HttpMediaType.Xml, new XmlSerializer())
-                    .Map(HttpMediaType.Html, new XmlSerializer());
+                    .Map(HttpMediaType.Xml, new XmlFormatter())
+                    .Map(HttpMediaType.Html, new XmlFormatter())
+                    .Map(HttpMediaType.Json, new JsonFormatter());
 
                 deserializers
-                    .Map(HttpMediaType.Xml, new XmlSerializer());
+                    .Map(HttpMediaType.Xml, new XmlFormatter())
+                    .Map(HttpMediaType.Json, new JsonFormatter());
             });
 
             Engine.Environment.UseTreeRouteTable(routeTable =>
