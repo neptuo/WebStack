@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neptuo.Activators.Unity</name>
+    </assembly>
+    <members>
+        <member name="T:Neptuo.Activators.UnityActivator`1">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Activators.IActivator`1"/> by <see cref="T:Microsoft.Practices.Unity.IUnityContainer"/>.
+            </summary>
+            <typeparam name="T">Type of service to create.</typeparam>
+        </member>
+        <member name="M:Neptuo.Activators.UnityActivator`1.#ctor(Microsoft.Practices.Unity.IUnityContainer,System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="unityContainer">Unity container to use for instance creation.</param>
+            <param name="name">Optional registration name.</param>
+        </member>
+        <member name="T:Neptuo.Activators.UnityDependencyContainer">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Activators.IDependencyContainer"/> with Unity container.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Activators.UnityDependencyContainer.#ctor">
+            <summary>
+            Creates container with new instance of Unity container.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Activators.UnityDependencyContainer.#ctor(Microsoft.Practices.Unity.IUnityContainer)">
+            <summary>
+            Creates instance from <paramref name="unityContainer"/>.
+            </summary>
+            <param name="unityContainer">Unity container.</param>
+        </member>
+    </members>
+</doc>

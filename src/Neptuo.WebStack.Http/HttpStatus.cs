@@ -32,8 +32,8 @@ namespace Neptuo.WebStack.Http
         /// <param name="text">Response status text.</param>
         public HttpStatus(int code, string text)
         {
-            Guard.Positive(code, "code");
-            Guard.NotNull(text, "text");
+            Ensure.Positive(code, "code");
+            Ensure.NotNull(text, "text");
             Code = code;
             Text = text;
         }

@@ -20,8 +20,8 @@ namespace Neptuo.WebStack.Serialization
 
         public ISerializerCollection Map(HttpMediaType contentType, ISerializer serializer)
         {
-            Guard.NotNull(contentType, "contentType");
-            Guard.NotNull(serializer, "serializer");
+            Ensure.NotNull(contentType, "contentType");
+            Ensure.NotNull(serializer, "serializer");
             lock (serializerLock)
             {
                 serializers[contentType] = serializer;
@@ -32,8 +32,8 @@ namespace Neptuo.WebStack.Serialization
 
         public IDeserializerCollection Map(HttpMediaType contentType, IDeserializer deserializer)
         {
-            Guard.NotNull(contentType, "contentType");
-            Guard.NotNull(deserializer, "deserializer");
+            Ensure.NotNull(contentType, "contentType");
+            Ensure.NotNull(deserializer, "deserializer");
             lock (deserilizerLock)
             {
                 deserializers[contentType] = deserializer;

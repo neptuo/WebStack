@@ -15,8 +15,8 @@ namespace Neptuo.WebStack.Serialization.Xml
     {
         public Task<bool> TrySerializeAsync(Stream stream, object instance)
         {
-            Guard.NotNull(stream, "stream");
-            Guard.NotNull(instance, "instance");
+            Ensure.NotNull(stream, "stream");
+            Ensure.NotNull(instance, "instance");
 
             return Task.Factory.StartNew(() =>
             {
@@ -28,8 +28,8 @@ namespace Neptuo.WebStack.Serialization.Xml
 
         public Task<object> TryDeserializeAsync(Stream stream, Type type)
         {
-            Guard.NotNull(stream, "stream");
-            Guard.NotNull(type, "instanceType");
+            Ensure.NotNull(stream, "stream");
+            Ensure.NotNull(type, "instanceType");
 
             return Task.Factory.StartNew(() =>
             {

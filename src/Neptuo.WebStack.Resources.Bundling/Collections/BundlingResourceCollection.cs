@@ -31,8 +31,8 @@ namespace Neptuo.WebStack.Resources.Bundling.Collections
         /// <param name="strategy">Strategy for including dependencies.</param>
         public BundlingResourceCollection(IResourceCollection innerCollection, IBundlePathFormatter formatter, BundlingStrategy strategy)
         {
-            Guard.NotNull(innerCollection, "innerCollection");
-            Guard.NotNull(formatter, "formatter");
+            Ensure.NotNull(innerCollection, "innerCollection");
+            Ensure.NotNull(formatter, "formatter");
             this.bundleCollection = BundleTable.Bundles;
             this.innerCollection = innerCollection;
             this.formatter = formatter;
@@ -46,7 +46,7 @@ namespace Neptuo.WebStack.Resources.Bundling.Collections
         /// <param name="resource">Resource to create and register bundle from.</param>
         public void Add(IResource resource)
         {
-            Guard.NotNull(resource, "resource");
+            Ensure.NotNull(resource, "resource");
 
             FileResource innerResource = new FileResource(resource.Name);
             if (ProcessResourceContent(resource, innerResource))

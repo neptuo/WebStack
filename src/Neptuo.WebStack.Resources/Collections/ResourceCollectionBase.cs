@@ -32,8 +32,8 @@ namespace Neptuo.WebStack.Resources.Collections
         /// <param name="resource">New resource.</param>
         public void Add(IResource resource)
         {
-            Guard.NotNull(resource, "resource");
-            Guard.NotNullOrEmpty(resource.Name, "resource.Name");
+            Ensure.NotNull(resource, "resource");
+            Ensure.NotNullOrEmpty(resource.Name, "resource.Name");
             resources[resource.Name] = resource;
         }
 
@@ -48,7 +48,7 @@ namespace Neptuo.WebStack.Resources.Collections
         /// <returns>True/false whether contains resource with <paramref name="name"/>.</returns>
         public bool TryGet(string name, out IResource resource)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
             return resources.TryGetValue(name, out resource);
         }
 

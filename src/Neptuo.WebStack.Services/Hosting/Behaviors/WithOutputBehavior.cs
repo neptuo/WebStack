@@ -1,5 +1,6 @@
-﻿using Neptuo.WebStack.Services.Behaviors;
-using Neptuo.WebStack.Http;
+﻿using Neptuo.WebStack.Http;
+using Neptuo.WebStack.Http.Messages;
+using Neptuo.WebStack.Services.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,38 +26,37 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
 
         protected WithOutputBehavior(ISerializerCollection serializers)
         {
-            Guard.NotNull(serializers, "serializers");
+            Ensure.NotNull(serializers, "serializers");
             this.serializers = serializers;
         }
 
-        protected override async Task<IHttpResponse> ExecuteAsync(IWithOutput<T> handler, IHttpRequest httpRequest, IHttpResponse httpResponse)
+        protected override async Task<bool> ExecuteAsync(IWithOutput<T> handler, IHttpContext httpContext)
         {
             string output = handler.Output as string;
             if (output != null)
             {
-                await httpResponse.OutputWriter().WriteAsync(output);
-                return httpResponse;
+                await httpContext.Response().OutputWriter().WriteAsync(output);
+                return true;
             }
 
             Stream outputStream = handler.Output as Stream;
             if (outputStream != null)
             {
-                await outputStream.CopyToAsync(httpResponse.OutputStream());
-                return httpResponse;
+                await outputStream.CopyToAsync(httpContext.ResponseMessage().BodyStream);
+                return true;
             }
 
             if (handler.Output != null)
             {
-                HttpMediaType contentType = httpResponse.HeaderContentType();
+                HttpMediaType contentType = httpContext.Response().Headers().ContentType();
                 if(contentType == null)
-                    httpResponse.HeaderContentType(contentType = httpRequest.HeaderAccept());
+                    httpContext.Response().Headers().ContentType(contentType = httpContext.Request().Headers().Accept().FirstOrDefault());
 
-
-                if (!await serializers.TrySerialize(contentType, httpResponse.OutputStream(), handler.Output))
+                if (!await serializers.TrySerialize(contentType, httpContext.ResponseMessage().BodyStream, handler.Output))
                     throw new NotSupportedException();
             }
 
-            return httpResponse;
+            return true;
         }
     }
 }

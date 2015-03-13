@@ -1,5 +1,6 @@
 ﻿using Neptuo.FileSystems;
 using Neptuo.WebStack.Http;
+using Neptuo.WebStack.Http.Messages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,23 +17,27 @@ namespace Neptuo.WebStack.StaticFiles
 
         public FileSystemRequestHandler(IReadOnlyDirectory rootDirectory, IPathProvider pathProvider)
         {
-            Guard.NotNull(rootDirectory, "rootDirectory");
-            Guard.NotNull(pathProvider, "pathProvider");
+            Ensure.NotNull(rootDirectory, "rootDirectory");
+            Ensure.NotNull(pathProvider, "pathProvider");
             this.rootDirectory = rootDirectory;
             this.pathProvider = pathProvider;
         }
 
-        protected override IHttpResponse TryHandle(IHttpRequest httpRequest)
+        protected override bool TryHandle(IHttpContext httpContext)
         {
-            string path = pathProvider.GetPath(httpRequest);
+            string path = pathProvider.GetPath(httpContext);
             if (!String.IsNullOrEmpty(path))
             {
                 IReadOnlyFile file = rootDirectory.FindFiles(path, true).FirstOrDefault();
                 if (file != null)
-                    return BuildStreamResponse(file.GetContentAsStream(), new HttpMediaType("image/jpeg"));
+                {
+                    file.GetContentAsStream().CopyTo(httpContext.ResponseMessage().BodyStream);
+                    httpContext.Response().Headers().ContentType(new HttpMediaType("image/jpeg"));
+                    return true;
+                }
             }
 
-            return null;
+            return false;
         }
     }
 }

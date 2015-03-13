@@ -12,13 +12,13 @@ namespace Neptuo.WebStack.Resources.FileResources
 
         protected WithMetaBase(IDictionary<string, string> metadata)
         {
-            Guard.NotNull(metadata, "metadata");
+            Ensure.NotNull(metadata, "metadata");
             Metadata = metadata;
         }
 
         public string Meta(string key, string defaultValue)
         {
-            Guard.NotNullOrEmpty(key, "key");
+            Ensure.NotNullOrEmpty(key, "key");
             string result;
             if (Metadata.TryGetValue(key, out result))
                 return result;

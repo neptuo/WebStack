@@ -66,7 +66,7 @@ namespace Neptuo.WebStack.Routing.Segments
         /// </summary>
         /// <param name="url">Url to resolve registered handler for.</param>
         /// <returns>Handler for <paramref name="url"/>; <c>null</c> of not found/registered.</returns>
-        public abstract IRequestHandler ResolveUrl(string url, IHttpRequest httpRequest);
+        public abstract IRequestHandler ResolveUrl(string url, IHttpContext httpContext);
 
         #endregion
     }

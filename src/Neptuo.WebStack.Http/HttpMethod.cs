@@ -28,7 +28,7 @@ namespace Neptuo.WebStack.Http
         /// <param name="hasBody">Whether request can contain body.</param>
         public HttpMethod(string name, bool hasBody)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
             Name = name.ToUpper();
             HasBody = hasBody;
         }
@@ -60,7 +60,7 @@ namespace Neptuo.WebStack.Http
 
         public static explicit operator HttpMethod(string standartName)
         {
-            Guard.NotNullOrEmpty(standartName, "standartName");
+            Ensure.NotNullOrEmpty(standartName, "standartName");
 
             HttpMethod method = KnownMethods[standartName];
             if(method == null)
@@ -71,7 +71,7 @@ namespace Neptuo.WebStack.Http
 
         public static implicit operator string(HttpMethod method)
         {
-            Guard.NotNull(method, "method");
+            Ensure.NotNull(method, "method");
             return method.Name;
         }
 

@@ -37,7 +37,7 @@ namespace Neptuo.WebStack.Http
 
         public AspNetFile(HttpPostedFile postedFile)
         {
-            Guard.NotNull(postedFile, "postedFile");
+            Ensure.NotNull(postedFile, "postedFile");
             this.postedFile = postedFile;
         }
     }

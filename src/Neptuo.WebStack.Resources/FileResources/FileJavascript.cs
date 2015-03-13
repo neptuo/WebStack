@@ -17,7 +17,7 @@ namespace Neptuo.WebStack.Resources.FileResources
         public FileJavascript(string source, IDictionary<string, string> metadata)
             : base(metadata)
         {
-            Guard.NotNullOrEmpty(source, "source");
+            Ensure.NotNullOrEmpty(source, "source");
             Source = source;
         }
     }

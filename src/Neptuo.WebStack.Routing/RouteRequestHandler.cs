@@ -35,8 +35,8 @@ namespace Neptuo.WebStack.Routing
 
         public IRouteTable Map(IReadOnlyUrl routePattern, IRequestHandler requestHandler)
         {
-            Guard.NotNull(routePattern, "routePattern");
-            Guard.NotNull(requestHandler, "requestHandler");
+            Ensure.NotNull(routePattern, "routePattern");
+            Ensure.NotNull(requestHandler, "requestHandler");
 
             if (routePattern.HasSchema)
                 IntegrateUrl(routePattern.ToString("SHP"), virtualPathTree, requestHandler);
@@ -45,7 +45,7 @@ namespace Neptuo.WebStack.Routing
             else if (routePattern.HasVirtualPath)
                 IntegrateUrl(routePattern.VirtualPath, virtualPathTree, requestHandler);
             else
-                throw Guard.Exception.NotSupported();
+                throw Ensure.Exception.NotSupported();
 
             return this;
         }
@@ -66,34 +66,34 @@ namespace Neptuo.WebStack.Routing
             }
         }
 
-        public Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
+        public Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
-            IReadOnlyUrl requestUrl = httpRequest.Url();
+            IReadOnlyUrl requestUrl = httpContext.Request().Url();
             if (requestUrl.HasSchema)
             {
-                string hostUrl = httpRequest.Url().ToString();
-                IRequestHandler requestHandler = schemaTree.ResolveUrl(hostUrl, httpRequest);
+                string hostUrl = httpContext.Request().Url().ToString();
+                IRequestHandler requestHandler = schemaTree.ResolveUrl(hostUrl, httpContext);
                 if (requestHandler != null)
-                    return requestHandler.TryHandleAsync(httpRequest);
+                    return requestHandler.TryHandleAsync(httpContext);
             }
 
             if (requestUrl.HasHost)
             {
-                string hostUrl = httpRequest.Url().ToString("HP");
-                IRequestHandler requestHandler = hostTree.ResolveUrl(hostUrl, httpRequest);
+                string hostUrl = httpContext.Request().Url().ToString("HP");
+                IRequestHandler requestHandler = hostTree.ResolveUrl(hostUrl, httpContext);
                 if (requestHandler != null)
-                    return requestHandler.TryHandleAsync(httpRequest);
+                    return requestHandler.TryHandleAsync(httpContext);
             }
 
             if (requestUrl.HasVirtualPath)
             {
-                string virtualPath = httpRequest.Url().VirtualPath;
-                IRequestHandler requestHandler = virtualPathTree.ResolveUrl(virtualPath, httpRequest);
+                string virtualPath = httpContext.Request().Url().VirtualPath;
+                IRequestHandler requestHandler = virtualPathTree.ResolveUrl(virtualPath, httpContext);
                 if (requestHandler != null)
-                    return requestHandler.TryHandleAsync(httpRequest);
+                    return requestHandler.TryHandleAsync(httpContext);
             }
 
-            return Task.FromResult<IHttpResponse>(null);
+            return Task.FromResult(false);
         }
 
         /// <summary>

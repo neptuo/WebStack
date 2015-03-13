@@ -13,18 +13,15 @@ namespace Neptuo.WebStack
     public abstract class RequestHandler : RequestHandlerAsync
     {
         /// <summary>
-        /// Process <paramref name="httpRequest"/>.
+        /// Process <paramref name="httpContext"/>.
         /// </summary>
-        /// <param name="httpRequest">Current Http context.</param>
-        /// <returns>
-        /// If returns <c>null</c>, request processing should be delegated to the next handler.
-        /// If returns any non-null response, this handler handled the request described in <paramref name="httpRequest"/>;
-        /// </returns>
-        protected abstract IHttpResponse TryHandle(IHttpRequest httpRequest);
+        /// <param name="httpContext">Current HTTP context.</param>
+        /// <returns><c>true</c> if request was handled; <c>false</c> to process request by next handler.</returns>
+        protected abstract bool TryHandle(IHttpContext httpContext);
 
-        protected override Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
+        protected override sealed Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
-            return Task.FromResult(TryHandle(httpRequest));
+            return Task.FromResult(TryHandle(httpContext));
         }
     }
 }

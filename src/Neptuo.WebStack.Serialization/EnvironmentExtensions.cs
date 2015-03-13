@@ -19,8 +19,8 @@ namespace Neptuo.WebStack.Serialization
         /// <returns><paramref name="environment"/>.</returns>
         public static EngineEnvironment UseSerialization(this EngineEnvironment environment, Action<ISerializerCollection, IDeserializerCollection> mapper)
         {
-            Guard.NotNull(environment, "environment");
-            Guard.NotNull(mapper, "mapper");
+            Ensure.NotNull(environment, "environment");
+            Ensure.NotNull(mapper, "mapper");
 
             DefaultSerializationCollection collection = new DefaultSerializationCollection();
             mapper(collection, collection);
@@ -36,7 +36,7 @@ namespace Neptuo.WebStack.Serialization
         /// <returns>Registered <see cref="ISerializerCollection"/>.</returns>
         public static ISerializerCollection WithSerializers(this EngineEnvironment environment)
         {
-            Guard.NotNull(environment, "environment");
+            Ensure.NotNull(environment, "environment");
             return environment.With<ISerializerCollection>();
         }
 
@@ -47,7 +47,7 @@ namespace Neptuo.WebStack.Serialization
         /// <returns>Registered <see cref="IDeserializerCollection"/>.</returns>
         public static IDeserializerCollection WithDeserializers(this EngineEnvironment environment)
         {
-            Guard.NotNull(environment, "environment");
+            Ensure.NotNull(environment, "environment");
             return environment.With<IDeserializerCollection>();
         }
     }

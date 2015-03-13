@@ -13,12 +13,12 @@ namespace Neptuo.WebStack.Services.Hosting.Behaviors
     /// </summary>
     public class WithStatusBehavior : WithBehavior<IWithStatus>
     {
-        protected override Task<IHttpResponse> ExecuteAsync(IWithStatus handler, IHttpRequest httpRequest, IHttpResponse httpResponse)
+        protected override Task<bool> ExecuteAsync(IWithStatus handler, IHttpContext httpContext)
         {
             if (handler.Status != null)
-                httpResponse.Status(handler.Status);
+                httpContext.Response().Status(handler.Status);
 
-            return Task.FromResult(httpResponse);
+            return Task.FromResult(true);
         }
     }
 }

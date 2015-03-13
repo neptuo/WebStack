@@ -13,13 +13,10 @@ namespace Neptuo.WebStack
     public interface IRequestHandler
     {
         /// <summary>
-        /// Process <paramref name="httpRequest"/>.
+        /// Process <paramref name="httpContext"/>.
         /// </summary>
-        /// <param name="httpRequest">Current Http context.</param>
-        /// <returns>
-        /// If returns <c>null</c>, request processing should be delegated to the next handler.
-        /// If returns any non-null response, this handler handled the request described in <paramref name="httpRequest"/>;
-        /// </returns>
-        Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest);
+        /// <param name="httpContext">Current HTTP context.</param>
+        /// <returns><c>true</c> if request was handled; <c>false</c> to process request by next handler.</returns>
+        Task<bool> TryHandleAsync(IHttpContext httpContext);
     }
 }

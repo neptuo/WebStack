@@ -19,32 +19,32 @@ namespace Neptuo.WebStack.Exceptions
 
         public ExceptionRequestHandler(IRequestHandler innerHandler)
         {
-            Guard.NotNull(innerHandler, "innerHandler");
+            Ensure.NotNull(innerHandler, "innerHandler");
             this.innerHandler = innerHandler;
             this.storage = new Dictionary<Type, IExceptionRequestHandler>();
         }
 
         public IExceptionTable MapException(Type exceptionType, IExceptionRequestHandler exceptionHandler)
         {
-            Guard.NotNull(exceptionType, "exceptionType");
-            Guard.NotNull(exceptionHandler, "exceptionHandler");
+            Ensure.NotNull(exceptionType, "exceptionType");
+            Ensure.NotNull(exceptionHandler, "exceptionHandler");
             storage[exceptionType] = exceptionHandler;
             return this;
         }
 
-        public async Task<IHttpResponse> TryHandleAsync(IHttpRequest httpRequest)
+        public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
             try
             {
-                return await innerHandler.TryHandleAsync(httpRequest);
+                return await innerHandler.TryHandleAsync(httpContext);
             }
             catch (Exception e)
             {
-                return HandleExceptionAsync(e, httpRequest).Result; //TODO: Fix await
+                return HandleExceptionAsync(e, httpContext).Result; //TODO: Fix await
             }
         }
 
-        private async Task<IHttpResponse> HandleExceptionAsync(Exception e, IHttpRequest httpRequest)
+        private async Task<bool> HandleExceptionAsync(Exception e, IHttpContext httpContext)
         {
             IExceptionRequestHandler exceptionHandler = FindExceptionHandler(e.GetType());
             if (exceptionHandler == null)
@@ -52,11 +52,11 @@ namespace Neptuo.WebStack.Exceptions
 
             try
             {
-                return await exceptionHandler.HandleAsync(e, httpRequest);
+                return await exceptionHandler.HandleAsync(e, httpContext);
             }
             catch (Exception next)
             {
-                return HandleExceptionAsync(next, httpRequest).Result; //TODO: Fix await
+                return HandleExceptionAsync(next, httpContext).Result; //TODO: Fix await
             }
         }
 

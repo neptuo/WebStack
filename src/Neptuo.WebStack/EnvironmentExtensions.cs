@@ -21,8 +21,8 @@ namespace Neptuo.WebStack
         /// <returns><paramref name="environment"/>.</returns>
         public static EngineEnvironment UseRootRequestHandler(this EngineEnvironment environment, IRequestHandler requestHandler)
         {
-            Guard.NotNull(environment, "environment");
-            Guard.NotNull(requestHandler, "requestHandler");
+            Ensure.NotNull(environment, "environment");
+            Ensure.NotNull(requestHandler, "requestHandler");
             return environment.Use<IRequestHandler>(requestHandler);
         }
 
@@ -33,7 +33,7 @@ namespace Neptuo.WebStack
         /// <returns>Root handler for HTTP request.</returns>
         public static IRequestHandler WithRootRequestHandler(this EngineEnvironment environment)
         {
-            Guard.NotNull(environment, "environment");
+            Ensure.NotNull(environment, "environment");
             return environment.With<IRequestHandler>();
         }
 

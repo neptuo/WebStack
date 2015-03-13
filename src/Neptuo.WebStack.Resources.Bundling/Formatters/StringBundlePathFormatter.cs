@@ -22,8 +22,8 @@ namespace Neptuo.WebStack.Resources.Bundling.Formatters
         /// <param name="stylesheetFormat">Format string with one argument for stylesheet bundle paths.</param>
         public StringBundlePathFormatter(string javascriptFormat, string stylesheetFormat)
         {
-            Guard.NotNullOrEmpty(javascriptFormat, "javascriptFormat");
-            Guard.NotNullOrEmpty(stylesheetFormat, "stylesheetFormat");
+            Ensure.NotNullOrEmpty(javascriptFormat, "javascriptFormat");
+            Ensure.NotNullOrEmpty(stylesheetFormat, "stylesheetFormat");
             this.javascriptFormat = javascriptFormat;
             this.stylesheetFormat = stylesheetFormat;
         }

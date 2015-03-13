@@ -11,9 +11,10 @@ namespace Neptuo.WebStack.Http.Keys
     /// </summary>
     public static class ResponseKey
     {
+        public const string Root = "Response";
         public const string Status = "Response.Status";
         public const string Headers = "Response.Headers";
-        public const string OutputStream = "Response.OutputStream";
-        public const string OutputWriter = "Response.OutputWriter";
+        public const string BodyStream = "Response.BodyStream";
+        public const string BodyWriter = "Response.BodyWriter";
     }
 }

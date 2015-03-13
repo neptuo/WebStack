@@ -10,7 +10,7 @@ namespace Neptuo.WebStack.Http.Converters
     /// <summary>
     /// Converter for converting string value to <see cref="HttpMediaType"/>.
     /// </summary>
-    public class HttpMediaTypeConverter : IConverter<string, HttpMediaType>, IConverter<string, IEnumerable<HttpMediaType>>
+    public class HttpMediaTypeConverter : IConverter<string, HttpMediaType>, IConverter<string, IEnumerable<HttpMediaType>>, IConverter<HttpMediaType, string>
     {
         private readonly List<HttpMediaType> knownMediaTypes = new List<HttpMediaType>
         {
@@ -26,8 +26,8 @@ namespace Neptuo.WebStack.Http.Converters
         {
             if (String.IsNullOrEmpty(sourceValue))
             {
-                targetValue = null;
-                return false;
+                targetValue = HttpMediaType.Unknown;
+                return true;
             }
 
             foreach (HttpMediaType knownMediaType in knownMediaTypes)
@@ -110,5 +110,14 @@ namespace Neptuo.WebStack.Http.Converters
         }
 
         #endregion
+
+        public bool TryConvert(HttpMediaType sourceValue, out string targetValue)
+        {
+            if (sourceValue == null)
+                targetValue = null;
+
+            targetValue = sourceValue.TextValue;
+            return true;
+        }
     }
 }

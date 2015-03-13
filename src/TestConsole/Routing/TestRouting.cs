@@ -6,7 +6,6 @@ using Neptuo.WebStack.Routing.Segments;
 using Neptuo.WebStack.Services.Behaviors;
 using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
-using Neptuo.WebStack.Services.Hosting.Pipelines.Compilation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Neptuo.WebStack;
+using Neptuo.WebStack.Services.Hosting.Processing;
 
 namespace Neptuo.TestConsole.Routing
 {
@@ -44,7 +44,7 @@ namespace Neptuo.TestConsole.Routing
                 //        .MapServices(Assembly.GetExecutingAssembly());
                 //});
 
-            IRequestHandler requestHandler = new CodeDomPipelineFactory(typeof(GetHelloHandler));
+            IRequestHandler requestHandler = new CodeDomServiceHandlerFactory(typeof(GetHelloHandler));
 
             //PathRouteSegment rootSegment = new PathRouteSegment();
             //DebugIteration("Build route table", 1, () =>
@@ -59,18 +59,18 @@ namespace Neptuo.TestConsole.Routing
             RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
             IUrlBuilder builder = routeTable.UrlBuilder();
             routeTable
-                .Map(builder.VirtualPath("~/cs/home"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/about"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/products"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/photo"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/{product}"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/{product}/order"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/{product}/photo"), requestHandler);
+                .Map(builder.VirtualPath("~/cs/home").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/about").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/products").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/photo").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/{product}").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/{product}/order").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/{destination}/{product}/photo").ToUrl(), requestHandler);
 
             routeTable
-                .Map(builder.VirtualPath("~/cs/about/company"), requestHandler)
-                .Map(builder.VirtualPath("~/cs/about/people"), requestHandler);
+                .Map(builder.VirtualPath("~/cs/about/company").ToUrl(), requestHandler)
+                .Map(builder.VirtualPath("~/cs/about/people").ToUrl(), requestHandler);
 
             Engine.Environment.UseRootRequestHandler(routeTable);
 
