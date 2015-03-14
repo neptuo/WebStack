@@ -21,63 +21,63 @@ namespace Neptuo.TestConsole.Routing
     {
         public static void Test()
         {
-            Engine.Environment
-                .UseCodeDomConfiguration(new CodeDomPipelineConfiguration("c:\\temp", Environment.CurrentDirectory))
-                .UseBehaviors(provider =>
-                {
-                    provider
-                        .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
-                        .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
-                        .AddMapping(typeof(IWithRedirect), typeof(WithRedirectBehavior))
-                        .AddMapping(typeof(IWithStatus), typeof(WithStatusBehavior));
-                })
-                .UseParameterCollection(collection =>
-                {
-                    collection
-                        .Add("lang", new TestRouteParameter())
-                        .Add("product", new TestRouteParameter())
-                        .Add("destination", new TestRouteParameter());
-                });
-                //.UseRouteTable(routeTable =>
-                //{
-                //    routeTable
-                //        .MapServices(Assembly.GetExecutingAssembly());
-                //});
+            //Engine.Environment
+            //    .UseCodeDomConfiguration(new CodeDomPipelineConfiguration("c:\\temp", Environment.CurrentDirectory))
+            //    .UseBehaviors(provider =>
+            //    {
+            //        provider
+            //            .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
+            //            .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
+            //            .AddMapping(typeof(IWithRedirect), typeof(WithRedirectBehavior))
+            //            .AddMapping(typeof(IWithStatus), typeof(WithStatusBehavior));
+            //    })
+            //    .UseParameterCollection(collection =>
+            //    {
+            //        collection
+            //            .Add("lang", new TestRouteParameter())
+            //            .Add("product", new TestRouteParameter())
+            //            .Add("destination", new TestRouteParameter());
+            //    });
+            //    //.UseRouteTable(routeTable =>
+            //    //{
+            //    //    routeTable
+            //    //        .MapServices(Assembly.GetExecutingAssembly());
+            //    //});
 
-            IRequestHandler requestHandler = new CodeDomServiceHandlerFactory(typeof(GetHelloHandler));
+            //IRequestHandler requestHandler = new CodeDomServiceHandlerFactory(typeof(GetHelloHandler));
 
-            //PathRouteSegment rootSegment = new PathRouteSegment();
-            //DebugIteration("Build route table", 1, () =>
-            //{
-            //    rootSegment.Include(new StaticRouteSegment("~/cs/contacts/send"));
-            //    rootSegment.Include(new StaticRouteSegment("~/cs/home"));
-            //    rootSegment.Include(new StaticRouteSegment("~/cs/hosting"));
-            //    rootSegment.Include(new StaticRouteSegment("~/cs/contacts"));
-            //    rootSegment.Include(new StaticRouteSegment("~/cs"));
-            //});
+            ////PathRouteSegment rootSegment = new PathRouteSegment();
+            ////DebugIteration("Build route table", 1, () =>
+            ////{
+            ////    rootSegment.Include(new StaticRouteSegment("~/cs/contacts/send"));
+            ////    rootSegment.Include(new StaticRouteSegment("~/cs/home"));
+            ////    rootSegment.Include(new StaticRouteSegment("~/cs/hosting"));
+            ////    rootSegment.Include(new StaticRouteSegment("~/cs/contacts"));
+            ////    rootSegment.Include(new StaticRouteSegment("~/cs"));
+            ////});
 
-            RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
-            IUrlBuilder builder = routeTable.UrlBuilder();
-            routeTable
-                .Map(builder.VirtualPath("~/cs/home").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/about").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/products").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/photo").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/{product}").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/{product}/order").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/{destination}/{product}/photo").ToUrl(), requestHandler);
+            //RouteRequestHandler routeTable = new RouteRequestHandler(Engine.Environment.WithParameterCollection());
+            //IUrlBuilder builder = routeTable.UrlBuilder();
+            //routeTable
+            //    .Map(builder.VirtualPath("~/cs/home").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/about").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/{destination}").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/{destination}/products").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/{destination}/photo").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/{destination}/{product}").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/{destination}/{product}/order").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/{destination}/{product}/photo").ToUrl(), requestHandler);
 
-            routeTable
-                .Map(builder.VirtualPath("~/cs/about/company").ToUrl(), requestHandler)
-                .Map(builder.VirtualPath("~/cs/about/people").ToUrl(), requestHandler);
+            //routeTable
+            //    .Map(builder.VirtualPath("~/cs/about/company").ToUrl(), requestHandler)
+            //    .Map(builder.VirtualPath("~/cs/about/people").ToUrl(), requestHandler);
 
-            Engine.Environment.UseRootRequestHandler(routeTable);
+            //Engine.Environment.UseRootRequestHandler(routeTable);
 
-            //requestHandler = ((RouteTable)Engine.Environment.WithRouteTable())
-            //    .GetrequestHandler("~/cs/about/people");
+            ////requestHandler = ((RouteTable)Engine.Environment.WithRouteTable())
+            ////    .GetrequestHandler("~/cs/about/people");
 
-            PrintSegment(((RouteRequestHandler)Engine.Environment.WithRouteTable()).PathTree, 0);
+            ////PrintSegment(((RouteRequestHandler)Engine.Environment.WithRouteTable()).PathTree, 0);
         }
 
         private static void PrintSegment(RouteSegment routeSegment, int indent)
