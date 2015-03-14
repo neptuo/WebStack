@@ -1486,17 +1486,13 @@
             Creates new instance with empty mappings.
             </summary>
         </member>
-        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.#ctor(System.Collections.Generic.Dictionary{System.Type,System.Type})">
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.InsertOrUpdateMappingInternal(System.Nullable{System.Int32},System.Type,System.Type)">
             <summary>
-            Creates new instance from <paramref name="storage"/>.
+            If uderlaying storage doesn't contain <paramref name="behaviorContract"/>, new mapping is inserted at index <paramref name="index"/>;
+            otherwise existing registration is updated and re-inserted at <paramref name="index"/>.
             </summary>
-            <param name="storage">Mapping between constracts and implementations.</param>
-        </member>
-        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.AddMappingInternal(System.Type,System.Type)">
-            <summary>
-            Maps <paramref name="behaviorContract"/> to implementation <paramref name="behaviorImplementation"/>.
-            </summary>
-            <param name="behaviorContract">Behavior definition type.</param>
+            <param name="index">Intex to insert mapping at (if <c>null</c>, mapping will be insterted at last index).</param>
+            <param name="behaviorContract">Behavior contract type.</param>
             <param name="behaviorImplementation">Behavior implementation type.</param>
         </member>
         <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.GetBehaviors(System.Type)">
@@ -1506,21 +1502,50 @@
             <param name="handlerType">Service handler type.</param>
             <returns>Enumeration of behavior implementations for <paramref name="handlerType"/>.</returns>
         </member>
-        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.GetBehaviorInternal(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Type})">
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.GetBehaviorInternal(System.Type,System.Collections.Generic.List{Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel})">
             <summary>
-            Calls <see cref="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.FindBehaviors(System.Type)"/> and than enumerates registrations for finding implementations.
-            If result of <see cref="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.FindBehaviors(System.Type)"/> contains any unregistered behavior, these will be skipped.
+            Calls <see cref="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.FindBehaviorContracts(System.Type)"/> and than enumerates registrations for finding implementations.
+            If result of <see cref="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.FindBehaviorContracts(System.Type)"/> contains any unregistered behavior, these will be skipped.
             </summary>
             <param name="handlerType">Service handler type.</param>
             <param name="storage">Behavior mapping registrations.</param>
             <returns>Enumeration of behavior implementations for <paramref name="handlerType"/>.</returns>
         </member>
-        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.FindBehaviors(System.Type)">
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.FindBehaviorContracts(System.Type)">
             <summary>
             In derivered class should return list of behavior definition types for <paramref name="handlerType"/>.
             </summary>
             <param name="handlerType">Service handler type.</param>
             <returns>List of behavior definition types for <paramref name="handlerType"/>.</returns>
+        </member>
+        <member name="T:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel">
+            <summary>
+            Single mapping item.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel.#ctor(System.Type,System.Type)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="contract">Behavior contract type.</param>
+            <param name="implementation">Behavior implementation type.</param>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel.UpdateImplementation(System.Type)">
+            <summary>
+            Updates implementation type to <paramref name="implementation"/>.
+            </summary>
+            <param name="implementation">Behavior implementation type.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="P:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel.Contract">
+            <summary>
+            Behavior contract type.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel.Implementation">
+            <summary>
+            Behavior implementation type.
+            </summary>
         </member>
         <member name="T:Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider">
             <summary>
@@ -1547,14 +1572,37 @@
             <param name="behaviorImplementation">Behavior contract implementor.</param>
             <returns>Self (for fluency).</returns>
         </member>
-        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider.GetBehaviorInternal(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Type})">
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider.InsertMapping(System.Int32,System.Type,System.Type)">
+            <summary>
+            Adds mapping with <paramref name="behaviorContract"/> as contract and <paramref name="behaviorImplementation"/> as implementation type.
+            </summary>
+            <param name="index">Index at which to insert behavior mapping.</param>
+            <param name="behaviorContract">Behavior interface contract.</param>
+            <param name="behaviorImplementation">Behavior contract implementor.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider.GetBehaviorInternal(System.Type,System.Collections.Generic.List{Neptuo.ComponentModel.Behaviors.Providers.MappingBehaviorProviderBase.BehaviorMappingModel})">
             <summary>
             Returns <see cref="!:behaviorImplementation"/> if <paramref name="handlerType"/> implements <see cref="!:behaviorContract"/>; empty enumeration otherwise.
             </summary>
             <param name="handlerType">Handler type.</param>
+            <param name="storage">Contract-implementation mappings.</param>
             <returns><see cref="!:behaviorImplementation"/> if <paramref name="handlerType"/> implements <see cref="!:behaviorContract"/>; empty enumeration otherwise.</returns>
         </member>
+        <member name="T:Neptuo.ComponentModel.Behaviors.Providers._InterfaceBehaviorProviderExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider"/>.
+            </summary>
+        </member>
         <member name="M:Neptuo.ComponentModel.Behaviors.Providers._InterfaceBehaviorProviderExtensions.AddMapping``2(Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider)">
+            <summary>
+            Adds mapping with <typeparamref name="TBehaviorContract"/> as contract and <typeparamref name="TBehaviorImplementation"/> as implementation type.
+            </summary>
+            <typeparam name="TBehaviorContract">Behavior interface contract.</typeparam>
+            <typeparam name="TBehaviorImplementation">Behavior contract implementor.</typeparam>
+            <returns>Self (for fluency).</returns>>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers._InterfaceBehaviorProviderExtensions.InsertMapping``2(Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider,System.Int32)">
             <summary>
             Adds mapping with <typeparamref name="TBehaviorContract"/> as contract and <typeparamref name="TBehaviorImplementation"/> as implementation type.
             </summary>
@@ -1567,7 +1615,7 @@
             Extensions for <see cref="T:Neptuo.ComponentModel.Behaviors.IBehaviorCollection"/>.
             </summary>
         </member>
-        <member name="M:Neptuo.ComponentModel.Behaviors.Providers._BehaviorCollectionExtensions.Add``2(Neptuo.ComponentModel.Behaviors.IBehaviorCollection)">
+        <member name="M:Neptuo.ComponentModel.Behaviors.Providers._BehaviorCollectionExtensions.AddInterface``2(Neptuo.ComponentModel.Behaviors.IBehaviorCollection)">
             <summary>
             Adds <see cref="T:Neptuo.ComponentModel.Behaviors.Providers.InterfaceBehaviorProvider"/> with <typeparamref name="TContract"/> as contract interface 
             and <typeparamref name="TImplementation"/> as implementation class.

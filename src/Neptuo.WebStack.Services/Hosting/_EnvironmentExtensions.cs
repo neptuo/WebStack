@@ -79,17 +79,17 @@ namespace Neptuo.WebStack.Services.Hosting
         public static WebServiceEngineEnvironment UseBehaviors(this WebServiceEngineEnvironment webService, Action<InterfaceBehaviorProvider> mapper)
         {
             Ensure.NotNull(webService, "webService");
-            Ensure.NotNull(webService, "environment");
             Ensure.NotNull(mapper, "mapper");
-
+            
             InterfaceBehaviorProvider provider = new InterfaceBehaviorProvider();
+            mapper(provider);
+
             provider
                 .AddMapping<IGet, GetBehavior>()
                 .AddMapping<IPost, PostBehavior>()
                 .AddMapping<IPut, PutBehavior>()
                 .AddMapping<IDelete, DeleteBehavior>();
 
-            mapper(provider);
             return webService.UseBehaviors(provider);
         }
 

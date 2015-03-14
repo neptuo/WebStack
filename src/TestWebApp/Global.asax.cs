@@ -36,12 +36,11 @@ namespace TestWebApp
         }
     }
 
-
     public class Global : HttpApplication, IRequestHandler
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            string binDirectory = @"D:\Development\Neptuo\WebStack\src\TestWebApp\bin";
+            string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
             string tempDirectory = @"C:\Temp\Services";
             string wwwRootDirectory = @"E:\Pictures\Camera Roll";
 
