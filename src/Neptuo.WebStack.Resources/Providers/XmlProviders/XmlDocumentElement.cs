@@ -13,7 +13,7 @@ namespace Neptuo.WebStack.Resources.Providers.XmlProviders
 
         public XmlDocumentElement(XmlElement element)
         {
-            Guard.NotNull(element, "element");
+            Ensure.NotNull(element, "element");
             this.element = element;
         }
 
@@ -24,13 +24,13 @@ namespace Neptuo.WebStack.Resources.Providers.XmlProviders
 
         public string GetAttributeValue(string attributeName)
         {
-            Guard.NotNullOrEmpty(attributeName, "attributeName");
+            Ensure.NotNullOrEmpty(attributeName, "attributeName");
             return element.GetAttribute(attributeName);
         }
 
         public IEnumerable<IXmlElement> EnumerateChildElements(string elementName)
         {
-            Guard.NotNullOrEmpty(elementName, "elementName");
+            Ensure.NotNullOrEmpty(elementName, "elementName");
             foreach (XmlNode node in element.ChildNodes)
             {
                 if (node.NodeType == XmlNodeType.Element && node.Name == elementName)

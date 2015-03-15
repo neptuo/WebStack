@@ -18,8 +18,8 @@ namespace Neptuo.WebStack.Routing.Segments
 
         public TokenRouteSegment(string tokenName, IRouteParameter parameter)
         {
-            Guard.NotNullOrEmpty(tokenName, "tokenName");
-            Guard.NotNull(parameter, "parameter");
+            Ensure.NotNullOrEmpty(tokenName, "tokenName");
+            Ensure.NotNull(parameter, "parameter");
             this.tokenName = tokenName;
             this.parameter = parameter;
         }
@@ -55,25 +55,25 @@ namespace Neptuo.WebStack.Routing.Segments
 
         #region Resolving url
 
-        public override IRequestHandler ResolveUrl(string url, IHttpRequest httpRequest)
+        public override object ResolveUrl(string url, IHttpContext httpContext)
         {
             IRouteParameterMatchContext matchContext = new RouteParameterMatchContext()
             {
                 OriginalUrl = url,
                 RemainingUrl = url,
-                HttpRequest = httpRequest
+                HttpContext = httpContext
             };
 
             if (parameter.MatchUrl(matchContext))
             {
                 if (String.IsNullOrEmpty(matchContext.RemainingUrl))
-                    return RequestHandler;
+                    return Target;
 
                 foreach (RouteSegment child in Children)
                 {
-                    IRequestHandler requestHandler = child.ResolveUrl(matchContext.RemainingUrl, httpRequest);
-                    if (requestHandler != null)
-                        return requestHandler;
+                    object target = child.ResolveUrl(matchContext.RemainingUrl, httpContext);
+                    if (target != null)
+                        return target;
                 }
             }
 
@@ -92,7 +92,7 @@ namespace Neptuo.WebStack.Routing.Segments
     {
         public string OriginalUrl { get; set; }
         public string RemainingUrl { get; set; }
-        public IHttpRequest HttpRequest { get; set; }
+        public IHttpContext HttpContext { get; set; }
     }
 
 }

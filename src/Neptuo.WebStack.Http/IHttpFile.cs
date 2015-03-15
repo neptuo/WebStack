@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack.Http
 {
     /// <summary>
-    /// Describes file sent over Http.
+    /// Describes file sent over HTTP.
     /// </summary>
     public interface IHttpFile
     {

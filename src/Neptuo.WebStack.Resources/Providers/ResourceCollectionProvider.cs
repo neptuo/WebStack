@@ -26,7 +26,7 @@ namespace Neptuo.WebStack.Resources.Providers
             get { return providerGetter; }
             set
             {
-                Guard.NotNull(value, "value");
+                Ensure.NotNull(value, "value");
                 if (providerGetter != value)
                 {
                     lock (lockObject)

@@ -30,13 +30,13 @@ namespace Neptuo.WebStack.Routing.Segments
             return newSegment;
         }
 
-        public override IRequestHandler ResolveUrl(string url, IHttpRequest httpRequest)
+        public override object ResolveUrl(string url, IHttpContext httpContext)
         {
             foreach (RouteSegment child in Children)
             {
-                IRequestHandler requestHandler = child.ResolveUrl(url, httpRequest);
-                if (requestHandler != null)
-                    return requestHandler;
+                object target = child.ResolveUrl(url, httpContext);
+                if (target != null)
+                    return target;
             }
 
             return null;

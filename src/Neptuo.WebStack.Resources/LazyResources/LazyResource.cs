@@ -23,8 +23,8 @@ namespace Neptuo.WebStack.Resources.LazyResources
         /// <param name="resourceName">Resource nane.</param>
         public LazyResource(IResourceCollection collection, string resourceName)
         {
-            Guard.NotNull(collection, "collection");
-            Guard.NotNullOrEmpty(resourceName, "resourceName");
+            Ensure.NotNull(collection, "collection");
+            Ensure.NotNullOrEmpty(resourceName, "resourceName");
             this.collection = collection;
             Name = resourceName;
         }

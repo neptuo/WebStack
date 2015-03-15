@@ -10,11 +10,11 @@ namespace Neptuo.WebStack.StaticFiles
 {
     public class UrlPathProvider : IPathProvider
     {
-        public string GetPath(IHttpRequest httpRequest)
+        public string GetPath(IHttpContext httpContext)
         {
             string rawUrl;
-            if (!httpRequest.CustomValues().TryGet("FileSystemRequestHandler:FileName", out rawUrl))
-                rawUrl = httpRequest.Url().Path;
+            if (!httpContext.CustomValues().TryGet("FileSystemRequestHandler:FileName", out rawUrl))
+                rawUrl = httpContext.Request().Url().Path;
 
             rawUrl = rawUrl.Replace("%20", " ");
             //string path = rawUrl.Substring(rawUrl.IndexOf('/', 9));

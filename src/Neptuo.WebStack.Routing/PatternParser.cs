@@ -14,7 +14,7 @@ namespace Neptuo.WebStack.Routing
 
         public PatternParser(IRouteParameterCollection parameterCollection)
         {
-            Guard.NotNull(parameterCollection, "parameterCollection");
+            Ensure.NotNull(parameterCollection, "parameterCollection");
             this.parameterCollection = parameterCollection;
         }
 
