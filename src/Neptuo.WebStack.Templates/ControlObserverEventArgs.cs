@@ -33,8 +33,8 @@ namespace Neptuo.WebStack.Templates
         /// <param name="componentManager">Current component manager.</param>
         public ControlObserverEventArgs(IControl target, IComponentManager componentManager)
         {
-            Guard.NotNull(target, "target");
-            Guard.NotNull(componentManager, "componentManager");
+            Ensure.NotNull(target, "target");
+            Ensure.NotNull(componentManager, "componentManager");
             Target = target;
             ComponentManager = componentManager;
         }

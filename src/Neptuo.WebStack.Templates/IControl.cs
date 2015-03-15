@@ -18,9 +18,9 @@ namespace Neptuo.WebStack.Templates
         void OnInit(IComponentManager componentManager);
 
         /// <summary>
-        /// Renders output to <paramref name="context"/>.
+        /// Renders output to <paramref name="writer"/>.
         /// </summary>
-        /// <param name="context">Output rendering context.</param>
-        void Render(IRenderContext context);
+        /// <param name="writer">Output rendering writer.</param>
+        void Render(IHtmlWriter writer);
     }
 }

@@ -46,8 +46,8 @@ namespace Neptuo.WebStack.Templates
         /// Renders <paramref name="control"/> into <paramref name="context"/>.
         /// </summary>
         /// <param name="control">Target control.</param>
-        /// <param name="context">Output rendering context.</param>
-        void Render(object control, IRenderContext context);
+        /// <param name="writer">Output rendering writer.</param>
+        void Render(object control, IHtmlWriter writer);
 
         /// <summary>
         /// Disposes <paramref name="component"/>.

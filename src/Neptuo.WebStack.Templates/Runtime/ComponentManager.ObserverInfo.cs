@@ -29,7 +29,7 @@ namespace Neptuo.WebStack.Templates.Runtime
 
             public ObserverInfo(IControlObserver observer, Delegate propertyBinder)
             {
-                Guard.NotNull(observer, "observer");
+                Ensure.NotNull(observer, "observer");
                 Observer = observer;
                 PropertyBinder = propertyBinder;
             }

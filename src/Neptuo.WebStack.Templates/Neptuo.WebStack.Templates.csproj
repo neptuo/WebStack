@@ -42,12 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultExtensionContext.cs" />
+    <Compile Include="DefaultValueExtensionContext.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
     <Compile Include="IHtmlWriter.cs" />
     <Compile Include="IControlObserver.cs" />
-    <Compile Include="IRenderContext.cs" />
     <Compile Include="IValueExtension.cs" />
     <Compile Include="IValueExtensionContext.cs" />
     <Compile Include="ControlObserverEventArgs.cs" />

@@ -9,20 +9,17 @@ namespace Neptuo.WebStack.Templates
     /// <summary>
     /// Default implementation of <see cref="IValueExtensionContext"/>.
     /// </summary>
-    public class DefaultExtensionContext : IValueExtensionContext
+    public class DefaultValueExtensionContext : IValueExtensionContext
     {
         public object TargetObject { get; set; }
         public PropertyInfo TargetProperty { get; set; }
-        public IDependencyProvider DependencyProvider { get; set; }
 
-        public DefaultExtensionContext(object targetObject, PropertyInfo targetProperty, IDependencyProvider dependencyProvider)
+        public DefaultValueExtensionContext(object targetObject, PropertyInfo targetProperty)
         {
-            Guard.NotNull(targetObject, "targetObject");
-            Guard.NotNull(targetProperty, "targetProperty");
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(targetObject, "targetObject");
+            Ensure.NotNull(targetProperty, "targetProperty");
             TargetObject = targetObject;
             TargetProperty = targetProperty;
-            DependencyProvider = dependencyProvider;
         }
     }
 }

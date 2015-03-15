@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Activators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -20,10 +21,5 @@ namespace Neptuo.WebStack.Templates
         /// Target property, on which extensions is declared.
         /// </summary>
         PropertyInfo TargetProperty { get; }
-
-        /// <summary>
-        /// Current dependency provider.
-        /// </summary>
-        IDependencyProvider DependencyProvider { get; }
     }
 }

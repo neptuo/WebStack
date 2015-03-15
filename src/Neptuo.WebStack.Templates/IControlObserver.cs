@@ -20,7 +20,7 @@ namespace Neptuo.WebStack.Templates
         /// Observes target render phase.
         /// </summary>
         /// <param name="e">Context that describes observer usage.</param>
-        /// <param name="context">Output rendering context.</param>
-        void Render(ControlObserverEventArgs e, IRenderContext context);
+        /// <param name="writer">Output rendering writer.</param>
+        void Render(ControlObserverEventArgs e, IHtmlWriter writer);
     }
 }

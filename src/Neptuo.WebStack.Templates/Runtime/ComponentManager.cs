@@ -18,7 +18,7 @@ namespace Neptuo.WebStack.Templates.Runtime
 
         public virtual void AddComponent<T>(T component, Action<T> propertyBinder)
         {
-            Guard.NotNull(component, "component");
+            Ensure.NotNull(component, "component");
 
             ComponentEntryBase entry = new ComponentEntry<T>
             {
@@ -32,8 +32,8 @@ namespace Neptuo.WebStack.Templates.Runtime
         public virtual void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
             where T : IControlObserver
         {
-            Guard.NotNull(control, "control");
-            Guard.NotNull(observer, "observer");
+            Ensure.NotNull(control, "control");
+            Ensure.NotNull(observer, "observer");
 
             if (!entries.ContainsKey(control))
                 return;
@@ -43,8 +43,8 @@ namespace Neptuo.WebStack.Templates.Runtime
 
         public void AttachInitComplete(IControl control, Action<IControl> handler)
         {
-            Guard.NotNull(control, "control");
-            Guard.NotNull(handler, "handler");
+            Ensure.NotNull(control, "control");
+            Ensure.NotNull(handler, "handler");
 
             if (entries.ContainsKey(control))
                 entries[control].InitComplete.Add(handler);
@@ -154,7 +154,7 @@ namespace Neptuo.WebStack.Templates.Runtime
         protected virtual void AfterInitControl(IControl control)
         { }
 
-        public void Render(object control, IRenderContext context)
+        public void Render(object control, IHtmlWriter writer)
         {
             if(control == null)
                 return;
@@ -162,8 +162,8 @@ namespace Neptuo.WebStack.Templates.Runtime
             // if control is string, simply write to writer
             if (control.GetType().FullName == typeof(String).FullName)
             {
-                BeforeRenderComponent(control, context);
-                context.Writer.Content(control);
+                BeforeRenderComponent(control, writer);
+                writer.Content(control);
                 return;
             }
 
@@ -173,9 +173,9 @@ namespace Neptuo.WebStack.Templates.Runtime
                 IControl targetControl = control as IControl;
                 if (targetControl != null)
                 {
-                    BeforeRenderControl(targetControl, context);
-                    DoRenderControl(targetControl, context);
-                    AfterRenderControl(targetControl, context);
+                    BeforeRenderControl(targetControl, writer);
+                    DoRenderControl(targetControl, writer);
+                    AfterRenderControl(targetControl, writer);
                 }
                 return;
             }
@@ -190,13 +190,13 @@ namespace Neptuo.WebStack.Templates.Runtime
             if (entry.IsDisposed)
                 return;
 
-            BeforeRenderComponent(entry.Control, context);
+            BeforeRenderComponent(entry.Control, writer);
 
             IControl target = entry.Control as IControl;
             if (target == null)
                 return;
 
-            BeforeRenderControl(target, context);
+            BeforeRenderControl(target, writer);
 
             bool canRender = true;
             if (entry.Observers.Count > 0)
@@ -209,7 +209,7 @@ namespace Neptuo.WebStack.Templates.Runtime
                         info.BindProperties();
                         info.ArePropertiesBound = true;
                     }
-                    info.Observer.Render(args, context);
+                    info.Observer.Render(args, writer);
 
                     if (args.Cancel)
                         canRender = false;
@@ -217,43 +217,43 @@ namespace Neptuo.WebStack.Templates.Runtime
             }
 
             if (canRender)
-                DoRenderControl(target, context);
+                DoRenderControl(target, writer);
 
-            AfterRenderControl(target, context);
+            AfterRenderControl(target, writer);
         }
 
         /// <summary>
         /// Called before rendering any component.
         /// </summary>
         /// <param name="component">Target component.</param>
-        /// <param name="context">Output rendering context.</param>
-        protected virtual void BeforeRenderComponent(object component, IRenderContext context)
+        /// <param name="writer">Output rendering writer.</param>
+        protected virtual void BeforeRenderComponent(object component, IHtmlWriter writer)
         { }
 
         /// <summary>
         /// Called before redering control (<see cref="IControl"/>).
         /// </summary>
         /// <param name="control">Target control.</param>
-        /// <param name="context">Output rendering context.</param>
-        protected virtual void BeforeRenderControl(IControl control, IRenderContext context)
+        /// <param name="writer">Output rendering writer.</param>
+        protected virtual void BeforeRenderControl(IControl control, IHtmlWriter writer)
         { }
 
         /// <summary>
         /// Do render phase on <paramref name="control"/>.
         /// </summary>
         /// <param name="control">Target control.</param>
-        /// <param name="context">Output rendering context.</param>
-        protected virtual void DoRenderControl(IControl control, IRenderContext context)
+        /// <param name="writer">Output rendering writer.</param>
+        protected virtual void DoRenderControl(IControl control, IHtmlWriter writer)
         {
-            control.Render(context);
+            control.Render(writer);
         }
 
         /// <summary>
         /// Called after (whole) render phase was completed on <paramref name="control"/>.
         /// </summary>
         /// <param name="control">Target control.</param>
-        /// <param name="context">Output rendering context.</param>
-        protected virtual void AfterRenderControl(IControl control, IRenderContext context)
+        /// <param name="writer">Output rendering writer.</param>
+        protected virtual void AfterRenderControl(IControl control, IHtmlWriter writer)
         { }
 
         public void DisposeAll()
