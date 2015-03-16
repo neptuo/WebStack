@@ -1837,6 +1837,25 @@
             Index at line of range end.
             </summary>
         </member>
+        <member name="T:Neptuo.ComponentModel.OutFuncCollection`3">
+            <summary>
+            Represents collection of output functions.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <typeparam name="TReturn"></typeparam>
+        </member>
+        <member name="M:Neptuo.ComponentModel._OutFuncCollectionExtensions.TryExecute``2(Neptuo.ComponentModel.OutFuncCollection{``0,``1,System.Boolean},``0,``1@)">
+            <summary>
+            Tries to execute all funcs in <paramref name="list"/> until first returns <c>true</c>. 
+            </summary>
+            <typeparam name="T">Type of func parameter.</typeparam>
+            <typeparam name="TOutput">Type of output parameter.</typeparam>
+            <param name="list">List to execute on.</param>
+            <param name="parameter">Value of func parameter.</param>
+            <param name="output">Provided output value.</param>
+            <returns><c>true</c> if any func in <paramref name="list"/> returns <c>true</c>; otherwise <c>false</c>.</returns>
+        </member>
         <member name="T:Neptuo.Converts">
             <summary>
             Util for converting between types.
@@ -1917,18 +1936,26 @@
             <param name="feature">Output instance of feature; <c>null</c> if not supported.</param>
             <returns><c>true</c> if feature of type <typeparamref name="TFeature"/> is supported; otherwise <c>false</c>.</returns>
         </member>
-        <member name="T:Neptuo.FeatureModels.MappingFeatureModel">
+        <member name="T:Neptuo.FeatureModels.FeatureCollectionModel">
             <summary>
             Implementation of <see cref="T:Neptuo.FeatureModels.IFeatureModel"/> which delegates features to registered objects (with concurrent support.).
             </summary>
         </member>
-        <member name="F:Neptuo.FeatureModels.MappingFeatureModel.onSearchFeature">
+        <member name="F:Neptuo.FeatureModels.FeatureCollectionModel.onSearchFeature">
             <summary>
             Invoked when feature was not found.
             Takes typeof requested feture, should return <c>true</c> to indicate success; otherwise <c>false</c>.
             </summary>
         </member>
-        <member name="M:Neptuo.FeatureModels.MappingFeatureModel.AddSearchHandler(Neptuo.OutFunc{System.Type,System.Boolean,System.Object})">
+        <member name="M:Neptuo.FeatureModels.FeatureCollectionModel.Add(System.Type,System.Object)">
+            <summary>
+            Adds feature to the collection.
+            </summary>
+            <param name="featureType">Tyoe if feature.</param>
+            <param name="feature">Feature instance.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.FeatureModels.FeatureCollectionModel.AddSearchHandler(Neptuo.OutFunc{System.Type,System.Boolean,System.Object})">
             <summary>
             Registers generic handler for providing feature.
             <paramref name="handler"/> takes typeof requested feature 
@@ -1946,6 +1973,19 @@
             Creates feature model for object <paramref name="instance"/>.
             </summary>
             <param name="instance">Object instance to retrieve feature from.</param>
+        </member>
+        <member name="T:Neptuo.FeatureModels._FeatureCollectionModelExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.FeatureModels.FeatureCollectionModel"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FeatureModels._FeatureCollectionModelExtensions.Add``1(Neptuo.FeatureModels.FeatureCollectionModel,``0)">
+            <summary>
+            Adds feature to the collection.
+            </summary>
+            <typeparam name="T">Tyoe if feature.</typeparam>
+            <param name="feature">Feature instance.</param>
+            <returns>Self (for fluency).</returns>
         </member>
         <member name="M:Neptuo.FeatureModels._FeatureModelExtensions.With``1(Neptuo.FeatureModels.IFeatureModel)">
             <summary>
@@ -3061,6 +3101,12 @@
             Internal storage.
             </summary>
         </member>
+        <member name="F:Neptuo.EngineEnvironment.onSearchService">
+            <summary>
+            Invoked when service was not found.
+            Takes typeof requested service, should return <c>true</c> to indicate success; otherwise <c>false</c>.
+            </summary>
+        </member>
         <member name="M:Neptuo.EngineEnvironment.Use``1(``0,System.String)">
             <summary>
             Registers <paramref name="service"/> (with optional <paramref name="name"/>) into environment.
@@ -3072,19 +3118,35 @@
         </member>
         <member name="M:Neptuo.EngineEnvironment.With``1(System.String)">
             <summary>
-            Tries to retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>).
+            Retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>) or throws exception.
             </summary>
             <typeparam name="T">Type of service.</typeparam>
             <param name="name">Optional service name (for registering more services of the same type.</param>
             <returns>Retrieved service.</returns>
         </member>
-        <member name="M:Neptuo.EngineEnvironment.Is``1(System.String)">
+        <member name="M:Neptuo.EngineEnvironment.Has``1(System.String)">
             <summary>
             Returns <c>true</c> if there is registered service of type <typeparamref name="T"/> with optional name <paramref name="name"/>.
             </summary>
             <typeparam name="T">Type of service.</typeparam>
             <param name="name">Optional service name (for registering more services of the same type.</param>
             <returns><c>true</c> if such a service is registered; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.TryWith``1(System.String,``0@)">
+            <summary>
+            Tries to retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>).
+            </summary>
+            <typeparam name="T">Type of service.</typeparam>
+            <param name="name">Optional service name (for registering more services of the same type.</param>
+            <param name="service">Retrieved service or <c>null</c>.</param>
+            <returns><c>true</c> if service of type <typeparamref name="T"/> can be provided; <c>false</c> otherwise..</returns>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.AddSearchHandler(Neptuo.OutFunc{System.Type,System.Object,System.Boolean})">
+            <summary>
+            Adds handler for searching service for.
+            </summary>
+            <param name="handler">Search handler to add.</param>
+            <returns>Self (for fluency).</returns>
         </member>
         <member name="T:Neptuo._EnsureArgumentExtensions">
             <summary>
