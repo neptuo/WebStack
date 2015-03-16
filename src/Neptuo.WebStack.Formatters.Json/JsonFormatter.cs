@@ -19,7 +19,7 @@ namespace Neptuo.WebStack.Formatters
 
             try
             {
-                string serialized = await JsonConvert.SerializeObjectAsync(instance);
+                string serialized = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(instance));
                 using (StreamWriter writer = new StreamWriter(context.Output))
                 {
                     await writer.WriteAsync(serialized);

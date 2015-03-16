@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,11 @@ namespace Neptuo.WebStack.Routing.Segments
             return newSegment;
         }
 
-        public override object ResolveUrl(string url, IHttpContext httpContext)
+        public override object ResolveUrl(string url, IKeyValueCollection routeValues)
         {
             foreach (RouteSegment child in Children)
             {
-                object target = child.ResolveUrl(url, httpContext);
+                object target = child.ResolveUrl(url, routeValues);
                 if (target != null)
                     return target;
             }

@@ -9,7 +9,7 @@ namespace Neptuo.TestConsole.Routing
 {
     public class TestRouteParameter : IRouteParameter
     {
-        public bool MatchUrl(IRouteParameterMatchContext context)
+        public bool TryMatchUrl(IRouteParameterMatchContext context)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,6 @@ namespace Neptuo.WebStack.Routing
         /// <summary>
         /// Current HTTP request.
         /// </summary>
-        IHttpContext HttpContext { get; }
+        IKeyValueCollection RouteValues { get; }
     }
 }

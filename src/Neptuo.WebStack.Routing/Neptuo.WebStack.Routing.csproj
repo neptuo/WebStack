@@ -59,6 +59,7 @@
     <Compile Include="Segments\StaticRouteSegment.cs" />
     <Compile Include="Segments\TokenRouteSegment.cs" />
     <Compile Include="_EnvironmentExtensions.cs" />
+    <Compile Include="_HttRequestExtensions_Routing.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj">

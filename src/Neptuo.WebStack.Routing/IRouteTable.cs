@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,10 @@ namespace Neptuo.WebStack.Routing
         /// <summary>
         /// Tries to find target for <paramref name="url"/>.
         /// </summary>
-        /// <param name="url">Http context.</param>
+        /// <param name="url">Url to find target for.</param>
+        /// <param name="routeValues">Collection for custom route values.</param>
         /// <param name="target">Target for <paramref name="url"/>.</param>
         /// <returns></returns>
-        bool TryGetTarget(IHttpContext httpContext, out object target);
+        bool TryGetTarget(IReadOnlyUrl url, IKeyValueCollection routeValues, out object target);
     }
 }

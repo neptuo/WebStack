@@ -19,6 +19,6 @@ namespace Neptuo.WebStack.Routing
         /// </summary>
         /// <param name="context">Context describing URL and current HTTP request.</param>
         /// <returns><c>true</c> is part of URL is matched; <c>false</c> otherwise.</returns>
-        bool MatchUrl(IRouteParameterMatchContext context);
+        bool TryMatchUrl(IRouteParameterMatchContext context);
     }
 }

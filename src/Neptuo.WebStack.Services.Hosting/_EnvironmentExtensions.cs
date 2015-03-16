@@ -145,7 +145,22 @@ namespace Neptuo.WebStack.Services.Hosting
                 .References()
                 .AddDirectories(binDirectories);
 
-            return webService.UseCodeDomConfiguration(configuration);
+            return UseCodeDomConfiguration(webService, configuration);
+        }
+
+        /// <summary>
+        /// Registers singleton code dom pipeline configuration.
+        /// </summary>
+        /// <param name="webService">Engine environment.</param>
+        /// <param name="mapper">Configuration initializer.</param>
+        public static WebServiceEngineEnvironment UseCodeDomConfiguration(this WebServiceEngineEnvironment webService, Action<ICompilerConfiguration> mapper)
+        {
+            Ensure.NotNull(mapper, "mapper");
+
+            ICompilerConfiguration configuration = new CompilerConfiguration();
+            mapper(configuration);
+
+            return UseCodeDomConfiguration(webService, configuration);
         }
 
         /// <summary>

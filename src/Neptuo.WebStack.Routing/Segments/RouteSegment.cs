@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,8 +66,9 @@ namespace Neptuo.WebStack.Routing.Segments
         /// Returns handler register for <paramref name="url"/>, where <paramref name="url"/> starts with this segment.
         /// </summary>
         /// <param name="url">Url to resolve registered handler for.</param>
+        /// <param name="routeValues">Collection of custom route values.</param>
         /// <returns>Handler for <paramref name="url"/>; <c>null</c> of not found/registered.</returns>
-        public abstract object ResolveUrl(string url, IHttpContext httpContext);
+        public abstract object ResolveUrl(string url, IKeyValueCollection routeValues);
 
         #endregion
     }

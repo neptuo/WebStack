@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Routing;
 using System;
 using System.Collections.Generic;
@@ -55,23 +56,23 @@ namespace Neptuo.WebStack.Routing.Segments
 
         #region Resolving url
 
-        public override object ResolveUrl(string url, IHttpContext httpContext)
+        public override object ResolveUrl(string url, IKeyValueCollection routeValues)
         {
             IRouteParameterMatchContext matchContext = new RouteParameterMatchContext()
             {
                 OriginalUrl = url,
                 RemainingUrl = url,
-                HttpContext = httpContext
+                RouteValues = routeValues
             };
 
-            if (parameter.MatchUrl(matchContext))
+            if (parameter.TryMatchUrl(matchContext))
             {
                 if (String.IsNullOrEmpty(matchContext.RemainingUrl))
                     return Target;
 
                 foreach (RouteSegment child in Children)
                 {
-                    object target = child.ResolveUrl(matchContext.RemainingUrl, httpContext);
+                    object target = child.ResolveUrl(matchContext.RemainingUrl, routeValues);
                     if (target != null)
                         return target;
                 }
@@ -92,7 +93,7 @@ namespace Neptuo.WebStack.Routing.Segments
     {
         public string OriginalUrl { get; set; }
         public string RemainingUrl { get; set; }
-        public IHttpContext HttpContext { get; set; }
+        public IKeyValueCollection RouteValues { get; set; }
     }
 
 }

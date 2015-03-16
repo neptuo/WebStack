@@ -2,6 +2,8 @@
 using Neptuo;
 using Neptuo.Activators;
 using Neptuo.Compilers;
+using Neptuo.ComponentModel.Behaviors.Processing;
+using Neptuo.ComponentModel.Behaviors.Processing.Compilation;
 using Neptuo.ComponentModel.Behaviors.Providers;
 using Neptuo.FileSystems;
 using Neptuo.WebStack;
@@ -67,9 +69,13 @@ namespace TestWebApp
                     .AddMapping(typeof(IForInput<>), typeof(ForInputBehavior<>))
                     .AddMapping(typeof(IWithOutput<>), typeof(WithOutputBehavior<>))
                 )
-                .UseCodeDomConfiguration(typeof(RequestPipelineBase<>), tempDirectory, binDirectory);
-
-            Engine.Environment.WithWebServices().WithCodeDomConfiguration().IsDebugMode(true);
+                .UseCodeDomConfiguration(configuration => configuration
+                    .IsDebugMode(true)
+                    .BaseType(typeof(RequestPipelineBase<>))
+                    .TempDirectory(tempDirectory)
+                    .References()
+                        .AddDirectory(binDirectory)
+                );
 
             Engine.Environment.UseFormatters((serializers, deserializers) =>
             {
@@ -139,12 +145,12 @@ namespace TestWebApp
             this.rootDirectory = rootDirectory;
         }
 
-        public bool MatchUrl(IRouteParameterMatchContext context)
+        public bool TryMatchUrl(IRouteParameterMatchContext context)
         {
             string remainingUrl = context.RemainingUrl;
             if(rootDirectory.FindFiles(remainingUrl, true).Any())
             {
-                context.HttpContext.CustomValues().Set("FileSystemRequestHandler:FileName", remainingUrl);
+                context.RouteValues.Set("FileSystemRequestHandler:FileName", remainingUrl);
                 context.RemainingUrl = null;
                 return true;
             }

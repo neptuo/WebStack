@@ -1,4 +1,5 @@
-﻿using Neptuo.WebStack.Http;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Routing.Segments;
 using System;
 using System.Collections.Generic;
@@ -67,13 +68,12 @@ namespace Neptuo.WebStack.Routing
             }
         }
 
-        public bool TryGetTarget(IHttpContext httpContext, out object target)
+        public bool TryGetTarget(IReadOnlyUrl url, IKeyValueCollection routeValues, out object target)
         {
-            IReadOnlyUrl url = httpContext.Request().Url();
             if (url.HasSchema)
             {
                 string hostUrl = url.ToString();
-                target = schemaTree.ResolveUrl(hostUrl, httpContext);
+                target = schemaTree.ResolveUrl(hostUrl, routeValues);
                 if (target != null)
                     return true;
             }
@@ -81,7 +81,7 @@ namespace Neptuo.WebStack.Routing
             if (url.HasHost)
             {
                 string hostUrl = url.ToString("HP");
-                target = hostTree.ResolveUrl(hostUrl, httpContext);
+                target = hostTree.ResolveUrl(hostUrl, routeValues);
                 if (target != null)
                     return true;
             }
@@ -89,7 +89,7 @@ namespace Neptuo.WebStack.Routing
             if (url.HasVirtualPath)
             {
                 string virtualPath = url.VirtualPath;
-                target = virtualPathTree.ResolveUrl(virtualPath, httpContext);
+                target = virtualPathTree.ResolveUrl(virtualPath, routeValues);
                 if (target != null)
                     return true;
             }
