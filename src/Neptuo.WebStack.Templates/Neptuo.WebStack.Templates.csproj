@@ -57,6 +57,7 @@
     <Compile Include="IComponentManager.cs" />
     <Compile Include="Runtime\ComponentManager.ObserverInfo.cs" />
     <Compile Include="UI\GeneratedView.cs" />
+    <Compile Include="UI\GenericContentControl.cs" />
     <Compile Include="UI\HtmlAttributeCollection.cs" />
     <Compile Include="UI\HtmlTextWriter.cs" />
     <Compile Include="UI\HtmlTextWriterException.cs" />

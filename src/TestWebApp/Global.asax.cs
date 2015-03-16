@@ -88,9 +88,9 @@ namespace TestWebApp
                     .MapService(typeof(HelloHandler))
                     .MapService(typeof(PersonJohnDoeHandler))
                     .Map(
-                        routeTable.UrlBuilder().VirtualPath("~/templates/default").ToUrl(),
+                        routeTable.UrlBuilder().VirtualPath("~/").ToUrl(),
                         new TemplateRequestHandler(
-                            ViewServiceFactory.BuildViewService(tempDirectory), 
+                            ViewServiceFactory.BuildViewService(tempDirectory, binDirectory), 
                             LocalFileSystem.FromFilePath(
                                 Path.Combine(
                                     binDirectory,

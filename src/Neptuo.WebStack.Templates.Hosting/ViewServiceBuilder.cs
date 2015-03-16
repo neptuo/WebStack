@@ -14,12 +14,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Neptuo.WebStack.Templates.Compilation.CodeGenerators;
+using Neptuo.WebStack.Templates.UI;
 
 namespace Neptuo.WebStack.Templates.Hosting
 {
     public static class ViewServiceFactory
     {
-        public static IViewService BuildViewService(string tempDirectory)
+        public static IViewService BuildViewService(string tempDirectory, string binDirectory)
         {
             // Name normalizer for components/controls.
             INameNormalizer componentNormalizer = new CompositeNameNormalizer(
@@ -50,7 +51,7 @@ namespace Neptuo.WebStack.Templates.Hosting
                 )
                 .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)
-                        //.AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
+                        .AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
                         .AddRootBuilder<GeneratedView>(v => v.Content)
                 )
                 .AddObserverBuilder(
@@ -106,7 +107,7 @@ namespace Neptuo.WebStack.Templates.Hosting
             CodeCompiler codeCompiler = new CodeCompiler();
             codeCompiler.TempDirectory(tempDirectory);
             codeCompiler.IsDebugMode(true);
-            codeCompiler.References().AddDirectory(Environment.CurrentDirectory);
+            codeCompiler.References().AddDirectory(binDirectory);
 
             DefaultViewService viewService = new DefaultViewService();
             viewService.ParserService

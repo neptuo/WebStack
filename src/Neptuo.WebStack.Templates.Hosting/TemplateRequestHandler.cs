@@ -34,7 +34,7 @@ namespace Neptuo.WebStack.Templates.Hosting
             using (IDependencyContainer dependencyContainer = httpContext.DependencyProvider().Scope("TemplateCompilation"))
             {
                 dependencyContainer
-                    .Map<ICodeDomNaming>().InCurrentScope().To(new CodeDomDefaultNaming("Neptuo.WebStack.Templates", templateFile.Name));
+                    .Map<ICodeDomNaming>().InCurrentScope().To(new CodeDomDefaultNaming("Neptuo.WebStack.Templates", templateFile.Name + DateTime.Now.ToFileTime()));
 
                 GeneratedView view = (GeneratedView)viewService.ProcessContent(
                     "Default",
