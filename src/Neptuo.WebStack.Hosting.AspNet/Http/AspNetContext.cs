@@ -1,4 +1,5 @@
-﻿using Neptuo.Collections.Specialized;
+﻿using Neptuo.Activators;
+using Neptuo.Collections.Specialized;
 using Neptuo.ComponentModel;
 using Neptuo.FeatureModels;
 using Neptuo.WebStack.Http.Keys;
@@ -22,7 +23,7 @@ namespace Neptuo.WebStack.Http
         private readonly AspNetResponseMessage httpResponseMessage;
         private readonly AspNetContextNotification notification;
 
-        public AspNetContext(HttpWebContext webContext)
+        public AspNetContext(HttpWebContext webContext, IDependencyProvider dependencyProvider)
         {
             Ensure.NotNull(webContext, "webContext");
             this.webContext = webContext;
@@ -36,7 +37,8 @@ namespace Neptuo.WebStack.Http
                 { typeof(IUrlBuilder), new UrlBuilder(webContext.Request.ApplicationPath) },
                 { typeof(IKeyValueCollection), customValues },
                 { typeof(IHttpRequestMessage), httpRequestMessage },
-                { typeof(IHttpResponseMessage), httpResponseMessage }
+                { typeof(IHttpResponseMessage), httpResponseMessage },
+                { typeof(IDependencyProvider), dependencyProvider }
             });
 
             PrepareCustomValues();

@@ -56,6 +56,10 @@
     <Reference Include="Neptuo.Activators.Unity">
       <HintPath>..\..\references\Neptuo.Activators.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.Templates.Compilation, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\references\Neptuo.Templates.Compilation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -85,6 +89,7 @@
   <ItemGroup>
     <Content Include="Default.html" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Default.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +140,18 @@
     <ProjectReference Include="..\Neptuo.WebStack.StaticFiles\Neptuo.WebStack.StaticFiles.csproj">
       <Project>{a18ad38e-7564-4b9e-b964-5e6289192aed}</Project>
       <Name>Neptuo.WebStack.StaticFiles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Templates.Compilation\Neptuo.WebStack.Templates.Compilation.csproj">
+      <Project>{6db7a842-54a6-4e3b-a7a9-48b3ccc38980}</Project>
+      <Name>Neptuo.WebStack.Templates.Compilation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Templates.Hosting\Neptuo.WebStack.Templates.Hosting.csproj">
+      <Project>{01872b7e-2f98-404e-9489-7691534b6cf8}</Project>
+      <Name>Neptuo.WebStack.Templates.Hosting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.WebStack.Templates\Neptuo.WebStack.Templates.csproj">
+      <Project>{184067cb-0b04-445d-a134-b47b6f686019}</Project>
+      <Name>Neptuo.WebStack.Templates</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack\Neptuo.WebStack.csproj">
       <Project>{d661162a-cc24-4de8-920f-ae54c9258a7f}</Project>

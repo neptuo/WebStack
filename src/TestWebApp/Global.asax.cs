@@ -16,6 +16,7 @@ using Neptuo.WebStack.Services.Hosting;
 using Neptuo.WebStack.Services.Hosting.Behaviors;
 using Neptuo.WebStack.Services.Hosting.Processing;
 using Neptuo.WebStack.StaticFiles;
+using Neptuo.WebStack.Templates.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,9 +41,11 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
-            string tempDirectory = @"C:\Temp\Services";
-            string wwwRootDirectory = @"E:\Pictures\Camera Roll";
+            string binDirectory = @"C:\Users\marek.fisera\Projects\Neptuo\WebStack\src\TestWebApp\bin";
+            //string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
+            string tempDirectory = @"C:\Temp\WebStack";
+            string wwwRootDirectory = @"C:\Temp";
+            //string wwwRootDirectory = @"E:\Pictures\Camera Roll";
 
             Converts.Repository
                 .Add(typeof(int), typeof(HttpStatus), new HttpStatusConverter())
@@ -84,6 +87,18 @@ namespace TestWebApp
                 routeTable
                     .MapService(typeof(HelloHandler))
                     .MapService(typeof(PersonJohnDoeHandler))
+                    .Map(
+                        routeTable.UrlBuilder().VirtualPath("~/templates/default").ToUrl(),
+                        new TemplateRequestHandler(
+                            ViewServiceFactory.BuildViewService(tempDirectory), 
+                            LocalFileSystem.FromFilePath(
+                                Path.Combine(
+                                    binDirectory,
+                                    @"..\Views\Default.html"
+                                )
+                            )
+                        )
+                    )
                     .Map(
                         routeTable.UrlBuilder().VirtualPath("~/photos/{FileName}").ToUrl(),
                         new FileSystemRequestHandler(

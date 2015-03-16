@@ -1,4 +1,5 @@
-﻿using Neptuo.Collections.Specialized;
+﻿using Neptuo.Activators;
+using Neptuo.Collections.Specialized;
 using Neptuo.FeatureModels;
 using Neptuo.WebStack.Http.Keys;
 using System;
@@ -55,6 +56,17 @@ namespace Neptuo.WebStack.Http
                 httpContext.CustomValues().Set(ResponseKey.Root, httpResponse = new HttpResponse(httpContext));
 
             return httpResponse;
+        }
+
+        /// <summary>
+        /// Returns instance of dependency provider for <paramref name="httpContext"/>.
+        /// </summary>
+        /// <param name="httpContext">Target HTTP context.</param>
+        /// <returns>Instance of dependency provider for <paramref name="httpContext"/>.</returns>
+        public static IDependencyProvider DependencyProvider(this IHttpContext httpContext)
+        {
+            Ensure.NotNull(httpContext, "httpContext");
+            return httpContext.With<IDependencyProvider>();
         }
     }
 }

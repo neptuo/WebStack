@@ -1,4 +1,5 @@
-﻿using Neptuo.Collections.Specialized;
+﻿using Neptuo.Activators;
+using Neptuo.Collections.Specialized;
 using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
@@ -27,17 +28,21 @@ namespace Neptuo.WebStack.Hosting
             HttpContext webContext = application.Context;
 
             IRequestHandler requestHandler = Engine.Environment.WithRootRequestHandler();
-            AspNetContext httpContext = new AspNetContext(webContext);
+            IDependencyProvider dependencyProvider = Engine.RootContainer;
+            using (IDependencyProvider webRequestScope = dependencyProvider.Scope("WebRequest"))
+            {
+                AspNetContext httpContext = new AspNetContext(webContext, webRequestScope);
 
-            bool isHandled = await requestHandler.TryHandleAsync(httpContext);
-            if (isHandled)
-            {
-                httpContext.FlushOutput();
-                application.CompleteRequest();
-            }
-            else
-            {
-                //TODO: Throw or let run underlaying ASP.NET.
+                bool isHandled = await requestHandler.TryHandleAsync(httpContext);
+                if (isHandled)
+                {
+                    httpContext.FlushOutput();
+                    application.CompleteRequest();
+                }
+                else
+                {
+                    //TODO: Throw or let run underlaying ASP.NET.
+                }
             }
         }
 

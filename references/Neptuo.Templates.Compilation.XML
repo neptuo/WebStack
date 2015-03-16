@@ -1,0 +1,3155 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neptuo.Templates.Compilation</name>
+    </assembly>
+    <members>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.StaticCodeCompilerBase">
+            <summary>
+            Base for default implementation for compiling C# source code to the assemblies.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompiler">
+            <summary>
+            Compiles code and process result object.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompiler.Compile(System.IO.TextReader,Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext)">
+            <summary>
+            Compiles <paramref name="sourceCode"/> to resulting object.
+            </summary>
+            <param name="sourceCode">Source code to compile.</param>
+            <param name="context">Context for compilation.</param>
+            <returns>Resulting object; <c>null</c> if compilation was not successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeCompilers.StaticCodeCompilerBase.#ctor">
+            <summary>
+            Creates new instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeCompilers.StaticCodeCompilerBase.Compile(Neptuo.Compilers.IStaticCompiler,System.IO.TextReader,Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext)">
+            <summary>
+            Should try to compile <paramref name="sourceCode"/> using <paramref name="compiler"/>.
+            </summary>
+            <param name="compiler">C# code compiler.</param>
+            <param name="sourceCode">C# source code.</param>
+            <param name="context">Code compiler context.</param>
+            <returns>Compiled view instance.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.CodeObjectList">
+            <summary>
+            Implementation of list of code objects.
+            With support for extension methods.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.CommentCodeObject">
+            <summary>
+            Code object that describes comment is source template.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.ICodeObject">
+            <summary>
+            Base code object.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects.CommentCodeObject.#ctor(System.String)">
+            <summary>
+            Creates new intance with <paramref name="commentText"/> as value of comment.
+            </summary>
+            <param name="commentText">Value of comment.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.CommentCodeObject.CommentText">
+            <summary>
+            Value of comment.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects._CodeObjectListExtensions.AddPlainValue(Neptuo.Templates.Compilation.CodeObjects.CodeObjectList,System.Object)">
+            <summary>
+            Adds <see cref="T:Neptuo.Templates.Compilation.CodeObjects.PlainValueCodeObject"/> with value <paramref name="value"/> to the <paramref name="list"/>.
+            </summary>
+            <param name="list">Target list of code objects.</param>
+            <param name="value">Plain value to add.</param>
+            <returns><paramref name="list"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects._CodeObjectListExtensions.AddComment(Neptuo.Templates.Compilation.CodeObjects.CodeObjectList,System.String)">
+            <summary>
+            Adds <see cref="T:Neptuo.Templates.Compilation.CodeObjects.CommentCodeObject"/> with value <paramref name="commentText"/> to the <paramref name="list"/>.
+            </summary>
+            <param name="list">Target list of code objects.</param>
+            <param name="commentText">Comment text.</param>
+            <returns><paramref name="list"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.DefaultPipelineDispatcher">
+            <summary>
+            Provides ability to transform name of the pipeline for each processing part.
+            Eg. View service is called with "Default", for parsers this is renamed to "MyParser", for code generators this is renamed to "ServerCode".
+            These transitions are based on service type.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.DefaultPipelineDispatcher.Add``1(System.String,System.String)">
+            <summary>
+            Registers dispatching rule for service of type <typeparamref name="TService"/> 
+            for input name <paramref name="sourceName"/> to target name <paramref name="targetName"/>.
+            </summary>
+            <typeparam name="TService">Type of service for this rule.</typeparam>
+            <param name="sourceName">Input pipeline name.</param>
+            <param name="targetName">Target pipeline name for <typeparamref name="TService"/>.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.DefaultPipelineDispatcher.Dispatch``1(System.String)">
+            <summary>
+            Returns target pipeline name for service of type <typeparamref name="TService"/> and input name <paramref name="sourceName"/>.
+            </summary>
+            <typeparam name="TService">Type of service.</typeparam>
+            <param name="sourceName">Input pipeline name.</param>
+            <returns>Target pipeline name.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.Normalization.NullNameNormalizer">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer"/> which do nothing.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer">
+            <summary>
+            Component for preprocessing names and prefixes.
+            These names and prefixes can be used any parser.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer.PreparePrefix(System.String)">
+            <summary>
+            Normalizes prefix.
+            </summary>
+            <param name="prefix">Prefix to normalize.</param>
+            <returns>Normalized prefix.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer.PrepareName(System.String)">
+            <summary>
+            Normalizes name.
+            </summary>
+            <param name="name">Name to normalize.</param>
+            <returns>Normalized name.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._ParserServiceExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ParserServiceExtensions.AddContentParser(Neptuo.Templates.Compilation.Parsers.IParserService,System.String,Neptuo.Templates.Compilation.Parsers.IContentParser)">
+            <summary>
+            Registers <paramref name="contentParser"/> with <paramref name="name"/>.
+            This parser will be inserted to the index 0.
+            </summary>
+            <param name="parserService">Parser service to extend.</param>
+            <param name="name">Name of parser.</param>
+            <param name="contentParser">Content parser.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ParserServiceExtensions.AddValueParser(Neptuo.Templates.Compilation.Parsers.IParserService,System.String,Neptuo.Templates.Compilation.Parsers.IValueParser)">
+            <summary>
+            Registers <paramref name="valueParser"/> with <paramref name="name"/>.
+            This parser will be inserted to the index 0.
+            </summary>
+            <param name="parserService">Parser service to extend.</param>
+            <param name="name">Name of parser.</param>
+            <param name="valueParser">Value parser.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomGenerator">
+            <summary>
+            Code generator using <see cref="N:System.CodeDom"/> namespace.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGenerator">
+            <summary>
+            Code generator that processes AST and generates code for view.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeGenerator.ProcessTree(Neptuo.Templates.Compilation.CodeObjects.ICodeObject,Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext)">
+            <summary>
+            Processes <paramref name="codeObject"/> and generates code for view.
+            </summary>
+            <param name="codeObject">Root AST object.</param>
+            <param name="context">Context</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultConfiguration">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomConfiguration"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomConfiguration">
+            <summary>
+            Configuration for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomGenerator"/> and sub generators.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultTypeConvertionGenerator">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomTypeConversionGenerator"/> which uses <see cref="T:Neptuo.Converts"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomTypeConversionGenerator">
+            <summary>
+            Generator for converting result of one expression to expression to required type.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomTypeConversionGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type,System.CodeDom.CodeExpression,System.Type)">
+            <summary>
+            Converts <paramref name="expression"/> (which returns type <paramref name="expressionReturnType"/>) 
+            to expression (which returns <paramref name="requiredType" />).
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="requiredType">Target type.</param>
+            <param name="expression">Expression which provides object of type <paramref name="expressionReturnType"/>.</param>
+            <param name="expressionReturnType">Source type.</param>
+            <returns>Converted expression which returns object of type <paramref name="requiredType"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultTypeConvertionGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type,System.CodeDom.CodeExpression,System.Type)">
+            <summary>
+            If <paramref name="expression"/> is primitive, calls <see cref="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultTypeConvertionGenerator.GenerateCompileTimeConversion(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type,System.Object,System.Type)"/>;
+            otherwise calls <see cref="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultTypeConvertionGenerator.GenerateRuntimeConversion(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type,System.CodeDom.CodeExpression,System.Type)"/>.
+            </summary>
+            <param name="context"></param>
+            <param name="requiredType"></param>
+            <param name="expression"></param>
+            <param name="expressionReturnType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultTypeConvertionGenerator.GenerateCompileTimeConversion(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type,System.Object,System.Type)">
+            <summary>
+            Generates conversion from constant at compile time.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="targetType">Target type.</param>
+            <param name="sourceValue">Source content value.</param>
+            <param name="sourceType">Source value type.</param>
+            <returns>Converted expression which returns object of type <paramref name="targetType"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultTypeConvertionGenerator.GenerateRuntimeConversion(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type,System.CodeDom.CodeExpression,System.Type)">
+            <summary>
+            Generates conversion from expression at runtime.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="requiredType">Target type.</param>
+            <param name="expression">Expression which provides object of type <paramref name="expressionReturnType"/>.</param>
+            <param name="expressionReturnType">Source type.</param>
+            <returns>Converted expression which returns object of type <paramref name="requiredType"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomVisitor">
+            <summary>
+            Post code generation code dom structure visitor.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomVisitor.Visit(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext)">
+            <summary>
+            Can process structure in <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure"/> to modify generated code.
+            </summary>
+            <param name="context">Visitor context.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator">
+            <summary>
+            Generator for processing attributes used on classes or properties.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Attribute)">
+            <summary>
+            Generates expression for <paramref name="attribute"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="attribute">Attribute to process.</param>
+            <returns>Expression for <paramref name="attribute"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultAttributeResult">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeResult"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeResult">
+            <summary>
+            Describes result of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeResult.Expression">
+            <summary>
+            Generated expression.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultPropertyTypeResult">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeResult"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeResult">
+            <summary>
+            Describes result of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeResult.Expression">
+            <summary>
+            Generated expression.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator">
+            <summary>
+            Generator for processing all unbound properties of concrete type.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Reflection.PropertyInfo)">
+            <summary>
+            Generates expression for unbound property <paramref name="propertyInfo" />.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="propertyInfo">Unbound property to provide value for.</param>
+            <returns>Expression for <paramref name="propertyInfo"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomAttributeResultExtensions.HasExpression(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeResult)">
+            <summary>
+            Returns <c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.
+            </summary>
+            <returns><c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomPropertyTypeResultExtensions.HasExpression(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeResult)">
+            <summary>
+            Returns <c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.
+            </summary>
+            <returns><c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomAttributeGeneratorRegistry.AddGenerator(System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator)">
+            <summary>
+            Maps <paramref name="generator"/> to process attributes of type <paramref name="attributeType"/>.
+            </summary>
+            <param name="attributeType">Type of attribute to process by <paramref name="generator"/>.</param>
+            <param name="generator">Generator to process attributes of type <paramref name="attributeType"/>.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomAttributeGeneratorRegistry.AddSearchHandler(System.Func{System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when generator was not found.
+            </summary>
+            <param name="searchHandler">Generator provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomRegistry"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomRegistry">
+            <summary>
+            Extensible registry for generators.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomRegistry.With``1">
+            <summary>
+            Returns instance of <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Type of generator to return.</typeparam>
+            <returns>Instance of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomObjectGeneratorRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator"/> by type of code object.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator">
+            <summary>
+            CodeDom generator for <see cref="T:Neptuo.Templates.Compilation.CodeObjects.ICodeObject"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ICodeObject)">
+            <summary>
+            Process <paramref name="codeObject"/> and generates <see cref="T:System.CodeDom.CodeExpression"/> for it.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <returns>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomObjectGeneratorRegistry.AddGenerator(System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator)">
+            <summary>
+            Maps <paramref name="generator"/> to process code objects of type <paramref name="codeObjectType"/>.
+            </summary>
+            <param name="codeObjectType">Type of code object to process by <paramref name="generator"/>.</param>
+            <param name="generator">Generator to process code objects of type <paramref name="codeObjectType"/>.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomObjectGeneratorRegistry.AddSearchHandler(System.Func{System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when generator was not found.
+            </summary>
+            <param name="searchHandler">Generator provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyGeneratorRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator"/> by type of code object.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator">
+            <summary>
+            CodeDom generator for <see cref="T:Neptuo.Templates.Compilation.CodeObjects.ICodeObject"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext,Neptuo.Templates.Compilation.CodeObjects.ICodeProperty)">
+            <summary>
+            Process <paramref name="codeProperty"/> and generates <see cref="T:System.CodeDom.CodeExpression"/> for it.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeProperty">Code object to process.</param>
+            <returns>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyGeneratorRegistry.AddGenerator(System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator)">
+            <summary>
+            Maps <paramref name="generator"/> to process code properties of type <paramref name="codeObjectType"/>.
+            </summary>
+            <param name="codeObjectType">Type of code property to process by <paramref name="generator"/>.</param>
+            <param name="generator">Generator to process code properties of type <paramref name="codeObjectType"/>.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyGeneratorRegistry.AddSearchHandler(System.Func{System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when generator was not found.
+            </summary>
+            <param name="searchHandler">Generator provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyTypeGeneratorRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator"/> by type of unbound property.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyTypeGeneratorRegistry.AddGenerator(System.Type,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator)">
+            <summary>
+            Maps <paramref name="generator"/> to process undound properties of type <paramref name="propertyType"/>.
+            </summary>
+            <param name="propertyType">Type of undound property to process by <paramref name="generator"/>.</param>
+            <param name="generator">Generator to process undound properties of type <paramref name="propertyType"/>.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyTypeGeneratorRegistry.AddSearchHandler(System.Func{System.Reflection.PropertyInfo,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when generator was not found.
+            </summary>
+            <param name="searchHandler">Generator provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomVisitorRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomVisitor"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddObjectGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator"/> to the <paramref name="registry"/>.
+            One of suggested instances here are <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomObjectGeneratorRegistry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator for code objects.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddPropertyGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator"/> to the <paramref name="registry"/>.
+            One of suggested instances here are <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyGeneratorRegistry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator for code properties.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddStructureGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructureGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator for base structure.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddDependencyGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomDependencyGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomDependencyGenerator"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator for base structure.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddTypeConversionGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomTypeConversionGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomDependencyGenerator"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator dependecies when constructing object instances.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddAttributeGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomAttributeGenerator"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator for processing attributes used on classes or properties.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddVisitor(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomVisitor)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomVisitor"/> to the <paramref name="registry"/>.
+            One of suggested instances here are <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomVisitorRegistry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="visitor">Post processor for generated code.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomRegistryExtensions.AddUnboundPropertyTypeGenerator(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultRegistry,Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyTypeGenerator)">
+            <summary>
+            Registers <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomVisitor"/> to the <paramref name="registry"/>.
+            One of suggested instances here are <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomVisitorRegistry"/>.
+            </summary>
+            <param name="registry">Extensible registry for generators.</param>
+            <param name="generator">Generator for processing all unbound properties of concrete type.</param>
+            <returns><paramref name="registry"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultNaming">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming">
+            <summary>
+            Naming conventions for template code generation.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming.CustomValues">
+            <summary>
+            Collection of custom namig values.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming.NamespaceName">
+            <summary>
+            C# namespace for generated class(es).
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming.ClassName">
+            <summary>
+            Main class name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming.FullClassName">
+            <summary>
+            Concatenation of <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming.NamespaceName"/> and <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomNaming.ClassName"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultNaming.AddCustomValue(System.String,System.Object)">
+            <summary>
+            Adds custom value <paramref name="value"/> with key <paramref name="key"/>.
+            If such a key already exist in collection, value is overriden with the new one.
+            </summary>
+            <param name="key">Key to set.</param>
+            <param name="value">Value to associate with <paramref name="key"/>.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructure">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure">
+            <summary>
+            Describes base structure of generated code.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure.Naming">
+            <summary>
+            Naming conventions for this template.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure.Unit">
+            <summary>
+            Whole compilation unit.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure.Class">
+            <summary>
+            Main generated class.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure.Constructor">
+            <summary>
+            Constructor of main class.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure.EntryPoint">
+            <summary>
+            Entry point method/template root.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructureGenerator">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructureGenerator"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructureGenerator">
+            <summary>
+            Generator for base structure of complited template.
+            <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructure"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomStructureGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext)">
+            <summary>
+            Genetes base structure for compiled template.
+            </summary>
+            <param name="context">Generator context.</param>
+            <returns>Base structure for compiled template.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomDefaultStructureGeneratorExtensions.SetBaseType``1(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructureGenerator)">
+            <summary>
+            Sets base type of the generated view.
+            </summary>
+            <typeparam name="T">Type of base type for generated view.</typeparam>
+            <param name="generator">Generator to setup.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomDefaultStructureGeneratorExtensions.AddInterface``1(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructureGenerator)">
+            <summary>
+            Adds implemented interface to the generated view.
+            </summary>
+            <typeparam name="T">Type of interface to implement by the generated view.</typeparam>
+            <param name="generator">Generator to setup.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomDefaultStructureGeneratorExtensions.SetEntryPointName(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructureGenerator,System.String)">
+            <summary>
+            Sets name of the entry point method.
+            </summary>
+            <param name="generator">Generator to setup.</param>
+            <param name="entryPointName">Name of the entry point method.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomDefaultStructureGeneratorExtensions.AddEntryPointParameter(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructureGenerator,System.CodeDom.CodeTypeReference,System.String)">
+            <summary>
+            Adds parameter to the entry point method.
+            </summary>
+            <param name="generator">Generator to setup.</param>
+            <param name="parameterType">Type of the parameter.</param>
+            <param name="parameterName">Name of the parameter.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomDefaultStructureGeneratorExtensions.AddEntryPointParameter``1(Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultStructureGenerator,System.String)">
+            <summary>
+            Adds parameter to the entry point method.
+            </summary>
+            <typeparam name="T">Type of the parameter.</typeparam>
+            <param name="generator">Generator to setup.</param>
+            <param name="parameterName">Name of the parameter.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultContext">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext">
+            <summary>
+            Base context for code dom generators.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext.GeneratorContext">
+            <summary>
+            Code generator context passed to the <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext.Configuration">
+            <summary>
+            Configuration.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext.Structure">
+            <summary>
+            Base structure for generated code.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext.Registry">
+            <summary>
+            Extensible registry for generators.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomDependencyGenerator">
+            <summary>
+            Generator for injection dependencies.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomDependencyGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type)">
+            <summary>
+            Generates expression for dependency resolve of type <paramref name="type"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="type">Type to resolve.</param>
+            <returns>Expression for dependency resolve of type <paramref name="type"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultObjectContext">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext.CustomValues">
+            <summary>
+            Storage for custom values.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultObjectContext.AddCustomValue(System.String,System.Object)">
+            <summary>
+            Sets <paramref name="value"/> with <paramref name="key"/> to <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext.CustomValues"/>.
+            </summary>
+            <param name="key">Key to set.</param>
+            <param name="value">Value to associate with <paramref name="key"/>.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultObjectResult">
+            <summary>
+            Default implmentation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult">
+            <summary>
+            Describes result from <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectGenerator"/>.
+            One of <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult.Expression"/> or <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult.Statement"/> 
+            if something was generated.
+            If both are <c>null</c> than processing was successfull, but nothing was generated.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult.Expression">
+            <summary>
+            Result expression describtion.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult.Statement">
+            <summary>
+            Result statement describtion.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomAstPropertyFeature">
+            <summary>
+            Generator for processing properties set on <see cref="T:Neptuo.Templates.Compilation.CodeObjects.IPropertiesCodeObject"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomAstPropertyFeature.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,Neptuo.Templates.Compilation.CodeObjects.IPropertiesCodeObject,System.String)">
+            <summary>
+            For each property on <paramref name="codeObject"/>, generates code statement using property registry in <paramref name="context"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="variableName">Name of the variable for <paramref name="codeObject"/>.</param>
+            <returns>Enumeration of statements for properties on <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomNewInstanceFeature">
+            <summary>
+            Generator for creating instances of types.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomNewInstanceFeature.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type)">
+            <summary>
+            Generates expression for creating instance of type <paramref name="type"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="type">Type to create instance of.</param>
+            <returns>Expression for creating instance of type <paramref name="type"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomNewInstanceFeature.ResolveConstructorParameters(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Type)">
+            <summary>
+            Resolves all constructor parameters (using <code>CodeGenerator.GenerateDependency</code>).
+            </summary>
+            <param name="context">Current context.</param>
+            <param name="type">Target control type to resolve.</param>
+            <returns>Generated code expressions.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature">
+            <summary>
+            Property value generator based on used attributes.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.TryGenerate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Reflection.PropertyInfo,System.CodeDom.CodeExpression@)">
+            <summary>
+            Tries to generate <paramref name="expression"/> based on attributes used on <paramref name="propertyInfo"/>.
+            If processing has no error, returns <c>true</c>; otherwise returns <c>false</c>.
+            <paramref name="expression"/> is set, if any attribute provided expression.
+            So, method can return <c>true</c> and <paramref name="expression"/> can be <c>null</c> (no error, no expression).
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="propertyInfo">Property info to process.</param>
+            <param name="expression">Output generated expression.</param>
+            <returns><c>true</c> if processing has no error; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.IsAttributeDefaultEnabled">
+            <summary>
+            If <c>true</c>, <see cref="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.TryGenerate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Reflection.PropertyInfo,System.CodeDom.CodeExpression@)"/> tries to use attribute generators.
+            This value overrides <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.IsAttributeDefaultEnabled"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.IsPropertyTypeDefaultEnabled">
+            <summary>
+            If <c>true</c>, <see cref="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.TryGenerate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.Reflection.PropertyInfo,System.CodeDom.CodeExpression@)"/> tries to use unbound property typy generators.
+            This value overrides <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature.IsPropertyTypeDefaultEnabled"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomObjectResultExtensions.HasExpression(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult)">
+            <summary>
+            Returns <c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.
+            </summary>
+            <returns><c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomObjectResultExtensions.HasStatement(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectResult)">
+            <summary>
+            Returns <c>true</c> if <paramref name="result"/> has statement not <c>null</c>; otherwise returns <c>false</c>.
+            </summary>
+            <returns><c>true</c> if <paramref name="result"/> has statement not <c>null</c>; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultPropertyContext">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext">
+            <summary>
+            Context for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext.CustomValues">
+            <summary>
+            Storage for custom values.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext.PropertyTarget">
+            <summary>
+            Object where property generator should set value.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultPropertyContext.AddCustomValue(System.String,System.Object)">
+            <summary>
+            Sets <paramref name="value"/> with <paramref name="key"/> to <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext.CustomValues"/>.
+            </summary>
+            <param name="key">Key to set.</param>
+            <param name="value">Value to associate with <paramref name="key"/>.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultPropertyResult">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyResult"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyResult">
+            <summary>
+            Describes result from <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyResult.Statements">
+            <summary>
+            Enumeration of created statements.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultPropertyResult.AddStatement(System.CodeDom.CodeStatement)">
+            <summary>
+            Adds statement to the collection and returns self.
+            </summary>
+            <param name="statement">New statement to add to the collection.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomPropertyResultExtensions.HasStatement(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyResult)">
+            <summary>
+            Returns <c>true</c> if <paramref name="result"/> has statement; otherwise returns <c>false</c>.
+            </summary>
+            <returns><c>true</c> if <paramref name="result"/> has statement; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomContextExtensions.CreatePropertyContext(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext,System.CodeDom.CodeExpression)">
+            <summary>
+            Creates <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext"/> from <paramref name="context"/> and <paramref name="propertyTarget"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="propertyTarget">Object where property generator should set value.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomPropertyContext"/> from <paramref name="context"/> and <paramref name="propertyTarget"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators._CodeDomContextExtensions.CreateObjectContext(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomContext)">
+            <summary>
+            Creates <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultObjectContext"/> from <paramref name="context"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext"/> from <paramref name="context"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators._CodeDomExtensions">
+            <summary>
+            Usefull extensions for <see cref="N:System.CodeDom"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.AssemblyScanning._TypeScannerExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning._TypeScannerExtensions.AddTypeFilterNotInterface(Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner)">
+            <summary>
+            Adds type filter on <paramref name="scanner"/> to filter out interfaces.
+            </summary>
+            <param name="scanner">Type scanner to apply filter on.</param>
+            <returns>Return from calling <see cref="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AddTypeFilter(System.Func{System.Type,System.Boolean})"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning._TypeScannerExtensions.AddTypeFilterNotAbstract(Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner)">
+            <summary>
+            Adds type filter on <paramref name="scanner"/> to filter out abstract classes.
+            </summary>
+            <param name="scanner">Type scanner to apply filter on.</param>
+            <returns>Return from calling <see cref="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AddTypeFilter(System.Func{System.Type,System.Boolean})"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDefaultValueAttributeGenerator">
+            <summary>
+            Attribute default value generator based on usage of <see cref="T:System.ComponentModel.DefaultValueAttribute"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomCommentObjectGenerator">
+            <summary>
+            Comment statement generator for <see cref="T:Neptuo.Templates.Compilation.CodeObjects.CommentCodeObject"/>.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.CreateMethodSuffix">
+            <summary>
+            Suffix of 'create' method.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.#ctor(Neptuo.ComponentModel.IUniqueNameProvider)">
+            <summary>
+            Creates new instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject)">
+            <summary>
+            Generates create method for <paramref name="codeObject"/> and returns its execution.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <returns>Execution of create method for <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.Generate(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)">
+            <summary>
+            Generates create method for <paramref name="codeObject"/> and returns its execution.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+            <returns>Execution of create method for <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.GenerateCreateMethod(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)">
+            <summary>
+            Generates create method which will consist of:
+            1) Instance creation.
+            2) Binding default properties (if <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.IsDefaultPropertyAssignmentInCreateMethod"/> is <c>true</c>).
+            3) Binding properties from codeObject (if <see cref="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.IsPropertyAssignmentInCreateMethod"/> is <c>true</c>).
+            4) Result of <see cref="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.GenerateCreateMethodAdditionalStatements(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)"/>.
+            5) Return statement.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+            <returns>Create method for <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.GenerateInstanceCreation(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)">
+            <summary>
+            Provides enumeration of statements for creating instance of type represented by <paramref name="codeObject"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+            <returns>Enumeration of statements for creating instance of type represented by <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.GenerateDefaultPropertyAssignment(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)">
+            <summary>
+            Provides enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.
+            Currently uses <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomPropertyDefaultValueFeature"/> to generate default value based on attributes.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+            <returns>Enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.GenerateAstPropertyAssignment(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)">
+            <summary>
+            Provides enumeration of statements for properties set on <paramref name="codeObject"/>.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+            <returns>Enumeration of statements for properties set on <paramref name="codeObject"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.GenerateCreateMethodAdditionalStatements(Neptuo.Templates.Compilation.CodeGenerators.ICodeDomObjectContext,Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject,System.String)">
+            <summary>
+            When overriden in derived class, can return statements which will be added before return statement from creat method.
+            </summary>
+            <param name="context">Generator context.</param>
+            <param name="codeObject">Code object to process.</param>
+            <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+            <returns>Additional statements for create method.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.FormatUniqueName(System.String,System.String)">
+            <summary>
+            Using defined conventions, formats member name for <paramref name="fieldName"/> and <paramref name="memberName"/>.
+            </summary>
+            <param name="fieldName">Field name (unique prefix).</param>
+            <param name="memberName">Custom memeber name.</param>
+            <returns>Formatted member name for <paramref name="fieldName"/> and <paramref name="memberName"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.IsDefaultPropertyAssignmentInCreateMethod">
+            <summary>
+            If <c>true</c>, create method will contain default properties binding.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.IsPropertyAssignmentInCreateMethod">
+            <summary>
+            If <c>true</c>, create method will contain codeObject properties binding.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentObjectGenerator.NameProvider">
+            <summary>
+            Name provider for field names.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.CodeDomRootObjectGenerator.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="variableName">Name of the variable in bind method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDictionaryAddPropertyGenerator">
+            <summary>
+            Generator for properties which should use <see cref="M:System.Collections.Generic.Dictionary`2.Add(`0,`1)"/> method.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.CodeGenerators.CodeDomDictionaryAddPropertyGenerator.addMethodName">
+            <summary>
+            Name of the <see cref="M:System.Collections.Generic.Dictionary`2.Add(`0,`1)"/> method.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.CodeDomListAddPropertyGenerator">
+            <summary>
+            Generator for properties which should use <see cref="M:System.Collections.Generic.List`1.Add(`0)"/> method.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.CodeGenerators.CodeDomListAddPropertyGenerator.addMethodName">
+            <summary>
+            Name of the <see cref="M:System.Collections.Generic.List`1.Add(`0)"/> method.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner">
+            <summary>
+            Extensible type scanner.
+            Scannes registered namespaces and assemblies for types contained in.
+            Over these types executes type filters and types that pass these filters and
+            passed to type processors.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AllNamespaceWildcard">
+            <summary>
+            Any sub namespace character.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.#ctor">
+            <summary>
+            Creates empty instance (without type name normalizer).
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.#ctor(Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer)">
+            <summary>
+            Creates instance with name normalizer for scanned types.
+            </summary>
+            <param name="typeNameNormalizer">Name normalizer for scanned types.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AddEmptyPrefix(System.String,System.String)">
+            <summary>
+            Adds <paramref name="prefix"/> and <paramref name="customNamespaceName"/> to enumeration returned by <see cref="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.EnumerateUsedNamespaces"/>.
+            Nothing else happen. Only to extend enumeration of registered namespaces and prefixes.
+            </summary>
+            <param name="prefix">Custom prefix.</param>
+            <param name="customNamespaceName">Custom namespace name.</param>
+            <returns>Self (fluently).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AddAssembly(System.String,System.String,System.String)">
+            <summary>
+            Registers types from <paramref name="assemblyFile"/> (with namespace <paramref name="namespaceName"/>) to prefix <paramref name="prefix"/>.
+            Parameter<paramref name="namespaceName"/> can end with '*' to instruct this component to include namespace and all sub namespaces.
+            If <paramref name="namespaceName"/> is only '*', it means 'all types from <paramref name="assemblyFile"/>'.
+            </summary>
+            <param name="prefix">Prefix to register types with.</param>
+            <param name="namespaceName">Required type namespace.</param>
+            <param name="assemblyFile">Assembly to scan types from.</param>
+            <returns>Self (fluently).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AddTypeFilter(System.Func{System.Type,System.Boolean})">
+            <summary>
+            Registers delegate to filter out scanned types.
+            Only when all filters for a particular type returns <c>true</c>,
+            the type is promoted for processing by processors.
+            </summary>
+            <param name="filter">Delegate to filter out types.</param>
+            <returns>Self (fluently).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.AddTypeProcessor(System.Action{System.String,System.Type})">
+            <summary>
+            Registers delegate to process (register) scanned types.
+            </summary>
+            <param name="processor">Delegate to process scanned types.</param>
+            <returns>Self (fluently).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.EnumerateUsedNamespaces">
+            <summary>
+            Enumerates all scanned namespaces.
+            </summary>
+            <returns>Enumeration of all scanned namespaces.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.Run">
+            <summary>
+            Starts type scanning of all registered assemblies.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.GenericContentControlBuilder`1">
+            <summary>
+            Content builder that can handle any XML element. 
+            Must have defined property, where XML element name is set.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.TypeComponentBuilder">
+            <summary>
+            Base builder that uses <see cref="T:System.Type"/> for defining component.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder">
+            <summary>
+            Base component builder including logic for processing XML elements as properties and inner values.
+            
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ComponentBuilder">
+            <summary>
+            Base logic processing xml element.
+            Attributes and inner nodes and processed as properties.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IContentBuilder">
+            <summary>
+            Defines builder for component.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IContentBuilder.TryParse(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlElement)">
+            <summary>
+            Parses <paramref name="element"/> and creates AST for it.
+            </summary>
+            <param name="context">Context information.</param>
+            <param name="element">Source XML tag to parse.</param>
+            <returns>Parsed code objects; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.TryParse(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlElement)">
+            <summary>
+            Process <paramref name="element"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.BindProperties(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlElement)">
+            <summary>
+            Binds attributes and inner elements of <paramref name="element"/>.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="element">Xml element that is being processed.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.BindPropertiesFromAttributes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlAttribute},System.Collections.Generic.ICollection{Neptuo.Templates.Compilation.Parsers.IXmlAttribute})">
+            <summary>
+            Process xml attributes defined of xml element that is being processed.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="attributes">Enumeration of defined xml attributes.</param>
+            <param name="unboundAttributes">Collection of xml attributes that can't be used as properties.</param>
+            <returns>Whether processing was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.BindProperiesFromNodes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode},System.Collections.Generic.ICollection{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Process xml inner nodes of xml element that is being processed.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="childNodes">Enumeration of inner xml nodes.</param>
+            <param name="unboundNodes">Collection of inner xml nodes that can't be used as properties.</param>
+            <returns>Whether processing was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.TryBindProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String,System.String,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Should tries to bind property value from attribute named <paramref name="name"/> 
+            prefixed with <paramref name="prefix"/> and value of <paramref name="value"/>.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="prefix">Attribute prefix.</param>
+            <param name="name">Attribute name.</param>
+            <param name="value">Attribute value.</param>
+            <returns><c>true</c> if bind was successfull; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.TryBindProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String,System.String,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Should tries to bind property value from inner element named <paramref name="name"/> prefixed with <paramref name="prefix"/> and content of <paramref name="value"/>.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="prefix">Inner element prefix.</param>
+            <param name="name">Inner element name.</param>
+            <param name="value">Inner element content.</param>
+            <returns><c>true</c> if bind was successfull; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.ProcessUnboundAttributes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlAttribute})">
+            <summary>
+            All attributes that were not successfully bound using <see cref="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.TryBindProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String,System.String,Neptuo.Templates.Compilation.ISourceContent)"/> are passed to this method.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="unboundAttributes">Enumeration of unbound attributes.</param>
+            <returns>Whether processing was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.ProcessUnboundAttribute(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlAttribute)">
+            <summary>
+            Should process xml attribute that isn't property neither observer.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.ProcessUnboundNodes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            All inner xml nodes that were not successfully bound using <see cref="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.TryBindProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String,System.String,Neptuo.Templates.Compilation.ISourceContent)"/> are passed to this method.
+            </summary>
+            <param name="context">Context of current build.</param>
+            <param name="unboundNodes">Enumeration of unbound inner xml nodes.</param>
+            <returns>Whether processing was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentBuilder.ProcessUnboundNode(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlNode)">
+            <summary>
+            Should process xml node that isn't property neither observer.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder.TryBindProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String,System.String,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Tries to find property named <paramref name="prefix"/> + <paramref name="name"/> and delegates parsing it's value to property factory.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder.ProcessUnboundAttributes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlAttribute})">
+            <summary>
+            Skips xmlns definitions, other attributes tries to parse as observers; otherwise marks those as errors.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder.ProcessUnboundNodes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Tries to bind default property from <paramref name="unboundNodes"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder.FindFirstSignificantNode(System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Returns first not white space node from <paramref name="nodes"/>; otherwise <c>null</c>;
+            </summary>
+            <param name="nodes">Enumeration of nodes to search.</param>
+            <returns>First not white space node from <paramref name="nodes"/>; otherwise <c>null</c>;</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder.CreateCodeObject(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlElement)">
+            <summary>
+            Should create code object for this component.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ComponentDescriptorBuilder.GetComponentDescriptor(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.CodeObjects.ICodeObject,Neptuo.Templates.Compilation.Parsers.IXmlElement)">
+            <summary>
+            Gets current component definition.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.GenericContentControlBuilder`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.String}})">
+            <summary>
+            Creates new instance, where <typeparamref name="T"/> is the control to create and <paramref name="tagNameProperty"/> is expression
+            to the property, where XML element name should be set.
+            </summary>
+            <param name="tagNameProperty">Expression to the property, where XML element name should be set.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.Normalization.CompositeNameNormalizer">
+            <summary>
+            Given enumeration of inner name normalizers, executes each one for each name (or prefix) with value from previous one (normalizer).
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ContentBuilderRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentBuilder"/> by prefix and name of element.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentBuilderRegistry.#ctor(Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer)">
+            <summary>
+            Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
+            </summary>
+            <param name="nameNormalizer">Normalizer for normlizing names.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentBuilderRegistry.AddBuilder(System.String,System.String,Neptuo.Templates.Compilation.Parsers.IContentBuilder)">
+            <summary>
+            Maps <paramref name="builder"/> to process elements with <paramref name="prefix" /> and <paramref name="name" />.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentBuilderRegistry.AddSearchHandler(System.Func{Neptuo.Templates.Compilation.Parsers.IXmlElement,Neptuo.Templates.Compilation.Parsers.IContentBuilder})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when builder was not found for element.
+            (Last registered is executed the first).
+            </summary>
+            <param name="searchHandler">Builder provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.Normalization.LowerInvariantNameNormalizer">
+            <summary>
+            Converts all names (name prefixes) to lower invariant version.
+            <c>null</c> is converted to <see cref="F:System.String.Empty"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.Normalization.SuffixNameNormalizer">
+            <summary>
+            Given enumeration of suffixes for names, when name ends with one of these suffixes, this suffix is cut of the name.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ContentPropertyBuilderRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"/> and <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder"/> by property type.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder">
+            <summary>
+            Defines builder properties of type.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilder">
+            <summary>
+            Defines builder properties of type.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IPropertyBuilder.TryParse(Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses <paramref name="value"/> and creates AST for it.
+            Value is attribute value.
+            </summary>
+            <param name="context">Context information.</param>
+            <param name="value">Source value.</param>
+            <returns>Parsed property descriptors.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder.TryParse(Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Parses <paramref name="content"/> and creates AST for it.
+            Value is XML document part.
+            </summary>
+            <param name="context">Context inforation.</param>
+            <param name="content">Source value.</param>
+            <returns>True if succeeded.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentPropertyBuilderRegistry.AddBuilder(System.Type,Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder)">
+            <summary>
+            Maps <paramref name="builder"/> to process properties of type <paramref name="builder" />
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentPropertyBuilderRegistry.AddBuilder(System.Type,Neptuo.Templates.Compilation.Parsers.IPropertyBuilder)">
+            <summary>
+            Maps <paramref name="builder"/> to process properties of type <paramref name="builder" />
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentPropertyBuilderRegistry.AddSearchHandler(System.Func{Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo,Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when builder was not found for property.
+            (Last registered is executed the first).
+            </summary>
+            <param name="searchHandler">Builder provider method.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ContentPropertyBuilderRegistry.AddSearchHandler(System.Func{Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo,Neptuo.Templates.Compilation.Parsers.IPropertyBuilder})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when builder was not found for property.
+            (Last registered is executed the first).
+            </summary>
+            <param name="searchHandler">Builder provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserRegistry"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IParserRegistry">
+            <summary>
+            Extensible registry for sub parsers.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserRegistry.Has``1">
+            <summary>
+            Returns <c>true</c> if <typeparamref name="T"/> is registered; otherwise returns <c>false</c>.
+            </summary>
+            <typeparam name="T">Type of parser to return.</typeparam>
+            <returns><c>true</c> if <typeparamref name="T"/> is registered; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserRegistry.Has``1(System.String)">
+            <summary>
+            Returns <c>true</c> if <typeparamref name="T"/> is registered also with name; otherwise returns <c>false</c>.
+            </summary>
+            <typeparam name="T">Type of parser to return.</typeparam>
+            <param name="name">Name of required instance.</param>
+            <returns><c>true</c> if <typeparamref name="T"/> is registered; otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserRegistry.With``1">
+            <summary>
+            Returns instance of <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Type of parser to return.</typeparam>
+            <returns>Instance of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserRegistry.With``1(System.String)">
+            <summary>
+            Returns named instance of <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Type of parser to return.</typeparam>
+            <param name="name">Name of required instance.</param>
+            <returns>Instance of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)">
+            <summary>
+            Registers instance <paramref name="parser"/> with interface <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Type of interface to register.</typeparam>
+            <param name="parser">Instance to map to <typeparamref name="T"/>.</param>
+            <returns>Self (fluently).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(System.String,``0)">
+            <summary>
+            Registers instance <paramref name="parser"/> with interface <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Type of interface to register.</typeparam>
+            <param name="name">Name to register instance with.</param>
+            <param name="parser">Instance to map to <typeparamref name="T"/>.</param>
+            <returns>Self (fluently).</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ObserverBuilderRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.Parsers.IObserverBuilder"/> by prefix and name of token.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IObserverBuilder">
+            <summary>
+            Defines builder for observers.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IObserverBuilder.TryParse(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.CodeObjects.IObserversCodeObject,Neptuo.Templates.Compilation.Parsers.IXmlAttribute)">
+            <summary>
+            Parses <paramref name="attribute"/> and creates AST for it.
+            </summary>
+            <param name="context">Context information.</param>
+            <param name="codeObject">Target component.</param>
+            <param name="attribute">Attribute to be processed by this builder.</param>
+            <returns><c>true</c> if processing was successfull; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ObserverBuilderRegistry.#ctor(Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer)">
+            <summary>
+            Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
+            </summary>
+            <param name="nameNormalizer">Normalizer for normlizing names.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ObserverBuilderRegistry.AddBuilder(System.String,System.String,Neptuo.Templates.Compilation.Parsers.IObserverBuilder)">
+            <summary>
+            Maps <paramref name="builder"/> to process observers with <paramref name="prefix" /> and <paramref name="name" />.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ObserverBuilderRegistry.AddSearchHandler(System.Func{Neptuo.Templates.Compilation.Parsers.IXmlAttribute,Neptuo.Templates.Compilation.Parsers.IObserverBuilder})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when builder was not found for observer.
+            (Last registered is executed the first).
+            </summary>
+            <param name="searchHandler">Builder provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.TokenBuilderRegistry">
+            <summary>
+            Registry for <see cref="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilder"/> by prefix and name of token.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilder">
+            <summary>
+            Builder for markup extension.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ITokenBuilder.TryParse(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Tokens.Token)">
+            <summary>
+            Parses markup extension and creates AST.
+            </summary>
+            <param name="context">Context information.</param>
+            <param name="token">Token describing markup extension.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.TokenBuilderRegistry.#ctor(Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer)">
+            <summary>
+            Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
+            </summary>
+            <param name="nameNormalizer">Normalizer for normlizing names.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.TokenBuilderRegistry.AddBuilder(System.String,System.String,Neptuo.Templates.Compilation.Parsers.ITokenBuilder)">
+            <summary>
+            Maps <paramref name="builder"/> to process tokens with <paramref name="prefix" /> and <paramref name="name" />.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.TokenBuilderRegistry.AddSearchHandler(System.Func{Neptuo.Tokens.Token,Neptuo.Templates.Compilation.Parsers.ITokenBuilder})">
+            <summary>
+            Adds <paramref name="searchHandler"/> to be executed when builder was not found for token.
+            (Last registered is executed the first).
+            </summary>
+            <param name="searchHandler">Builder provider method.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry"/> and <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserRegistry"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddTypeScanner(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner)">
+            <summary>
+            Registers <paramref name="typeScanner"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="typeScanner">Instance of type scanner.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithTypeScanner(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of type scanner in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read type scanner from.</param>
+            <returns>Registered instance of type scanner in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.RunTypeScanner(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry)">
+            <summary>
+            Executes type scannes method <see cref="M:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner.Run"/>.
+            </summary>
+            <param name="registry">Parser registry to read type scanner from.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithUsedNamespaces(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Enumerates all registered prefixes and namespaces.
+            </summary>
+            <param name="registry">Parser registry to read registrations from.</param>
+            <returns>Enumeration of all registered prefixes and namespaces.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.HasUsedNamespaces(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns <c>true</c> if <paramref name="registry"/> has registered enumeration of used prefixes and namespaces (<see cref="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithUsedNamespaces(Neptuo.Templates.Compilation.Parsers.IParserRegistry)"/>).
+            </summary>
+            <param name="registry">Parser registry to read registrations from.</param>
+            <returns><c>true</c> if <paramref name="registry"/> has registered enumeration of used prefixes and namespaces; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddContentBuilderRegistry(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.ContentBuilderRegistry)">
+            <summary>
+            Registers <paramref name="builder"/> to the <paramref name="registry"/> 
+            and if <paramref name="registry"/> contains <see cref="T:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner"/>, attaches to mapping types (using <see cref="T:Neptuo.Templates.Compilation.Parsers.DefaultTypeComponentBuilder"/>).
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddContentBuilderRegistry(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.ContentBuilderRegistry,System.Func{System.String,System.Type,Neptuo.Templates.Compilation.Parsers.IContentBuilder})">
+            <summary>
+            Registers <paramref name="builder"/> to the <paramref name="registry"/> 
+            and if <paramref name="registry"/> contains <see cref="T:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner"/>, attaches to mapping types (using <paramref name="builderFactory"/>).
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
+            <param name="builderFactory">Factory method for registering content builders when type scanner emits type.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddContentBuilder(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.IContentBuilder)">
+            <summary>
+            Register <paramref name="builder"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Instance of content builder.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithContentBuilder(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of content builder in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read content builder from.</param>
+            <returns>Registered instance of content builder in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddTokenBuilder(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.TokenBuilderRegistry)">
+            <summary>
+            Registers <paramref name="builder"/> to <paramref name="registry"/> and if <paramref name="registry"/> contains <see cref="T:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner"/>,
+            attaches to mapping types.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Token builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddTokenBuilder(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.ITokenBuilder)">
+            <summary>
+            Register <paramref name="builder"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Instance of token builder.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithTokenBuilder(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of token builder in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read token builder from.</param>
+            <returns>Registered instance of token builder in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddObserverBuilder(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.IObserverBuilder)">
+            <summary>
+            Register <paramref name="builder"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Instance of observer builder.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithObserverBuilder(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of observer builder in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read observer builder from.</param>
+            <returns>Registered instance of observer builder in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddPropertyBuilder(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder)">
+            <summary>
+            Register <paramref name="builder"/> to the <paramref name="registry"/> (also under <see cref="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"/>).
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Instance of property builder.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithContentPropertyBuilder(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of content property builder in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read content property builder from.</param>
+            <returns>Registered instance of content property builder in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithPropertyBuilder(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of property builder in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read property builder from.</param>
+            <returns>Registered instance of property builder in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddLiteralBuilder(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.ILiteralBuilder)">
+            <summary>
+            Register <paramref name="builder"/> to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="builder">Instance of literal builder.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithLiteralBuilder(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of literal builder in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read literal builder from.</param>
+            <returns>Registered instance of literal builder in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.AddPropertyNormalizer(Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry,Neptuo.Templates.Compilation.Parsers.Normalization.INameNormalizer)">
+            <summary>
+            Register <paramref name="nameNormalizer"/> (with name 'Property') to the <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to register to.</param>
+            <param name="nameNormalizer">Instance of name normalizer for properties.</param>
+            <returns>Result from <see cref="M:Neptuo.Templates.Compilation.Parsers.DefaultParserRegistry.AddRegistry``1(System.String,``0)"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._DefaultParserRegistryExtensions.WithPropertyNormalizer(Neptuo.Templates.Compilation.Parsers.IParserRegistry)">
+            <summary>
+            Returns registered instance of name normalizer (with name 'Property') in <paramref name="registry"/>.
+            </summary>
+            <param name="registry">Parser registry to read name normalizer from.</param>
+            <returns>Registered instance of name normalizer (with name 'Property') in <paramref name="registry"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._ObserverBuilderRegistryExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.ObserverBuilderRegistry"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.CodePropertyList">
+            <summary>
+            Implementation of list of property descriptors.
+            With support for extension methods.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects._CodePropertyExtensions.SetRangeValue(Neptuo.Templates.Compilation.CodeObjects.ICodeProperty,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.CodeObjects.ICodeObject})">
+            <summary>
+            Sets all values from <paramref name="values"/> to the <paramref name="codeProperty"/>.
+            </summary>
+            <param name="codeProperty">Target property.</param>
+            <param name="values">Enumeration of values to set to the <paramref name="codeProperty"/>.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects._CodePropertyExtensions.SetRangeValue(Neptuo.Templates.Compilation.CodeObjects.ICodeProperty,Neptuo.Templates.Compilation.CodeObjects.ICodeObject[])">
+            <summary>
+            Sets all values from <paramref name="values"/> to the <paramref name="codeProperty"/>.
+            </summary>
+            <param name="codeProperty">Target property.</param>
+            <param name="values">Enumeration of values to set to the <paramref name="codeProperty"/>.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.DefaultSourceLineInfo">
+            <summary>
+            Default (standalone) implementation of <see cref="T:Neptuo.ComponentModel.ISourceLineInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ISourceContent">
+            <summary>
+            Describes input into <see cref="T:Neptuo.Templates.Compilation.IViewService"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ISourceContent.TextContent">
+            <summary>
+            Gets new instance of reader for reading source content.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ISourceContent.GlobalSourceInfo">
+            <summary>
+            Gets information about offset in globally processing content.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.DefaultSourceContent">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.ISourceContent"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.DefaultViewActivatorContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext">
+            <summary>
+            Context for view activation.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext.ActivatorService">
+            <summary>
+            Current view activator service.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext.Errors">
+            <summary>
+            Collections of errors.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.DefaultViewActivatorService">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorService"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorService">
+            <summary>
+            Service for creating instances of already compiled views.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorService.AddActivator(System.String,Neptuo.Templates.Compilation.ViewActivators.IViewActivator)">
+            <summary>
+            Maps <paramref name="activator"/> to <paramref name="name"/>.
+            </summary>
+            <param name="name">Name of activator.</param>
+            <param name="activator">Activator to register.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorService.Activate(System.String,Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.ViewActivators.IViewActivatorServiceContext)">
+            <summary>
+            Creates instance of view represented by <paramref name="content"/>.
+            </summary>
+            <param name="name">Name of activator to use.</param>
+            <param name="content">Content of view.</param>
+            <param name="context">Context for activation.</param>
+            <returns>Activated view intance; <c>null</c> of activation was to successfull or compiled view is not accessible.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.DefaultViewActivatorServiceContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorServiceContext"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorServiceContext">
+            <summary>
+            Context for view activation.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorServiceContext.CreateVisitorContext(Neptuo.Templates.Compilation.ViewActivators.IViewActivatorService)">
+            <summary>
+            Factory method for creating <see cref="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext"/>.
+            </summary>
+            <param name="service">Current view activator service.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorServiceContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ViewActivators.IViewActivatorServiceContext.Errors">
+            <summary>
+            Collection of errors.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.IViewActivator">
+            <summary>
+            Compiled view activator.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.ViewActivators.IViewActivator.Activate(Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.ViewActivators.IViewActivatorContext)">
+            <summary>
+            Creates instance of view represented by <paramref name="content"/>.
+            </summary>
+            <param name="content">Content of view.</param>
+            <param name="context">Context for activation.</param>
+            <returns>Activated view intance; <c>null</c> of activation was to successfull or compiled view is not accessible.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.DefaultCodeCompilerContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext">
+            <summary>
+            Context for code compilation.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext.CodeCompilerService">
+            <summary>
+            Current compiler service.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext.Errors">
+            <summary>
+            List of error messsages.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.DefaultCodeCompilerService">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerService"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerService">
+            <summary>
+            Service for final processing part - source code compilation.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerService.AddCompiler(System.String,Neptuo.Templates.Compilation.CodeCompilers.ICodeCompiler)">
+            <summary>
+            Registers <paramref name="compiler"/> with <paramref name="name"/>.
+            </summary>
+            <param name="name">Name of compiler.</param>
+            <param name="compiler">Code compiler.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerService.Compile(System.String,System.IO.TextReader,Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerServiceContext)">
+            <summary>
+            Compiles <paramref name="sourceCode"/> into resulting object.
+            </summary>
+            <param name="name">Name of compiler to use.</param>
+            <param name="sourceCode">Source code to compile.</param>
+            <param name="context">Context for compilation.</param>
+            <returns>Resulting object; <c>null</c> if compilation was no successfull.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.DefaultCodeCompilerServiceContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerServiceContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerServiceContext">
+            <summary>
+            Code for code compilation using <see cref="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerService"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerServiceContext.CreateCompilerContext(Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerService)">
+            <summary>
+            Factory method for creating <see cref="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext"/>.
+            </summary>
+            <param name="service">Current compiler service.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerContext"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerServiceContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeCompilers.ICodeCompilerServiceContext.Errors">
+            <summary>
+            List of error messsages.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.DefaultCodeGeneratorContext">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext">
+            <summary>
+            Context object for <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext.CodeGeneratorService">
+            <summary>
+            Current generator service.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext.Errors">
+            <summary>
+            List of error messsages.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext.Output">
+            <summary>
+            Writer to write generated code to.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.DefaultCodeGeneratorService">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorService"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorService">
+            <summary>
+            Service for generating code.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorService.AddGenerator(System.String,Neptuo.Templates.Compilation.CodeGenerators.ICodeGenerator)">
+            <summary>
+            Registers <paramref name="generator"/> with <paramref name="name"/>.
+            </summary>
+            <param name="name">Name of generator.</param>
+            <param name="generator">Code generator.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorService.GeneratedCode(System.String,Neptuo.Templates.Compilation.CodeObjects.ICodeObject,Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext)">
+            <summary>
+            Generates code using code generator registered with <paramref name="name"/>.
+            </summary>
+            <param name="name">Name of generator.</param>
+            <param name="codeObject">Root object in AST.</param>
+            <param name="context">Context.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.DefaultCodeGeneratorServiceContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext">
+            <summary>
+            Context object for execution in <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorService"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext.CreateGeneratorContext(Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorService)">
+            <summary>
+            Factory method for creating <see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext"/>.
+            </summary>
+            <param name="service">Current generator service.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorContext"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext.Errors">
+            <summary>
+            Result (output) list of error messsages.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeGenerators.ICodeGeneratorServiceContext.Output">
+            <summary>
+            Writer to write generated code to.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.IObserversCodeObject">
+            <summary>
+            Object that has observers.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.IObserversCodeObject.Observers">
+            <summary>
+            List of observers.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.IPlainValueCodeObject">
+            <summary>
+            Static value object.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.IPlainValueCodeObject.Value">
+            <summary>
+            Static value.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.IPropertiesCodeObject">
+            <summary>
+            Object that has properties.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.IPropertiesCodeObject.Properties">
+            <summary>
+            List of assigned properties.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.ICodeProperty">
+            <summary>
+            Describes property.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects.ICodeProperty.SetValue(Neptuo.Templates.Compilation.CodeObjects.ICodeObject)">
+            <summary>
+            Value setter.
+            </summary>
+            <param name="value">New value.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.ICodeProperty.Property">
+            <summary>
+            Property info.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo">
+            <summary>
+            Defines property.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo.CanAssign(System.Type)">
+            <summary>
+            Whether can be assigned type of <paramref name="type"/>.
+            </summary>
+            <param name="type">Type to assign.</param>
+            <returns>Whether can be assigned type of <paramref name="type"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo.Name">
+            <summary>
+            Property name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo.Type">
+            <summary>
+            Property type.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo.IsReadOnly">
+            <summary>
+            Whether can be set or is read only.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.ITypeCodeObject">
+            <summary>
+            Object that has type.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.CodeObjects.ITypeCodeObject.Type">
+            <summary>
+            Object type.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.PlainValueCodeObject">
+            <summary>
+            Property value (in final state) or literal object.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ExceptionErrorInfo">
+            <summary>
+            Extesion of <see cref="T:Neptuo.ComponentModel.ErrorInfo"/> with an exception which caused the error.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.ExceptionErrorInfo.#ctor(System.Exception)">
+            <summary>
+            Creates new instance with <paramref name="exception"/>.
+            </summary>
+            <param name="exception">The exception which caused the error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.ExceptionErrorInfo.#ctor(System.Int32,System.Int32,System.Exception)">
+            <summary>
+            Creates new instance with <paramref name="exception"/>.
+            </summary>
+            <param name="line">Line number of error.</param>
+            <param name="column">Column index of error.</param>
+            <param name="exception">The exception which caused the error.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ExceptionErrorInfo.Exception">
+            <summary>
+            The exception which caused the error.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.VersionInfo">
+            <summary>
+            Describes version of this library.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.VersionInfo.Version">
+            <summary>
+            Internal string version (used in assembly info).
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.VersionInfo.GetVersion">
+            <summary>
+            Version of this library.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.DefaultViewService">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Templates.Compilation.IViewService"/>.
+            Support multi processes.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.IViewService">
+            <summary>
+            Service that enables template compilation.
+            According to configuration and implementation, view service can support multiple separate processes and compilations,
+            these are distinguished by name parameter.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.IViewService.ProcessContent(System.String,Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.IViewServiceContext)">
+            <summary>
+            Compiles <paramref name="content"/> into view and returns it's instance.
+            </summary>
+            <param name="name">Name of required process to run.</param>
+            <param name="content">Template file content.</param>
+            <param name="context">Context information.</param>
+            <returns>Instance of compiled template; <c>null</c> if compilation was not successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.DefaultViewService.#ctor(System.Func{System.Object,System.String})">
+            <summary>
+            Creates new empty instance.
+            </summary>
+            <param name="keyMapper">
+            Function which is used to map keys for <see cref="T:Neptuo.Threading.MultiLockProvider"/>. 
+            This provider is used for exclusive template content compilation.
+            </param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.ParserService">
+            <summary>
+            Service for parsing view content.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.PreProcessorService">
+            <summary>
+            Service for pre-processing AST.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.GeneratorService">
+            <summary>
+            Service for generating source code.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.CompilerService">
+            <summary>
+            Service for compiling source code.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.ActivatorService">
+            <summary>
+            Service for activating (creating instances) of compiled views.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.Pipeline">
+            <summary>
+            Pipeline name dispatcher.
+            Provides ability to rename pipeline for each part of processing template.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.DefaultViewService.DebugWriter">
+            <summary>
+            Text writer for simple performance measurements.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.DefaultViewServiceContext">
+            <summary>
+            Implementaion of <see cref="T:Neptuo.Templates.Compilation.IViewServiceContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.IViewServiceContext">
+            <summary>
+            View service context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.IViewServiceContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.IViewServiceContext.Errors">
+            <summary>
+            Collection of errors that occured during processing view.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.DefaultParserContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentParserContext"/> and <see cref="T:Neptuo.Templates.Compilation.Parsers.IValueParserContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.DefaultParserServiceContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserServiceContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IParserServiceContext">
+            <summary>
+            Parser service context.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserServiceContext.CreateContentContext(System.String,Neptuo.Templates.Compilation.Parsers.IParserService)">
+            <summary>
+            Factory method for creating <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentParserContext"/>.
+            </summary>
+            <param name="name">Name of the pipeline to execute.</param>
+            <param name="service">Current parser service.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.Parsers.IContentParserContext"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserServiceContext.CreateValueContext(System.String,Neptuo.Templates.Compilation.Parsers.IParserService)">
+            <summary>
+            Factory method for creating <see cref="T:Neptuo.Templates.Compilation.Parsers.IValueParserContext"/>.
+            </summary>
+            <param name="name">Name of the pipeline to execute.</param>
+            <param name="service">Current parser service.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.Parsers.IValueParserContext"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IParserServiceContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IParserServiceContext.Errors">
+            <summary>
+            List of error messages.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IContentParserContext">
+            <summary>
+            Content parser context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentParserContext.Name">
+            <summary>
+            Name of parsers to use.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentParserContext.ParserService">
+            <summary>
+            Current parser service.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IValueParserContext">
+            <summary>
+            Value parser context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IValueParserContext.Name">
+            <summary>
+            Name of parsers to use.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IValueParserContext.ParserService">
+            <summary>
+            Current parser service.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.DefaultParserService">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IParserService">
+            <summary>
+            Parser service.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserService.GetContentParsers(System.String)">
+            <summary>
+            Returns list of content parsers registered to name <paramref name="name"/>.
+            Never returns <c>null</c>, always at least empty list to insert new parsers into.
+            </summary>
+            <param name="name">Name of parsers.</param>
+            <returns>List of content parsers registered to name <paramref name="name"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserService.GetValueParsers(System.String)">
+            <summary>
+            Returns list of value parsers registered to name <paramref name="name"/>.
+            Never returns <c>null</c>, always at least empty list to insert new parsers into.
+            </summary>
+            <param name="name">Name of parsers.</param>
+            <returns>List of value parsers registered to name <paramref name="name"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserService.ProcessContent(System.String,Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.Parsers.IParserServiceContext)">
+            <summary>
+            Parses content using registered content parsers and creates AST.
+            </summary>
+            <param name="name">Name of parsers to use.</param>
+            <param name="content">Template content.</param>
+            <param name="context">Context information.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IParserService.ProcessValue(System.String,Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.Parsers.IParserServiceContext)">
+            <summary>
+            Parsers value using registered value parsers and create AST.
+            </summary>
+            <param name="name">Name of parsers to use.</param>
+            <param name="value">Template part content.</param>
+            <param name="context">Context information.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IContentParser">
+            <summary>
+            Defines content parser.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IContentParser.Parse(Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.Parsers.IContentParserContext)">
+            <summary>
+            Parses <paramref name="content"/> and generates AST.
+            </summary>
+            <param name="content">Template content.</param>
+            <param name="context">Context information.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IValueParser">
+            <summary>
+            Defines value parser.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IValueParser.Parse(Neptuo.Templates.Compilation.ISourceContent,Neptuo.Templates.Compilation.Parsers.IValueParserContext)">
+            <summary>
+            Parses value in <paramref name="content"/> and create AST.
+            </summary>
+            <param name="content">Template content part.</param>
+            <param name="context">Context information.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.PlainValueParser">
+            <summary>
+            Parses any value as <see cref="T:Neptuo.Templates.Compilation.CodeObjects.IPlainValueCodeObject"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.DefaultVisitorContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.PreProcessing.IVisitorContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.IVisitorContext">
+            <summary>
+            Visitor context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.PreProcessing.IVisitorContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.PreProcessing.IVisitorContext.PreProcessorService">
+            <summary>
+            Current pre processing service.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.DefaultPreProcessorService">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorService"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorService">
+            <summary>
+            AST pre processing service.
+            Pre processes AST before generating code.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorService.AddVisitor(Neptuo.Templates.Compilation.PreProcessing.IVisitor)">
+            <summary>
+            Registers visitor.
+            </summary>
+            <param name="visitor">New visitor.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorService.Process(Neptuo.Templates.Compilation.CodeObjects.ICodeObject,Neptuo.Templates.Compilation.PreProcessing.IPreProcessorServiceContext)">
+            <summary>
+            Use registered visitors to wall through <paramref name="codeObject"/>.
+            </summary>
+            <param name="codeObject">Root AST object.</param>
+            <param name="context">Context information.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.DefaultPreProcessorServiceContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorServiceContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorServiceContext">
+            <summary>
+            Pre-processing service context.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorServiceContext.CreateVisitorContext(Neptuo.Templates.Compilation.PreProcessing.IPreProcessorService)">
+            <summary>
+            Factory method for creating <see cref="T:Neptuo.Templates.Compilation.PreProcessing.IVisitorContext"/>.
+            </summary>
+            <param name="service">Current pre-processing service.</param>
+            <returns><see cref="T:Neptuo.Templates.Compilation.PreProcessing.IVisitorContext"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.PreProcessing.IPreProcessorServiceContext.DependencyProvider">
+            <summary>
+            Current dependency provider.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.IVisitor">
+            <summary>
+            AST visitor.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PreProcessing.IVisitor.Visit(Neptuo.Templates.Compilation.CodeObjects.ICodeObject,Neptuo.Templates.Compilation.PreProcessing.IVisitorContext)">
+            <summary>
+            Visits object <paramref name="codeObject"/>
+            </summary>
+            <param name="codeObject">AST code object.</param>
+            <param name="context">Context information.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ViewActivators.NullViewActivator">
+            <summary>
+            View activator, that always returns null. View is always recompiled and never cached.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.BuilderAttribute">
+            <summary>
+            Used by <see cref="T:Neptuo.Templates.Compilation.AssemblyScanning.TypeScanner"/> for registering builder component.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.BuilderAttribute.#ctor(System.Type[])">
+            <summary>
+            Register builder types.
+            </summary>
+            <param name="types">Enumeration of builder types.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.BuilderAttribute.Types">
+            <summary>
+            Enumeration of builder types.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeCompilers.CodeCompiler">
+            <summary>
+            Default code compiler for components.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject">
+            <summary>
+            Control.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.ObserverCodeObject">
+            <summary>
+            Observer.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.CodeObjects.RootCodeObject">
+            <summary>
+            Describes root of AST.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.CodeObjects._ComponentsCodeObjectListExtensions.AddLiteral(Neptuo.Templates.Compilation.CodeObjects.CodeObjectList,System.Type,System.String,System.Object)">
+            <summary>
+            Adds <see cref="T:Neptuo.Templates.Compilation.CodeObjects.LiteralCodeObject"/>.
+            </summary>
+            <param name="list">Target list of code objects.</param>
+            <param name="literalType">Typ of literal control.</param>
+            <param name="textProperty">Name of the text property.</param>
+            <param name="value">Literal value.</param>
+            <returns><paramref name="list"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.ComponentAttribute">
+            <summary>
+            Provides metadata about control.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.ComponentAttribute.Name">
+            <summary>
+            Name of control for standart registration.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.DefaultLiteralControlBuilder`1">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.ILiteralBuilder"/>.
+            If possible, stores string values as plain strings. If target property requires instance of object instead of string, creates <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Type of literal control.</typeparam>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.LiteralBuilder">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.ILiteralBuilder"/>.
+            Creates instance of <see cref="T:Neptuo.Templates.Compilation.CodeObjects.PlainValueCodeObject"/> or <see cref="T:Neptuo.Templates.Compilation.CodeObjects.CommentCodeObject"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ILiteralBuilder">
+            <summary>
+            Builds static literal value.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ILiteralBuilder.TryParseText(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String)">
+            <summary>
+            Parses <paramref name="text"/> and creates AST for it.
+            </summary>
+            <param name="context">Context information.</param>
+            <param name="text">Text value to parse.</param>
+            <returns>Parsed code objects; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ILiteralBuilder.TryParseComment(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String)">
+            <summary>
+            Parses <paramref name="commentText"/> and creates AST for it.
+            </summary>
+            <param name="context">Content information.</param>
+            <param name="commentText">Text value of comment.</param>
+            <returns>Parsed code objects; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.TokenDescriptorBuilder">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilder"/> that uses <see cref="T:Neptuo.Templates.Compilation.Parsers.IComponentDescriptor"/> as target decriptor.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.TokenDescriptorBuilder.CreateCodeObject(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Tokens.Token)">
+            <summary>
+            Should create code object for <paramref name="token"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="token">Token to create code object for.</param>
+            <returns>Code object for <paramref name="token"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.TokenDescriptorBuilder.GetComponentDescriptor(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Templates.Compilation.CodeObjects.ICodeObject,Neptuo.Tokens.Token)">
+            <summary>
+            Should return component descriptor for <paramref name="token"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="codeObject">Code object for <paramref name="token"/>.</param>
+            <param name="token">Token to create component descriptor for.</param>
+            <returns>Component descriptor for <paramref name="token"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.TokenDescriptorBuilder.BindProperties(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Templates.Compilation.CodeObjects.IPropertiesCodeObject,Neptuo.Tokens.Token)">
+            <summary>
+            Creates component descriptor for <paramref name="token"/> and tries to bind attributes from <paramref name="token"/> to <paramref name="codeObject"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="codeObject">Code object to bind properties to.</param>
+            <param name="token">Token to process attributes from.</param>
+            <returns><c>true</c> if binding was successfull; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ObserverDescriptorBuilder">
+            <summary>
+            Base builder for observer which operates on <see cref="T:Neptuo.Templates.Compilation.Parsers.IComponentDescriptor"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.ObserverDescriptorBuilder.IsObserverContained(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.CodeObjects.IObserversCodeObject,Neptuo.Templates.Compilation.Parsers.IXmlAttribute)">
+            <summary>
+            Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
+            If returns <c>null</c>, new observer will be created and attached.
+            </summary>
+            <param name="context">Current building context.</param>
+            <param name="codeObject">Observer source component.</param>
+            <param name="attribute">Attribute to process.</param>
+            <returns>
+            Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
+            If returns <c>null</c>, new observer will be created and attached.
+            </returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.HtmlAttributeObserverBuilder">
+            <summary>
+            Observer which sets attribute to dictionary property.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.HtmlAttributeObserverBuilder.#ctor(System.Type,System.String)">
+            <summary>
+            Creates new instance for required interface <paramref name="requiredInterface"/> 
+            and <paramref name="propertyName"/> as Dictionary&lt;string, string&gt; property to set HTML attributes to.
+            </summary>
+            <param name="requiredInterface">Required interface on type code object.</param>
+            <param name="propertyName">Dictionary&lt;string, string&gt; property to set HTML attributes to.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IComponentDescriptor">
+            <summary>
+            Defines component.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IComponentDescriptor.GetProperties">
+            <summary>
+            Enumerates properties.
+            </summary>
+            <returns>Enumerates properties.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.IComponentDescriptor.GetDefaultProperty">
+            <summary>
+            Gets default property.
+            </summary>
+            <returns>Gets default property.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.DefaultPropertyBuilder">
+            <summary>
+            Some magic logic to create right proproperty descriptors for right property types.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.DefaultPropertyBuilder.CreateCodeProperty(Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo)">
+            <summary>
+            Should create property descriptor for <paramref name="propertyInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.TypeComponentDescriptor">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IComponentDescriptor"/> which uses reflection on type to read required properties.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PreProcessing.VisitorBase">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Templates.Compilation.PreProcessing.IVisitor"/> which does through nodes of AST.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PreProcessing.VisitorBase.VisitUnknown(Neptuo.Templates.Compilation.CodeObjects.ICodeProperty)">
+            <summary>
+            Any unknown code property type is going there.
+            </summary>
+            <param name="codeProperty">Uknown code property type.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PreProcessing.VisitorBase.Visit(Neptuo.Templates.Compilation.CodeObjects.ICodeObject)">
+            <summary>
+            Visits code object.
+            </summary>
+            <param name="codeObject">Code object to visit.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.PreProcessing.VisitorBase.Context">
+            <summary>
+            Context inforation.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.PropertyAttribute">
+            <summary>
+            Provides metadata about property.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.PropertyAttribute.#ctor(System.String)">
+            <summary>
+            Creates instance and names property to <paramref name="name"/>.
+            </summary>
+            <param name="name">User defined name of the property.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.PropertyAttribute.Name">
+            <summary>
+            User defined name of the property.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation._ErrorInfoExtensions">
+            <summary>
+            Common extensions for <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation._ErrorInfoExtensions.AddRange(System.Collections.Generic.ICollection{Neptuo.ComponentModel.IErrorInfo},System.Collections.Generic.IEnumerable{Neptuo.ComponentModel.IErrorInfo})">
+            <summary>
+            Adds all errors from <paramref name="errorsToAdd"/> to <paramref name="targetCollection"/>.
+            </summary>
+            <param name="targetCollection">Target collection to add errors into.</param>
+            <param name="errorsToAdd">Errors to add to the <paramref name="targetCollection"/>.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.BindPropertiesContext`1">
+            <summary>
+            Context of binding properties.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.BindPropertiesContext`1.#ctor(System.Collections.Generic.Dictionary{System.String,Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo})">
+            <summary>
+            Creates new instance with <paramref name="properties"/> as list of all available properties.
+            </summary>
+            <param name="properties">List of all properties keyed by its name.</param>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.BindPropertiesContext`1.Properties">
+            <summary>
+            List of all properties keyed by its name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.BindPropertiesContext`1.BoundProperties">
+            <summary>
+            List of properties, that already have values assigned.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.BindPropertiesContext`1.UnboundAttributes">
+            <summary>
+            List of not-processed attributes.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext">
+            <summary>
+            Context for <see cref="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext.Name">
+            <summary>
+            Name of parsers to use.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext.ParserService">
+            <summary>
+            Current parser service.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext.PropertyInfo">
+            <summary>
+            Property to build.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.PropertyBuilderContext">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext"/>
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext">
+            <summary>
+            Context of <see cref="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilder"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext.ParserContext">
+            <summary>
+            Current parser context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext.Parser">
+            <summary>
+            Current parser.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext.Registry">
+            <summary>
+            Extensible registry for parsers.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.TokenBuilderContext">
+            <summary>
+            Base implementaion of <see cref="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions">
+            <summary>
+            Some common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.ComponentModel.IErrorInfo)">
+            <summary>
+            Adds error to parser context in context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="errorInfo">Error description.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,System.String)">
+            <summary>
+            Adds error to parser context in context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="errorText">Description of error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds error to parser context in context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="line">Source file line number.</param>
+            <param name="column">Source file line column number.</param>
+            <param name="errorText">Description of error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Tokens.Token,System.String)">
+            <summary>
+            Adds error related to the <paramref name="token"/> described by the <paramref name="errorText"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="token">The token which caused the error.</param>
+            <param name="errorText">Text description of the error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Tokens.TokenAttribute,System.String)">
+            <summary>
+            Adds error related to the <paramref name="tokenAttribute"/> described by the <paramref name="errorText"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="tokenAttribute">The attribute which caused the error.</param>
+            <param name="errorText">Text description of the error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.TryProcessContent(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses content using <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/> and creates AST.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="content">Template content.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.TryProcessValue(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses value using <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/> and creates AST.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="value">Part of template content.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenBuilderContextExtensions.TryProcessProperty(Neptuo.Templates.Compilation.Parsers.ITokenBuilderContext,Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses value using property builder.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="propertyInfo">Property to build.</param>
+            <param name="value">Value.</param>
+            <returns>Parsed property descriptors.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._TokenExtensions">
+            <summary>
+            Common extensions on <see cref="T:Neptuo.Tokens.Token"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenExtensions.HasAttribute(Neptuo.Tokens.Token,System.String)">
+            <summary>
+            Returns <c>true</c> if attribute <paramref name="attributeName"/> is defined on <paramref name="token"/>.
+            </summary>
+            <param name="token">Source token.</param>
+            <param name="attributeName">Attribute name.</param>
+            <returns><c>true</c> if <paramref name="attributeName"/> is defined on <paramref name="token"/>; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenExtensions.GetAttributeValue(Neptuo.Tokens.Token,System.String)">
+            <summary>
+            Returns value of attribute <paramref name="attributeName"/> defined on <paramref name="token"/>.
+            </summary>
+            <param name="token">Source token.</param>
+            <param name="attributeName">Attribute name.</param>
+            <returns>Value of attribute; <c>null</c> if attribute is not found.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._TokenExtensions.GetValue(Neptuo.Tokens.TokenAttribute)">
+            <summary>
+            Returns value of the <paramref name="attribute"/> with line info updated.
+            </summary>
+            <param name="attribute">Attribute which value should be returned.</param>
+            <returns>Value of the <paramref name="attribute"/> with line info updated.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.TokenValueParser">
+            <summary>
+            Token value parser.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.ContentPropertyBuilderContext">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext">
+            <summary>
+            Context for <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilder"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext.BuilderContext">
+            <summary>
+            Current parser context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext.CustomValues">
+            <summary>
+            Custom values (transient) storage.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext.Parser">
+            <summary>
+            XML parser.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.BindContentPropertiesContext">
+            <summary>
+            Context of binding properties.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.BindContentPropertiesContext.IsBoundFromContent">
+            <summary>
+            Whether at least one property was bound from content element.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions">
+            <summary>
+            Some common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.ComponentModel.IErrorInfo)">
+            <summary>
+            Adds error to the parser context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="errorInfo">Error description.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.String)">
+            <summary>
+            Adds error to the parser context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="errorText">Description of error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds error to the parser context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="line">Source file line number.</param>
+            <param name="column">Source file line column number.</param>
+            <param name="errorText">Description of error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlElement,System.String)">
+            <summary>
+            Adds error related to the <paramref name="element"/> described by the <paramref name="errorText"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="element">The element which caused the error.</param>
+            <param name="errorText">Text description of the error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlNode,System.String)">
+            <summary>
+            Adds error related to the <paramref name="node"/> described by the <paramref name="errorText"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="node">The element which caused the error.</param>
+            <param name="errorText">Text description of the error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlAttribute,System.String)">
+            <summary>
+            Adds error related to the <paramref name="attribute"/> described by the <paramref name="errorText"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="attribute">The attribute which caused the error.</param>
+            <param name="errorText">Text description of the error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.TryProcessContent(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses content using <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/> and creates AST.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="content">Template content.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.TryProcessContentNodes(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Parses content using <see cref="T:Neptuo.Templates.Compilation.Parsers.XmlContentParser"/> and creates AST for <paramref name="nodes"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="nodes">Enumeration of XML nodes to process.</param>
+            <returns>Parser code objects; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.TryProcessValue(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses value using <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/> and creates AST.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="value">Template content.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.TryProcessValue(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlAttribute)">
+            <summary>
+            Parses value using <see cref="T:Neptuo.Templates.Compilation.Parsers.IParserService"/> and creates AST.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="attribute">Attribute which to process.</param>
+            <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.TryProcessProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo,Neptuo.Templates.Compilation.ISourceContent)">
+            <summary>
+            Parses property value.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="propertyInfo">Property to build.</param>
+            <param name="value">Value.</param>
+            <returns>Parsed property descriptors.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentBuilderContextExtensions.TryProcessProperty(Neptuo.Templates.Compilation.Parsers.IContentBuilderContext,Neptuo.Templates.Compilation.CodeObjects.IPropertyInfo,System.Collections.Generic.IEnumerable{Neptuo.Templates.Compilation.Parsers.IXmlNode})">
+            <summary>
+            Parses property value.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="propertyInfo">Property to build.</param>
+            <param name="content">Content.</param>
+            <returns>Parsed property descriptors.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext">
+            <summary>
+            Context for <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentBuilder"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext.ParserContext">
+            <summary>
+            Current parser context.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext.CustomValues">
+            <summary>
+            Custom values (transient) storage.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext.Parser">
+            <summary>
+            XML parser.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext.Registry">
+            <summary>
+            Extensible registry for parsers.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IXmlAttribute">
+            <summary>
+            Abstraction of XML attribute.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IXmlName">
+            <summary>
+            Abstraction of XML named node.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlName.Name">
+            <summary>
+            Full name, includes prefix (if defined), separator (if prefix defined) and local name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlName.Prefix">
+            <summary>
+            Prefix. Indicates that element belongs to prefixed namespace.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlName.LocalName">
+            <summary>
+            Element name in target namespace.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlAttribute.Value">
+            <summary>
+            Attribute value.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlAttribute.OwnerElement">
+            <summary>
+            Xml element that owns this attribute.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IXmlElement">
+            <summary>
+            Abstraction of XML element.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IXmlNode">
+            <summary>
+            Abstraction of any XML node.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlNode.NodeType">
+            <summary>
+            Type of node, <see cref="T:Neptuo.Templates.Compilation.Parsers.XmlNodeType"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlNode.OuterXml">
+            <summary>
+            Whole XML including this node as string.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlElement.ChildNodes">
+            <summary>
+            Enumeration of child nodes.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlElement.Attributes">
+            <summary>
+            Enumeration of attributes.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlElement.IsEmpty">
+            <summary>
+            <c>true</c> if selfclosed; <c>false</c> otherwise.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.XmlNodeType">
+            <summary>
+            Supported node types
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.Parsers.XmlNodeType.Element">
+            <summary>
+            XML element.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.Parsers.XmlNodeType.Comment">
+            <summary>
+            XML comment.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Templates.Compilation.Parsers.XmlNodeType.Text">
+            <summary>
+            Other XML content, such as raw text.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.IXmlText">
+            <summary>
+            Abstraction of XML plain text.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Templates.Compilation.Parsers.IXmlText.Text">
+            <summary>
+            Value of this text block.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.NotSupportedTokenBuilder">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.ITokenBuilder"/> that for all tokens returns 'This token is not supported'.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.NotSupportedContentBuilder">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentBuilder"/> that for all xml elements returns 'This element is not supported'.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.XDocumentSupport">
+            <summary>
+            XML abstraction for System.Xml.Linq
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.XmlContentBuilderContext">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.XmlContentParser">
+            <summary>
+            XML content parser implementation.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.XmlDocumentSupport">
+            <summary>
+            XML abstraction for System.Xml.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers.XmlExtensions">
+            <summary>
+            Common extenions on <see cref="T:Neptuo.Templates.Compilation.Parsers.IXmlElement"/>, <see cref="T:Neptuo.Templates.Compilation.Parsers.IXmlAttribute"/> etc.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.XmlExtensions.HasAttribute(Neptuo.Templates.Compilation.Parsers.IXmlElement,System.String)">
+            <summary>
+            Returns <c>true</c> if attribute <paramref name="attributeName"/> is defined on <paramref name="element"/>.
+            </summary>
+            <param name="element">Source xml element.</param>
+            <param name="attributeName">Attribute name.</param>
+            <returns><c>true</c> if <paramref name="attributeName"/> is defined on <paramref name="element"/>; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.XmlExtensions.GetAttributeValue(Neptuo.Templates.Compilation.Parsers.IXmlElement,System.String)">
+            <summary>
+            Returns value of attribute <paramref name="attributeName"/> defined on <paramref name="element"/>.
+            </summary>
+            <param name="element">Source xml element.</param>
+            <param name="attributeName">Attribute name.</param>
+            <returns>Value of attribute; <c>null</c> if attribute is not found.</returns>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers.XmlExtensions.GetValue(Neptuo.Templates.Compilation.Parsers.IXmlAttribute)">
+            <summary>
+            Returns value of the <paramref name="attribute"/> with line info updated.
+            </summary>
+            <param name="attribute">Attribute which value should be returned.</param>
+            <returns>Value of the <paramref name="attribute"/> with line info updated.</returns>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._PropertyBuilderContextExtensions">
+            <summary>
+            Some common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._PropertyBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext,Neptuo.ComponentModel.IErrorInfo)">
+            <summary>
+            Adds error to the parser context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="errorInfo">Error description.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._PropertyBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IPropertyBuilderContext,System.String)">
+            <summary>
+            Adds error to the parser context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="errorText">Description of error.</param>
+        </member>
+        <member name="T:Neptuo.Templates.Compilation.Parsers._ContentPropertyBuilderContextExtensions">
+            <summary>
+            Some common extensions for <see cref="T:Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentPropertyBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds error to the parser context.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="line">Source file line number.</param>
+            <param name="column">Source file line column number.</param>
+            <param name="errorText">Description of error.</param>
+        </member>
+        <member name="M:Neptuo.Templates.Compilation.Parsers._ContentPropertyBuilderContextExtensions.AddError(Neptuo.Templates.Compilation.Parsers.IContentPropertyBuilderContext,Neptuo.Templates.Compilation.Parsers.IXmlElement,System.String)">
+            <summary>
+            Adds error related to the <paramref name="element"/> described by the <paramref name="errorText"/>.
+            </summary>
+            <param name="context">Builder context.</param>
+            <param name="element">The element which caused the error.</param>
+            <param name="errorText">Text description of the error.</param>
+        </member>
+    </members>
+</doc>

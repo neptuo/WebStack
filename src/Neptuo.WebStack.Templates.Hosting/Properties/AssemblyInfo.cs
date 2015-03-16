@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Templates;
+﻿using Neptuo.WebStack.Templates.Hosting;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Neptuo.WebStack.Templates")]
+[assembly: AssemblyTitle("Neptuo.WebStack.Templates.Hosting")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Neptuo.WebStack.Templates")]
+[assembly: AssemblyProduct("Neptuo.WebStack.Templates.Hosting")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2be3be36-435e-43dc-9bba-7cedc0d72952")]
+[assembly: Guid("977b278e-9548-48af-abc3-e8b60d3c8b25")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -36,5 +36,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion(VersionInfo.Version)]
 [assembly: AssemblyInformationalVersion(VersionInfo.Version)]
 [assembly: AssemblyFileVersion(VersionInfo.Version)]
-
-[assembly: InternalsVisibleTo("Neptuo.WebStack.Templates.Compilation")]

@@ -29,7 +29,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             entries.Add(component, entry);
         }
 
-        public virtual void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
+        public virtual void AddObserver<T>(IControl control, T observer, Action<T> propertyBinder)
             where T : IControlObserver
         {
             Ensure.NotNull(control, "control");
@@ -41,7 +41,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             entries[control].Observers.Add(new ObserverInfo<T>(observer, propertyBinder));
         }
 
-        public void AttachInitComplete(IControl control, Action<IControl> handler)
+        public void AddInitCompleteHandler(IControl control, Action<IControl> handler)
         {
             Ensure.NotNull(control, "control");
             Ensure.NotNull(handler, "handler");

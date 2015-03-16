@@ -26,7 +26,7 @@ namespace Neptuo.WebStack.Templates
         /// <param name="control">Target control.</param>
         /// <param name="observer">Observer to attach.</param>
         /// <param name="propertyBinder">Observer property binder.</param>
-        void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
+        void AddObserver<T>(IControl control, T observer, Action<T> propertyBinder)
             where T : IControlObserver;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Neptuo.WebStack.Templates
         /// </summary>
         /// <param name="control">Target control.</param>
         /// <param name="handler">Handler for init complete.</param>
-        void AttachInitComplete(IControl control, Action<IControl> handler);
+        void AddInitCompleteHandler(IControl control, Action<IControl> handler);
 
         /// <summary>
         /// Starts init phase on <paramref name="control"/>.

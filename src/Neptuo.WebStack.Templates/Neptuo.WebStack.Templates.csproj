@@ -56,12 +56,11 @@
     <Compile Include="Runtime\ComponentManager.cs" />
     <Compile Include="IComponentManager.cs" />
     <Compile Include="Runtime\ComponentManager.ObserverInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Neptuo.WebStack.Resources\Neptuo.WebStack.Resources.csproj">
-      <Project>{f20e4ae3-6dc3-4a34-992d-0fef1b17fd9e}</Project>
-      <Name>Neptuo.WebStack.Resources</Name>
-    </ProjectReference>
+    <Compile Include="UI\GeneratedView.cs" />
+    <Compile Include="UI\HtmlAttributeCollection.cs" />
+    <Compile Include="UI\HtmlTextWriter.cs" />
+    <Compile Include="UI\HtmlTextWriterException.cs" />
+    <Compile Include="UI\IHtmlAttributeCollectionAware.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
