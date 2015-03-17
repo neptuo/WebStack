@@ -45,6 +45,7 @@ namespace Neptuo.WebStack.Templates.Hosting
                     )
                 );
 
+                // Vyhodit vyjímku nebo rovnou vygenerovat chybovou stránku.
                 if (view == null)
                     throw new TemplateCompilationException(errors, sourceContent);
 
