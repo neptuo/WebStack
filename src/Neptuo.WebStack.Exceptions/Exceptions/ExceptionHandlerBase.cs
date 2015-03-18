@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 namespace Neptuo.WebStack.Exceptions
 {
     /// <summary>
-    /// Handler for handling exceptions raised during request processing.
+    /// Generic base class for handling exceptions.
     /// </summary>
-    public interface IExceptionRequestHandler
+    /// <typeparam name="T">Type of exception to handle.</typeparam>
+    public abstract class ExceptionHandlerBase<T> : IExceptionHandler
+        where T : Exception
     {
         /// <summary>
         /// Processes <paramref name="exception"/> raised during processing request described in <paramref name="httpContext"/>.
@@ -18,6 +20,11 @@ namespace Neptuo.WebStack.Exceptions
         /// <param name="exception">Raised exception.</param>
         /// <param name="httpContext">Current HTTP context.</param>
         /// <returns><c>true</c> if request was handled; <c>false</c> to process request by next handler.</returns>
-        Task<bool> HandleAsync(Exception exception, IHttpContext httpContext);
+        protected abstract Task<bool> TryHandleAsync(T exception, IHttpContext httpContext);
+
+        public Task<bool> TryHandleAsync(Exception exception, IHttpContext httpContext)
+        {
+            return TryHandleAsync((T)exception, httpContext);
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Neptuo.WebStack
     /// <summary>
     /// WebStack extensions for <see cref="EngineEnvironment"/>.
     /// </summary>
-    public static class EnvironmentExtensions
+    public static class _EnvironmentExtensions
     {
         #region Root handler
 
