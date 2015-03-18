@@ -6,6 +6,7 @@ using Neptuo.ComponentModel.Behaviors.Providers;
 using Neptuo.FileSystems;
 using Neptuo.WebStack;
 using Neptuo.WebStack.Exceptions;
+using Neptuo.WebStack.Exceptions.Hosting;
 using Neptuo.WebStack.Formatters;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Http.Converters;
@@ -24,6 +25,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using TestWebApp.Exceptions;
 using TestWebApp.Services;
 
 namespace TestWebApp
@@ -40,9 +42,11 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
-            string tempDirectory = @"C:\Temp\Services";
-            string wwwRootDirectory = @"E:\Pictures\Camera Roll";
+            //string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
+            string binDirectory = @"C:\Users\marek.fisera\Projects\Neptuo\WebStack\src\TestWebApp\bin";
+            string tempDirectory = @"C:\Temp\WebStack";
+            //string wwwRootDirectory = @"E:\Pictures\Camera Roll";
+            string wwwRootDirectory = @"C:\Users\marek.fisera\Pictures\Screenshots";
 
             Converts.Repository
                 .Add(typeof(int), typeof(HttpStatus), new HttpStatusConverter())
@@ -93,6 +97,11 @@ namespace TestWebApp
                     )
             );
 
+            Engine.Environment.UseExceptionTable(
+                new DefaultExceptionTable()
+                    .MapException<NullReferenceException>(new NullReferenceExceptionHandler())
+            );
+
             Engine.Environment.UseRootRequestHandler(
                 new ExceptionRequestHandler(
                     new DelegatingRequestHandler(
@@ -109,6 +118,7 @@ namespace TestWebApp
 
         public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
+            throw new NullReferenceException("x");
             await httpContext.Response().OutputWriter().WriteLineAsync("Request handler was not found!");
             return true;
         }

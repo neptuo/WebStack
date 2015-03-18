@@ -1,4 +1,5 @@
-﻿using Neptuo.Collections.Specialized;
+﻿using Neptuo.Activators;
+using Neptuo.Collections.Specialized;
 using Neptuo.ComponentModel;
 using Neptuo.FeatureModels;
 using Neptuo.WebStack.Http.Keys;
@@ -16,7 +17,7 @@ namespace Neptuo.WebStack.Http
     public class AspNetContext : DisposableBase, IHttpContext
     {
         private readonly HttpWebContext webContext;
-        private readonly MappingFeatureModel features;
+        private readonly FeatureCollectionModel features;
         private readonly IKeyValueCollection customValues;
         private readonly AspNetRequestMessage httpRequestMessage;
         private readonly AspNetResponseMessage httpResponseMessage;
@@ -30,14 +31,12 @@ namespace Neptuo.WebStack.Http
             this.httpRequestMessage = new AspNetRequestMessage(webContext.Request);
             this.httpResponseMessage = new AspNetResponseMessage(webContext.Response);
             this.notification = new AspNetContextNotification(webContext);
-            this.features = new MappingFeatureModel(true, new Dictionary<Type, object>
-            {
-                { typeof(IHttpContextNotification), notification },
-                { typeof(IUrlBuilder), new UrlBuilder(webContext.Request.ApplicationPath) },
-                { typeof(IKeyValueCollection), customValues },
-                { typeof(IHttpRequestMessage), httpRequestMessage },
-                { typeof(IHttpResponseMessage), httpResponseMessage }
-            });
+            this.features = new FeatureCollectionModel(true)
+                .Add<IHttpContextNotification>(notification)
+                .Add<IUrlBuilder>(new UrlBuilder(webContext.Request.ApplicationPath))
+                .Add<IKeyValueCollection>(customValues)
+                .Add<IHttpRequestMessage>(httpRequestMessage)
+                .Add<IHttpResponseMessage>(httpResponseMessage);
 
             PrepareCustomValues();
         }
