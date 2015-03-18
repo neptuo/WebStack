@@ -8,8 +8,6 @@ namespace Neptuo.WebStack.Templates.UI
 {
     public class GenericContentControl : IContentControl, IHtmlAttributeCollectionAware
     {
-        private IComponentManager componentManager;
-
         public string TagName { get; set; }
         public ICollection<object> Content { get; set; }
         public HtmlAttributeCollection HtmlAttributes { get; set; }
@@ -22,12 +20,11 @@ namespace Neptuo.WebStack.Templates.UI
 
         public void OnInit(IComponentManager componentManager)
         {
-            this.componentManager = componentManager;
             foreach (object item in Content)
                 componentManager.OnInit(item);
         }
 
-        public void Render(IHtmlWriter writer)
+        public void Render(IComponentManager componentManager, IHtmlWriter writer)
         {
             if (!String.IsNullOrEmpty(TagName))
             {

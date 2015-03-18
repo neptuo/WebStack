@@ -54,7 +54,7 @@ namespace Neptuo.WebStack.Templates.Hosting
 
                 view.Init(dependencyContainer, componentManager);
                 view.OnInit(componentManager);
-                view.Render(htmlWriter);
+                view.Render(componentManager, htmlWriter);
                 view.Dispose();
 
                 return true;

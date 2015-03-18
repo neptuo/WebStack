@@ -61,7 +61,7 @@ namespace Neptuo.WebStack.Templates
         /// Renders view output to <paramref name="writer"/>.
         /// </summary>
         /// <param name="writer">Output writer.</param>
-        public void Render(IHtmlWriter writer)
+        public void Render(IComponentManager componentManager, IHtmlWriter writer)
         {
             Ensure.NotNull(writer, "writer");
 

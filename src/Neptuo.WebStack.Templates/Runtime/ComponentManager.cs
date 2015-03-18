@@ -245,7 +245,7 @@ namespace Neptuo.WebStack.Templates.Runtime
         /// <param name="writer">Output rendering writer.</param>
         protected virtual void DoRenderControl(IControl control, IHtmlWriter writer)
         {
-            control.Render(writer);
+            control.Render(this, writer);
         }
 
         /// <summary>
