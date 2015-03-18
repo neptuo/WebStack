@@ -53,7 +53,6 @@ namespace Neptuo.WebStack.Templates.Hosting
                 IHtmlWriter htmlWriter = new HtmlTextWriter(httpContext.Response().OutputWriter());
 
                 view.Init(dependencyContainer, componentManager);
-                view.OnInit(componentManager);
                 view.Render(componentManager, htmlWriter);
                 view.Dispose();
 
