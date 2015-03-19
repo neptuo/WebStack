@@ -5,6 +5,7 @@ using Neptuo.Security.Cryptography;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.WebStack.Http;
+using Neptuo.WebStack.Routing;
 using Neptuo.WebStack.Templates.Runtime;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,10 @@ namespace Neptuo.WebStack.Templates.Hosting
 
         public async Task<bool> TryHandleAsync(IHttpContext httpContext)
         {
+            IReadOnlyFile templateFile;
+            if (!httpContext.Request().RouteValues().TryGetTemplateFile(out templateFile))
+                templateFile = this.templateFile;
+
             List<IErrorInfo> errors = new List<IErrorInfo>();
             ISourceContent sourceContent = new DefaultSourceContent(await templateFile.GetContentAsync());
             string className = String.Format("{0}_{1}", templateFile.Name, HashProvider.Sha1(sourceContent.TextContent));

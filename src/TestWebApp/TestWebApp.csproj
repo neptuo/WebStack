@@ -89,6 +89,7 @@
   <ItemGroup>
     <Content Include="Default.html" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Hello.html" />
     <Content Include="Views\Default.html" />
     <Content Include="Web.config" />
   </ItemGroup>

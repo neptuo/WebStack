@@ -47,7 +47,7 @@ namespace Neptuo.WebStack.Routing
                 else
                     result = false;
 
-                lastIndex = e.EndPosition + 1;
+                lastIndex = e.EndPosition;
             };
 
             if (!tokenParser.Parse(pattern))

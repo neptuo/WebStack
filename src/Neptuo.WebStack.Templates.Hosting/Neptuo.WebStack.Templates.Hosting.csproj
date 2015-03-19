@@ -45,12 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parameters\TemplateNameParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="TemplateCompilationException.cs" />
     <Compile Include="TemplateRequestHandler.cs" />
     <Compile Include="ViewServiceBuilder.cs" />
     <Compile Include="_EnvironmentExtensions.cs" />
+    <Compile Include="_KeyValueCollectionExtensions.cs" />
     <Compile Include="_RouteTableExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,7 @@ using Neptuo.WebStack.Services.Hosting.Behaviors;
 using Neptuo.WebStack.Services.Hosting.Processing;
 using Neptuo.WebStack.StaticFiles;
 using Neptuo.WebStack.Templates.Hosting;
+using Neptuo.WebStack.Templates.Hosting.Parameters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,7 +61,10 @@ namespace TestWebApp
                 new UnityDependencyContainer()
                     .Map<IUrlBuilder>().InTransient().ToActivator(new UrlBuilderActivator())
             );
-            Engine.Environment.UseParameterCollection(c => c.Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(wwwRootDirectory))));
+            Engine.Environment.UseParameterCollection(c => c
+                .Add("FileName", new FileNameParameter(LocalFileSystem.FromDirectoryPath(wwwRootDirectory)))
+                .Add("TemplateName", new TemplateNameParameter(LocalFileSystem.FromDirectoryPath(Path.Combine(binDirectory, @"..\Views")), null, ".html"))
+            );
 
             Engine.Environment.UseWebServices()
                 .UseBehaviors(provider => provider
@@ -96,7 +100,7 @@ namespace TestWebApp
                     .MapService(typeof(HelloHandler))
                     .MapService(typeof(PersonJohnDoeHandler))
                     .MapTemplate(
-                        routeTable.UrlBuilder().VirtualPath("~/").ToUrl(), 
+                        routeTable.UrlBuilder().VirtualPath("~/{TemplateName}.tpl").ToUrl(), 
                         LocalFileSystem.FromFilePath(
                             Path.Combine(
                                 binDirectory,

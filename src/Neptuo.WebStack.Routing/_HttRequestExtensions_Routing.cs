@@ -17,7 +17,7 @@ namespace Neptuo.WebStack.Routing
         {
             Ensure.NotNull(httpRequest, "httpRequest");
             IKeyValueCollection routeValues;
-            if (httpRequest.CustomValues().TryGet("RouteValues", out routeValues))
+            if (!httpRequest.CustomValues().TryGet("RouteValues", out routeValues))
                 httpRequest.CustomValues().Set("RouteValues", routeValues = new KeyValueCollection());
 
             return routeValues;
