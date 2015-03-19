@@ -116,7 +116,7 @@ namespace Neptuo.WebStack.Templates.Hosting
                 .AddValueParser("Default", new TokenValueParser(parserRegistry));
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
-            viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());
+            viewService.ActivatorService.AddActivator("CodeDom", codeCompiler);
             viewService.CompilerService.AddCompiler("CodeDom", codeCompiler);
 
             viewService.Pipeline.AddCodeGeneratorService("Default", "CodeDom");

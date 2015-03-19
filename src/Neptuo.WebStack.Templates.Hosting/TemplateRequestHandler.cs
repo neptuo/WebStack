@@ -1,6 +1,7 @@
 ﻿using Neptuo.Activators;
 using Neptuo.ComponentModel;
 using Neptuo.FileSystems;
+using Neptuo.Security.Cryptography;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.WebStack.Http;
@@ -18,6 +19,10 @@ namespace Neptuo.WebStack.Templates.Hosting
         private readonly IViewService viewService;
         private readonly IReadOnlyFile templateFile;
 
+        public TemplateRequestHandler(IReadOnlyFile templateFile)
+            : this(Engine.Environment.WithViewService(), templateFile)
+        { }
+
         public TemplateRequestHandler(IViewService viewService, IReadOnlyFile templateFile)
         {
             Ensure.NotNull(viewService, "viewService");
@@ -30,11 +35,12 @@ namespace Neptuo.WebStack.Templates.Hosting
         {
             List<IErrorInfo> errors = new List<IErrorInfo>();
             ISourceContent sourceContent = new DefaultSourceContent(await templateFile.GetContentAsync());
+            string className = String.Format("{0}_{1}", templateFile.Name, HashProvider.Sha1(sourceContent.TextContent));
 
             using (IDependencyContainer dependencyContainer = httpContext.DependencyProvider().Scope("TemplateCompilation"))
             {
                 dependencyContainer
-                    .Map<ICodeDomNaming>().InCurrentScope().To(new CodeDomDefaultNaming("Neptuo.WebStack.Templates", templateFile.Name + DateTime.Now.ToFileTime()));
+                    .Map<ICodeDomNaming>().InCurrentScope().To(new CodeDomDefaultNaming("Neptuo.WebStack.Templates", className));
 
                 GeneratedView view = (GeneratedView)viewService.ProcessContent(
                     "Default",
