@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Neptuo.WebStack</RootNamespace>
-    <AssemblyName>Neptuo.WebStack.Exceptions</AssemblyName>
+    <AssemblyName>Neptuo.WebStack.Diagnostics</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,16 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\DefaultExceptionTable.cs" />
-    <Compile Include="Exceptions\ExceptionHandlerBase.cs" />
-    <Compile Include="Exceptions\ExceptionModel.cs" />
-    <Compile Include="Exceptions\ExceptionStack.cs" />
-    <Compile Include="Exceptions\Hosting\ExceptionRequestHandler.cs" />
-    <Compile Include="Exceptions\Hosting\_EnvironmentExtensions.cs" />
-    <Compile Include="Exceptions\IExceptionHandler.cs" />
-    <Compile Include="Exceptions\IExceptionTable.cs" />
-    <Compile Include="Exceptions\Internals\RequestExceptionHandler.cs" />
-    <Compile Include="Exceptions\_ExceptionTableExtensions.cs" />
+    <Compile Include="Diagnostics\DefaultExceptionTable.cs" />
+    <Compile Include="Diagnostics\ExceptionHandlerBase.cs" />
+    <Compile Include="Diagnostics\ExceptionModel.cs" />
+    <Compile Include="Diagnostics\ExceptionStack.cs" />
+    <Compile Include="Diagnostics\Hosting\ExceptionRequestHandler.cs" />
+    <Compile Include="Diagnostics\Hosting\_EnvironmentExtensions.cs" />
+    <Compile Include="Diagnostics\IExceptionHandler.cs" />
+    <Compile Include="Diagnostics\IExceptionTable.cs" />
+    <Compile Include="Diagnostics\Internals\RequestExceptionHandler.cs" />
+    <Compile Include="Diagnostics\_ExceptionTableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Http\_HttpContextExtensions.cs" />

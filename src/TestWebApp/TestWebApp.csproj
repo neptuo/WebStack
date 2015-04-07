@@ -97,9 +97,9 @@
     <Compile Include="Services\PersonJohnDoeHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj">
+    <ProjectReference Include="..\Neptuo.WebStack.Diagnostics\Neptuo.WebStack.Diagnostics.csproj">
       <Project>{5f051bb8-e713-45f9-9685-4bef15daa0d8}</Project>
-      <Name>Neptuo.WebStack.Exceptions</Name>
+      <Name>Neptuo.WebStack.Diagnostics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack.Formatters.Json\Neptuo.WebStack.Formatters.Json.csproj">
       <Project>{df470a24-4844-419c-a368-5a6c2140872f}</Project>

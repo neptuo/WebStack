@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Exceptions;
+﻿using Neptuo.WebStack.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Neptuo.WebStack.Exceptions")]
+[assembly: AssemblyTitle("Neptuo.WebStack.Diagnostics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Neptuo.WebStack.Exceptions")]
+[assembly: AssemblyProduct("Neptuo.WebStack.Diagnostics")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

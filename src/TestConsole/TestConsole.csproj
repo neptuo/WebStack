@@ -56,9 +56,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj">
+    <ProjectReference Include="..\Neptuo.WebStack.Diagnostics\Neptuo.WebStack.Diagnostics.csproj">
       <Project>{5f051bb8-e713-45f9-9685-4bef15daa0d8}</Project>
-      <Name>Neptuo.WebStack.Exceptions</Name>
+      <Name>Neptuo.WebStack.Diagnostics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.WebStack.Hosting.AspNet\Neptuo.WebStack.Hosting.AspNet.csproj">
       <Project>{77a95819-04ab-492c-81b4-b59553c94a99}</Project>

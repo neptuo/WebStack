@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Exceptions.Hosting
+namespace Neptuo.WebStack.Diagnostics.Hosting
 {
     /// <summary>
     /// Exceptions extensions for <see cref="EngineEnvironment"/>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Exceptions.Hosting
+namespace Neptuo.WebStack.Diagnostics.Hosting
 {
     /// <summary>
     /// Handler for processing exceptions raised when executing main handler.

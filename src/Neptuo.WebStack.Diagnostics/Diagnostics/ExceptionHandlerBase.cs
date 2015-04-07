@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Exceptions
+namespace Neptuo.WebStack.Diagnostics
 {
     /// <summary>
     /// Generic base class for handling exceptions.
