@@ -60,7 +60,7 @@ namespace Neptuo.WebStack.Templates.Hosting
                 if (view == null)
                     throw new TemplateCompilationException(errors, sourceContent);
 
-                IComponentManager componentManager = new ComponentManager();
+                IComponentManager componentManager = new DefaultComponentManager();
                 IHtmlWriter htmlWriter = new HtmlTextWriter(httpContext.Response().OutputWriter());
 
                 view.Init(dependencyContainer, componentManager);

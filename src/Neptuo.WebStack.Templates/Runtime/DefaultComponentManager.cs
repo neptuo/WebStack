@@ -8,19 +8,19 @@ namespace Neptuo.WebStack.Templates.Runtime
     /// <summary>
     /// Standart implementation of <see cref="IComponentManager"/>.
     /// </summary>
-    public partial class ComponentManager : IComponentManager
+    public partial class DefaultComponentManager : IComponentManager
     {
         /// <summary>
         /// List of register objects.
-        /// Key is target object, value is registration structure, <see cref="ComponentEntryBase"/>.
+        /// Key is target object, value is registration structure, <see cref="ComponentModelBase"/>.
         /// </summary>
-        private Dictionary<object, ComponentEntryBase> entries = new Dictionary<object, ComponentEntryBase>();
+        private Dictionary<object, ComponentModelBase> entries = new Dictionary<object, ComponentModelBase>();
 
         public virtual void AddComponent<T>(T component, Action<T> propertyBinder)
         {
             Ensure.NotNull(component, "component");
 
-            ComponentEntryBase entry = new ComponentEntry<T>
+            ComponentModelBase entry = new ComponentModel<T>
             {
                 Control = component,
                 ArePropertiesBound = propertyBinder == null,
@@ -38,7 +38,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             if (!entries.ContainsKey(control))
                 return;
 
-            entries[control].Observers.Add(new ObserverInfo<T>(observer, propertyBinder));
+            entries[control].Observers.Add(new ObserverModel<T>(observer, propertyBinder));
         }
 
         public void AddInitCompleteHandler(IControl control, Action<IControl> handler)
@@ -71,7 +71,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             }
 
             // if control is already inited, continue on processing view.
-            ComponentEntryBase entry = entries[control];
+            ComponentModelBase entry = entries[control];
             if (entry.IsInited)
                 return;
 
@@ -110,13 +110,13 @@ namespace Neptuo.WebStack.Templates.Runtime
         /// </summary>
         /// <param name="entry">Registration entry.</param>
         /// <returns>Whether execution on <paramref name="entry"/> should be canceled.</returns>
-        private bool ExecuteObservers(ComponentEntryBase entry)
+        private bool ExecuteObservers(ComponentModelBase entry)
         {
             bool canInit = true;
             if (entry.Observers.Count > 0)
             {
                 ControlObserverEventArgs args = new ControlObserverEventArgs((IControl)entry.Control, this);
-                foreach (ObserverInfo info in entry.Observers)
+                foreach (ObserverModelBase info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
                     {
@@ -180,7 +180,7 @@ namespace Neptuo.WebStack.Templates.Runtime
                 return;
             }
 
-            ComponentEntryBase entry = entries[control];
+            ComponentModelBase entry = entries[control];
 
             // if not inited, init it.
             if (!entry.IsInited)
@@ -202,7 +202,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             if (entry.Observers.Count > 0)
             {
                 ControlObserverEventArgs args = new ControlObserverEventArgs(target, this);
-                foreach (ObserverInfo info in entry.Observers)
+                foreach (ObserverModelBase info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
                     {
@@ -268,7 +268,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             if (!entries.ContainsKey(component))
                 return;
 
-            ComponentEntryBase entry = entries[component];
+            ComponentModelBase entry = entries[component];
 
             // if not inited, init it.
             if (!entry.IsInited)
