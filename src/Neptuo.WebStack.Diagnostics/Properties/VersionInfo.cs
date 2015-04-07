@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Neptuo.WebStack.Exceptions
+namespace Neptuo.WebStack.Diagnostics
 {
     public static class VersionInfo
     {

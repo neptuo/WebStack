@@ -1,5 +1,5 @@
 ﻿using Neptuo.ComponentModel;
-using Neptuo.WebStack.Exceptions.Internals;
+using Neptuo.WebStack.Diagnostics.Internals;
 using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Exceptions
+namespace Neptuo.WebStack.Diagnostics
 {
     /// <summary>
     /// Default implementation of <see cref="IExceptionTable"/>.

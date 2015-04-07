@@ -1,4 +1,4 @@
-﻿using Neptuo.WebStack.Exceptions;
+﻿using Neptuo.WebStack.Diagnostics;
 using Neptuo.WebStack.Http;
 using System;
 using System.Collections.Generic;

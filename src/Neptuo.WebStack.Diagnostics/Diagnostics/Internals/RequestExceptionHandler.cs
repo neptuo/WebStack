@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Exceptions.Internals
+namespace Neptuo.WebStack.Diagnostics.Internals
 {
     /// <summary>
     /// Wrapper for request handler into exception handler.

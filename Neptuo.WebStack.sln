@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Services", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Routing", "src\Neptuo.WebStack.Routing\Neptuo.WebStack.Routing.csproj", "{B60172B4-9D8B-41D9-B14C-F82A30A94A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Exceptions", "src\Neptuo.WebStack.Exceptions\Neptuo.WebStack.Exceptions.csproj", "{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Diagnostics", "src\Neptuo.WebStack.Diagnostics\Neptuo.WebStack.Diagnostics.csproj", "{5F051BB8-E713-45F9-9685-4BEF15DAA0D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Http", "src\Neptuo.WebStack.Http\Neptuo.WebStack.Http.csproj", "{EBD4A12A-E485-4E20-ABEB-756A42B27949}"
 EndProject

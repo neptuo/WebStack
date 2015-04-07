@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Exceptions
+namespace Neptuo.WebStack.Diagnostics
 {
     /// <summary>
     /// Mapper for handling specific exception types.
