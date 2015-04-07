@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.Compilation.CodeGenerators
+namespace Neptuo.WebStack.Templates.Compilation.UI.CodeGenerators
 {
     public class CodeDomDependencyProviderGenerator : ICodeDomDependencyGenerator
     {

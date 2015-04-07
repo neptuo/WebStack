@@ -6,14 +6,16 @@ using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Routing;
-using Neptuo.WebStack.Templates.Runtime;
+using Neptuo.WebStack.Templates.UI;
+using Neptuo.WebStack.Templates.UI.Html;
+using Neptuo.WebStack.Templates.UI.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.Hosting
+namespace Neptuo.WebStack.Templates.Hosting.UI
 {
     public class TemplateRequestHandler : IRequestHandler
     {

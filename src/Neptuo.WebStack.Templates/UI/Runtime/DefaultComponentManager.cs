@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Neptuo.WebStack.Templates.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.WebStack.Templates.Runtime
+namespace Neptuo.WebStack.Templates.UI.Runtime
 {
     /// <summary>
     /// Standart implementation of <see cref="IComponentManager"/>.
@@ -115,7 +116,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             bool canInit = true;
             if (entry.Observers.Count > 0)
             {
-                ControlObserverEventArgs args = new ControlObserverEventArgs((IControl)entry.Control, this);
+                ComponentObserverContext args = new ComponentObserverContext((IControl)entry.Control, this);
                 foreach (ObserverModelBase info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
@@ -201,7 +202,7 @@ namespace Neptuo.WebStack.Templates.Runtime
             bool canRender = true;
             if (entry.Observers.Count > 0)
             {
-                ControlObserverEventArgs args = new ControlObserverEventArgs(target, this);
+                ComponentObserverContext args = new ComponentObserverContext(target, this);
                 foreach (ObserverModelBase info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)

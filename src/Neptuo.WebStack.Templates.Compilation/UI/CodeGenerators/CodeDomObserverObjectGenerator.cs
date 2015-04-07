@@ -2,6 +2,7 @@
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.WebStack.Templates.UI;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.Compilation.CodeGenerators
+namespace Neptuo.WebStack.Templates.Compilation.UI.CodeGenerators
 {
     /// <summary>
     /// Implementation of object generator for <see cref="IObserverCodeObject"/> using component wrap

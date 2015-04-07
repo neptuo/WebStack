@@ -13,8 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Neptuo.WebStack.Templates.Compilation.CodeGenerators;
+using Neptuo.WebStack.Templates.Compilation.UI.CodeGenerators;
 using Neptuo.WebStack.Templates.UI;
+using Neptuo.WebStack.Templates.UI.Html;
 
 namespace Neptuo.WebStack.Templates.Hosting
 {
@@ -46,12 +47,12 @@ namespace Neptuo.WebStack.Templates.Hosting
                     new TypeScanner()
                         .AddTypeFilterNotAbstract()
                         .AddTypeFilterNotInterface()
-                        .AddAssembly("ui", "Neptuo.WebStack.Templates.UI", "Neptuo.WebStack.Templates")
+                        .AddAssembly("ui", "Neptuo.WebStack.Templates.UI.*", "Neptuo.WebStack.Templates")
                         .AddEmptyPrefix("data", "Observers")
                 )
                 .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)
-                        .AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
+                        .AddGenericControlSearchHandler<HtmlControl>(c => c.TagName)
                         .AddRootBuilder<GeneratedView>(v => v.Content)
                 )
                 .AddObserverBuilder(

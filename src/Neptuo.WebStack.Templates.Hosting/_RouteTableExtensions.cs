@@ -1,6 +1,7 @@
 ﻿using Neptuo.FileSystems;
 using Neptuo.WebStack.Http;
 using Neptuo.WebStack.Routing;
+using Neptuo.WebStack.Templates.Hosting.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Neptuo.WebStack.Templates.Hosting
     /// </summary>
     public static class _RouteTableExtensions
     {
-        public static IRouteTable MapTemplate(this IRouteTable routeTable, IReadOnlyUrl routePattern, IReadOnlyFile templateFile)
+        public static IRouteTable MapUiTemplate(this IRouteTable routeTable, IReadOnlyUrl routePattern, IReadOnlyFile templateFile)
         {
             Ensure.NotNull(routeTable, "routeTable");
             return routeTable.Map(routePattern, new TemplateRequestHandler(templateFile));

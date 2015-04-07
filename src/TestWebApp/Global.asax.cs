@@ -44,11 +44,11 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            //string binDirectory = @"C:\Users\marek.fisera\Projects\Neptuo\WebStack\src\TestWebApp\bin";
-            string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
+            string binDirectory = @"C:\Users\marek.fisera\Projects\Neptuo\WebStack\src\TestWebApp\bin";
+            //string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
             string tempDirectory = @"C:\Temp\WebStack";
-            //string wwwRootDirectory = @"C:\Temp";
-            string wwwRootDirectory = @"E:\Pictures\Camera Roll";
+            string wwwRootDirectory = @"C:\Temp";
+            //string wwwRootDirectory = @"E:\Pictures\Camera Roll";
 
             Converts.Repository
                 .Add(typeof(int), typeof(HttpStatus), new HttpStatusConverter())
@@ -99,7 +99,7 @@ namespace TestWebApp
                 routeTable
                     .MapService(typeof(HelloHandler))
                     .MapService(typeof(PersonJohnDoeHandler))
-                    .MapTemplate(
+                    .MapUiTemplate(
                         routeTable.UrlBuilder().VirtualPath("~/{TemplateName}.tpl").ToUrl(), 
                         LocalFileSystem.FromFilePath(
                             Path.Combine(

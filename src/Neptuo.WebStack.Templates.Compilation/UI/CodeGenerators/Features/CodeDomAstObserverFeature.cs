@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.Compilation.CodeGenerators
+namespace Neptuo.WebStack.Templates.Compilation.UI.CodeGenerators
 {
     /// <summary>
     /// Feature generator for generating and registering control observers.

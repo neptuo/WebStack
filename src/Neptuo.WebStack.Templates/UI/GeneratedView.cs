@@ -1,5 +1,5 @@
 ﻿using Neptuo.ComponentModel;
-using Neptuo.WebStack.Templates.Runtime;
+using Neptuo.WebStack.Templates.UI.Runtime;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Web;
 using Neptuo;
 using Neptuo.Activators;
 
-namespace Neptuo.WebStack.Templates
+namespace Neptuo.WebStack.Templates.UI
 {
     /// <summary>
     /// Base class for generated views.

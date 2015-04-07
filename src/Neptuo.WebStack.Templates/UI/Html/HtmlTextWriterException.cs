@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates
+namespace Neptuo.WebStack.Templates.UI.Html
 {
     /// <summary>
     /// Exception used in <see cref="HtmlTextWriter"/>.

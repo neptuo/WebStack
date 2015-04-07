@@ -46,12 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerators\CodeDomControlObjectGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeDomDelegatingObjectGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeDomDependencyProviderGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeDomObserverObjectGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeDomValueExtensionObjectGenerator.cs" />
-    <Compile Include="CodeGenerators\Features\CodeDomAstObserverFeature.cs" />
+    <Compile Include="UI\CodeGenerators\CodeDomControlObjectGenerator.cs" />
+    <Compile Include="UI\CodeGenerators\CodeDomDelegatingObjectGenerator.cs" />
+    <Compile Include="UI\CodeGenerators\CodeDomDependencyProviderGenerator.cs" />
+    <Compile Include="UI\CodeGenerators\CodeDomObserverObjectGenerator.cs" />
+    <Compile Include="UI\CodeGenerators\CodeDomValueExtensionObjectGenerator.cs" />
+    <Compile Include="UI\CodeGenerators\Features\CodeDomAstObserverFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

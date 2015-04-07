@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.Compilation.CodeGenerators
+namespace Neptuo.WebStack.Templates.Compilation.UI.CodeGenerators
 {
     /// <summary>
     /// Component generator for value extensions.

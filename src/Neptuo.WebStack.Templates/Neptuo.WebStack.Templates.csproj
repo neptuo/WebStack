@@ -43,25 +43,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultValueExtensionContext.cs" />
-    <Compile Include="IContentControl.cs" />
-    <Compile Include="IControl.cs" />
-    <Compile Include="IHtmlWriter.cs" />
-    <Compile Include="IControlObserver.cs" />
+    <Compile Include="UI\IContentControl.cs" />
+    <Compile Include="UI\IControl.cs" />
+    <Compile Include="UI\IControlObserverContext.cs" />
+    <Compile Include="UI\IHtmlWriter.cs" />
+    <Compile Include="UI\IControlObserver.cs" />
     <Compile Include="IValueExtension.cs" />
     <Compile Include="IValueExtensionContext.cs" />
-    <Compile Include="ControlObserverEventArgs.cs" />
+    <Compile Include="UI\Runtime\ComponentObserverContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="Runtime\ComponentModel.cs" />
-    <Compile Include="Runtime\DefaultComponentManager.cs" />
-    <Compile Include="IComponentManager.cs" />
-    <Compile Include="Runtime\ObserverModel.cs" />
+    <Compile Include="UI\Runtime\ComponentModel.cs" />
+    <Compile Include="UI\Runtime\DefaultComponentManager.cs" />
+    <Compile Include="UI\IComponentManager.cs" />
+    <Compile Include="UI\Runtime\ObserverModel.cs" />
     <Compile Include="UI\GeneratedView.cs" />
-    <Compile Include="UI\GenericContentControl.cs" />
-    <Compile Include="UI\HtmlAttributeCollection.cs" />
-    <Compile Include="UI\HtmlTextWriter.cs" />
-    <Compile Include="UI\HtmlTextWriterException.cs" />
-    <Compile Include="UI\IHtmlAttributeCollectionAware.cs" />
+    <Compile Include="UI\Html\HtmlControl.cs" />
+    <Compile Include="UI\Html\HtmlAttributeCollection.cs" />
+    <Compile Include="UI\Html\HtmlTextWriter.cs" />
+    <Compile Include="UI\Html\HtmlTextWriterException.cs" />
+    <Compile Include="UI\Html\IHtmlAttributeCollectionAware.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Composition\" />
+    <Folder Include="UI\Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

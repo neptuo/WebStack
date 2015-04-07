@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates
+namespace Neptuo.WebStack.Templates.UI.Html
 {
     /// <summary>
     /// Implementation of <see cref="IHtmlWriter"/> for writing html.

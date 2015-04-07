@@ -11,8 +11,8 @@ namespace Neptuo.WebStack.Templates
     /// </summary>
     public class DefaultValueExtensionContext : IValueExtensionContext
     {
-        public object TargetObject { get; set; }
-        public PropertyInfo TargetProperty { get; set; }
+        public object TargetObject { get; private set; }
+        public PropertyInfo TargetProperty { get; private set; }
 
         public DefaultValueExtensionContext(object targetObject, PropertyInfo targetProperty)
         {

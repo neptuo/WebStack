@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.UI
+namespace Neptuo.WebStack.Templates.UI.Html
 {
-    public class GenericContentControl : IContentControl, IHtmlAttributeCollectionAware
+    public class HtmlControl : IContentControl, IHtmlAttributeCollectionAware
     {
         public string TagName { get; set; }
         public ICollection<object> Content { get; set; }
         public HtmlAttributeCollection HtmlAttributes { get; set; }
 
-        public GenericContentControl()
+        public HtmlControl()
         {
             Content = new List<object>();
             HtmlAttributes = new HtmlAttributeCollection();

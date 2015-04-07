@@ -1,13 +1,14 @@
 ﻿using Neptuo.ComponentModel;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.WebStack.Templates.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.WebStack.Templates.Compilation.CodeGenerators
+namespace Neptuo.WebStack.Templates.Compilation.UI.CodeGenerators
 {
     /// <summary>
     /// Component generator which delegates execution to sub generator.
