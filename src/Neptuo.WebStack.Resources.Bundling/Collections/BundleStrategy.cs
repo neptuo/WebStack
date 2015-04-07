@@ -9,7 +9,7 @@ namespace Neptuo.WebStack.Resources.Bundling.Collections
     /// <summary>
     /// Defines strategies for creating bundles from resources.
     /// </summary>
-    public enum BundlingStrategy
+    public enum BundleStrategy
     {
         /// <summary>
         /// For each resource is created bundle.

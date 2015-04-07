@@ -16,12 +16,12 @@ namespace Neptuo.WebStack.Resources.Bundling.Collections
     /// ISSUES:
     /// 1) Removes all meta data from source resources.
     /// </remarks>
-    public class BundlingResourceCollection : IResourceCollection
+    public class BundleResourceCollection : IResourceCollection
     {
         private BundleCollection bundleCollection;
         private IResourceCollection innerCollection;
         private IBundlePathFormatter formatter;
-        private BundlingStrategy strategy;
+        private BundleStrategy strategy;
 
         /// <summary>
         /// Creates new instance using <paramref name="innerCollection"/> as resource target collection.
@@ -29,7 +29,7 @@ namespace Neptuo.WebStack.Resources.Bundling.Collections
         /// <param name="innerCollection">Bundle resources registered to.</param>
         /// <param name="formatter">Used for converting resource names to bundle virtual paths.</param>
         /// <param name="strategy">Strategy for including dependencies.</param>
-        public BundlingResourceCollection(IResourceCollection innerCollection, IBundlePathFormatter formatter, BundlingStrategy strategy)
+        public BundleResourceCollection(IResourceCollection innerCollection, IBundlePathFormatter formatter, BundleStrategy strategy)
         {
             Ensure.NotNull(innerCollection, "innerCollection");
             Ensure.NotNull(formatter, "formatter");
@@ -114,7 +114,7 @@ namespace Neptuo.WebStack.Resources.Bundling.Collections
         private IEnumerable<IResource> FindResources(IResource resource)
         {
             IEnumerable<IResource> result = Enumerable.Empty<IResource>();
-            if (strategy == BundlingStrategy.BundlePerResourceWithDependencies)
+            if (strategy == BundleStrategy.BundlePerResourceWithDependencies)
             {
                 foreach (IResource dependency in resource.EnumerateDependencies())
                     result = Enumerable.Union(result, FindResources(dependency));
