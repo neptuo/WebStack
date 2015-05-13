@@ -42,11 +42,9 @@ namespace TestWebApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            //string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
-            string binDirectory = @"C:\Users\marek.fisera\Projects\Neptuo\WebStack\src\TestWebApp\bin";
+            string binDirectory = @"C:\Development\Neptuo\WebStack\src\TestWebApp\bin";
             string tempDirectory = @"C:\Temp\WebStack";
-            //string wwwRootDirectory = @"E:\Pictures\Camera Roll";
-            string wwwRootDirectory = @"C:\Users\marek.fisera\Pictures\Screenshots";
+            string wwwRootDirectory = @"E:\Pictures\Camera Roll";
 
             Converts.Repository
                 .Add(typeof(int), typeof(HttpStatus), new HttpStatusConverter())
@@ -93,8 +91,8 @@ namespace TestWebApp
                     .MapVirtualPath("~/test/test3", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
                     .MapVirtualPath("~/test/test4", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
                     .MapVirtualPath("~/test/test5", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
-                    .Map(
-                        routeTable.UrlBuilder().VirtualPath("~/photos/{FileName}").ToUrl(),
+                    .MapVirtualPath(
+                        "~/photos/{FileName}",
                         new FileSystemRequestHandler(
                             LocalFileSystem.FromDirectoryPath(wwwRootDirectory),
                             new UrlPathProvider()
