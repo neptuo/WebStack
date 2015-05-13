@@ -18,9 +18,9 @@ namespace Neptuo.WebStack.Routing
         IUrlBuilder UrlBuilder();
 
         /// <summary>
-        /// Maps <paramref name="pipelineFactory"/> to <paramref name="routePattern"/>.
+        /// Maps <paramref name="target"/> to <paramref name="routePattern"/>.
         /// </summary>
-        /// <param name="routePattern">Pattern to regiter <paramref name="requestHandler"/> on.</param>
+        /// <param name="routePattern">Pattern to regiter <paramref name="target"/> on.</param>
         /// <param name="target">Route target.</param>
         /// <rereturns>Self (for fluency).</rereturns>
         IRouteTable Map(IReadOnlyUrl routePattern, object target);

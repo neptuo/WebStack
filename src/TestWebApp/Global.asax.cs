@@ -88,6 +88,11 @@ namespace TestWebApp
                 routeTable
                     .MapService(typeof(HelloHandler))
                     .MapService(typeof(PersonJohnDoeHandler))
+                    .MapVirtualPath("~/test/test1", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
+                    .MapVirtualPath("~/test/test2", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
+                    .MapVirtualPath("~/test/test3", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
+                    .MapVirtualPath("~/test/test4", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
+                    .MapVirtualPath("~/test/test5", new CodeDomServiceHandlerFactory(typeof(HelloHandler)))
                     .Map(
                         routeTable.UrlBuilder().VirtualPath("~/photos/{FileName}").ToUrl(),
                         new FileSystemRequestHandler(
