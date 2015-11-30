@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack", "src\Neptuo.WebStack\Neptuo.WebStack.csproj", "{D661162A-CC24-4DE8-920F-AE54C9258A7F}"
 EndProject
@@ -47,6 +47,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Formatters.Json", "src\Neptuo.WebStack.Formatters.Json\Neptuo.WebStack.Formatters.Json.csproj", "{DF470A24-4844-419C-A368-5A6C2140872F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.WebStack.Services.Hosting", "src\Neptuo.WebStack.Services.Hosting\Neptuo.WebStack.Services.Hosting.csproj", "{8EC4CB8A-7122-439C-885E-7EBC821534C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspOneDemo", "src\AspOneDemo\AspOneDemo.csproj", "{C60CBAAE-62FF-4ECF-81EB-1638B0E07856}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +120,10 @@ Global
 		{8EC4CB8A-7122-439C-885E-7EBC821534C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EC4CB8A-7122-439C-885E-7EBC821534C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EC4CB8A-7122-439C-885E-7EBC821534C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C60CBAAE-62FF-4ECF-81EB-1638B0E07856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C60CBAAE-62FF-4ECF-81EB-1638B0E07856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C60CBAAE-62FF-4ECF-81EB-1638B0E07856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C60CBAAE-62FF-4ECF-81EB-1638B0E07856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
